@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CollegeLogos } from "./components/CollegeLogos";
 import { ScrollingText } from "./components/ScrollingText";
+import StudentSuccess from "./components/StudentSuccess";
 
 export default function Home() {
   const helpWith = [
@@ -13,8 +14,10 @@ export default function Home() {
   return (
     <main className="flex flex-col justify-center items-center">
       <div className="h-[80vh] flex flex-col justify-center items-center align-middle">
-        <h1 className="text-center text-8xl font-bold">Students4Students</h1>
-        <h2 className="text-center text-2xl font-bold mb-8">
+        <h1 className="text-center  text-3xl md:text-8xl font-bold">
+          Students4Students
+        </h1>
+        <h2 className="text-center text-xl md:text-2xl font-bold mb-8">
           Get help with{" "}
           <span className="inline-block">
             <ScrollingText
@@ -36,6 +39,7 @@ export default function Home() {
       <div>
         <h1>hello</h1>
       </div>
+      <StudentSuccess />
     </main>
   );
 }
