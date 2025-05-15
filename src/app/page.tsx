@@ -24,7 +24,11 @@ export default function Home() {
           </span>
           now
         </h2>
-        <a href="#" className="w-min">
+        <a
+          href="https://calendly.com/studs4students/15-min-free-trial"
+          target="_blank"
+          className="w-min"
+        >
           <Button>Book 15-min free trial</Button>
         </a>
       </div>
