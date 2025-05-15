@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import NavMenu from "./components/NavMenu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,9 +30,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${spaceGrotesk.variable} antialiased`}
-      >
+      <body className={`${spaceGrotesk.variable} antialiased`}>
+        <div className="w-full flex flex-row-reverse p-6">
+          <NavMenu />
+        </div>
         {children}
       </body>
     </html>
