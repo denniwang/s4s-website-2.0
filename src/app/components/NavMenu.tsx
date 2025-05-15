@@ -1,6 +1,6 @@
 import {
   NavigationMenu,
-  NavigationMenuLink,
+  NavigationMenuItem,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 
@@ -12,8 +12,10 @@ export default function NavMenu() {
     <NavigationMenu>
       <NavigationMenuList>
         {pages.map((page: { url: string; title: string }, index) => (
-          <Link href={page.url} key={index}>
-            <NavigationMenuLink>{page.title}</NavigationMenuLink>
+          <Link key={index} href={page.url} passHref>
+            <NavigationMenuItem className="p-3 rounded-md hover:bg-accent">
+              {page.title}
+            </NavigationMenuItem>
           </Link>
         ))}
       </NavigationMenuList>
