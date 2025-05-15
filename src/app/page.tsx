@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { CollegeLogos } from "./components/CollegeLogos";
 import { ScrollingText } from "./components/ScrollingText";
 import StudentSuccess from "./components/StudentSuccess";
+import Formula from "./components/Formula";
 
 export default function Home() {
   const helpWith = [
@@ -36,10 +37,8 @@ export default function Home() {
         </a>
       </div>
       <CollegeLogos />
-      <div>
-        <h1>hello</h1>
-      </div>
       <StudentSuccess />
+      <Formula />
     </main>
   );
 }

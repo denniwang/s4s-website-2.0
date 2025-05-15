@@ -28,14 +28,13 @@ const SuccessSlide = ({
   big,
 }: SuccessSlideProps) => {
   return (
-    <CarouselItem className="flex flex-row justify-center items-center lg:w-[20vw] w-[50vw] gap-2 bg-accent p-0 rounded-xl">
-      <div className="relative size-full h-[45vh] object-cover md:h-[65vh] w-1/2 p-0 rounded-l-xl overflow-hidden">
+    <CarouselItem className="flex flex-row justify-center items-center lg:w-[20vw] w-[50vw] overflow-hidden rounded-3xl bg-accent p-0">
+      <div className="relative h-[45vh] md:h-[65vh] w-1/2 p-0">
         <Image
           src={`/success/${img}`}
           alt={title}
-          layout="fill"
-          objectFit="cover"
-          className="rounded-l-xl"
+          fill
+          className="object-cover"
         />
       </div>
       <div className="flex w-1/2 flex-col gap-0 px-3 ">
