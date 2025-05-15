@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 
 interface ScrollingTextProps {
   options: string[];
@@ -36,29 +36,34 @@ export const ScrollingText = ({
   );
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentWidth, setCurrentWidth] = useState<number>(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const transitionRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Find the longest option to set minimum width - memoized to avoid recalculation
-  const longestOption = useMemo(
-    () =>
-      validOptions.reduce(
-        (longest, current) =>
-          current.length > longest.length ? current : longest,
-        ""
-      ),
-    [validOptions]
-  );
+  // Measure width of a specific item
+  const measureItemWidth = useCallback((index: number): number => {
+    const item = itemsRef.current[index];
+    return item ? item.scrollWidth + 5 : 0;
+  }, []);
 
-  // Memoize the container style to prevent recreation on each render
-  const containerStyle = useMemo(
-    () => ({
-      minWidth: `${longestOption.length * 0.6}em`,
-      height: "1.5em",
-      verticalAlign: "bottom",
-    }),
-    [longestOption]
-  );
+  // Effect to initialize measurements
+  useEffect(() => {
+    // Initialize refs array
+    itemsRef.current = itemsRef.current.slice(0, items.length);
+
+    // Small delay to ensure DOM is ready
+    const initTimeout = setTimeout(() => {
+      const width = measureItemWidth(currentIndex);
+      setCurrentWidth(width);
+    }, 50);
+
+    return () => {
+      clearTimeout(initTimeout);
+    };
+  }, [items.length, currentIndex, measureItemWidth]);
 
   useEffect(() => {
     // Prevent any animation if there's only 0-1 options
@@ -69,71 +74,120 @@ export const ScrollingText = ({
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
+      if (transitionRef.current) {
+        clearTimeout(transitionRef.current);
+      }
 
-      // Set timeout for the first part of the animation cycle
-      timeoutRef.current = setTimeout(
-        () => {
-          // If we've reached the duplicate item (end of list)
-          if (currentIndex === items.length - 2) {
-            // Quick reset to first item without animation by using a zero-duration transition
-            const element = containerRef.current
-              ?.firstElementChild as HTMLElement;
-            if (element) {
-              // Temporarily remove transition to instantly jump back to first position
-              element.style.transition = "none";
-              setCurrentIndex(0);
+      // Set timeout for the animation cycle
+      timeoutRef.current = setTimeout(() => {
+        // Determine next index
+        const nextIndex =
+          currentIndex === items.length - 2 ? 0 : currentIndex + 1;
 
-              // Force a reflow to ensure the style change takes effect immediately
-              void element.offsetWidth;
+        // Measure the next item's width before transitioning
+        const nextWidth = measureItemWidth(nextIndex);
 
-              // Restore the transition after the browser has processed the style change
-              requestAnimationFrame(() => {
-                if (element) {
-                  element.style.transition = "transform 500ms ease-in-out";
-                }
-              });
-            }
-          } else {
-            // Move to next item
-            setCurrentIndex((prev) => prev + 1);
+        // Start transition
+        setIsTransitioning(true);
+
+        // Update width to next item's width
+        setCurrentWidth(nextWidth);
+
+        // If we've reached the duplicate item (end of list)
+        if (currentIndex === items.length - 2) {
+          // Quick reset to first item without animation
+          const element = containerRef.current
+            ?.firstElementChild as HTMLElement;
+          if (element) {
+            // Temporarily remove transition to instantly jump back to first position
+            element.style.transition = "none";
+            setCurrentIndex(0);
+
+            // Force a reflow to ensure the style change takes effect immediately
+            void element.offsetWidth;
+
+            // Restore the transition after browser has processed the change
+            requestAnimationFrame(() => {
+              if (element) {
+                element.style.transition = "transform 500ms ease-in-out";
+              }
+            });
           }
+        } else {
+          // Move to next item
+          setCurrentIndex((prevIndex) => prevIndex + 1);
+        }
+
+        // After animation completes, allow new measurements
+        transitionRef.current = setTimeout(() => {
+          setIsTransitioning(false);
 
           // Schedule next animation
-          timeoutRef.current = setTimeout(startAnimation, delay);
-        },
-        currentIndex === 0 ? delay : 500 + delay
-      );
+          startAnimation();
+        }, 500); // This should match the CSS transition duration
+      }, delay);
     };
 
     // Start the animation cycle
     startAnimation();
 
-    // Cleanup on unmount or when dependencies change
+    // Cleanup on unmount
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
+      if (transitionRef.current) {
+        clearTimeout(transitionRef.current);
+      }
     };
-  }, [currentIndex, delay, items.length, validOptions.length]);
+  }, [
+    currentIndex,
+    delay,
+    items.length,
+    validOptions.length,
+    measureItemWidth,
+  ]);
+
+  // Handle window resize events to recalculate widths
+  useEffect(() => {
+    const handleResize = () => {
+      if (!isTransitioning) {
+        const width = measureItemWidth(currentIndex);
+        setCurrentWidth(width);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [currentIndex, isTransitioning, measureItemWidth]);
 
   return (
     <div
       ref={containerRef}
-      className={`inline-block relative overflow-hidden ${className}`}
-      style={containerStyle}
+      className={`inline-block relative overflow-hidden transition-all duration-500 ease-in-out ${className}`}
+      style={{
+        height: "1.5em",
+        width: currentWidth > 0 ? `${currentWidth}px` : "auto",
+        verticalAlign: "bottom",
+        willChange: "width",
+      }}
     >
       <div
         className="transition-transform duration-500 ease-in-out will-change-transform"
         style={{
           transform: `translateY(-${currentIndex * 100}%)`,
           height: "100%",
-          width: "100%",
         }}
       >
         {items.map((item, index) => (
           <div
             key={`${item}-${index}`}
-            className="absolute top-0 left-0 w-full h-full flex items-center"
+            ref={(el) => {
+              itemsRef.current[index] = el;
+            }}
+            className="absolute top-0 left-0 w-auto h-full flex items-center whitespace-nowrap pt-1"
             style={{ top: `${index * 100}%` }}
             aria-hidden={index !== currentIndex}
           >
