@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { CollegeLogos } from "./components/CollegeLogos";
 import { ScrollingText } from "./components/ScrollingText";
-import StudentSuccess from "./components/StudentSuccess";
 import Formula from "./components/Formula";
+import Testimony from "./components/Testimony";
 
 export default function Home() {
   const helpWith = [
@@ -13,7 +13,7 @@ export default function Home() {
     "transfers",
   ];
   return (
-    <main className="flex flex-col justify-center items-center">
+    <main className="flex flex-col justify-center items-center overflow-hidden">
       <div className="h-[80vh] flex flex-col justify-center items-center align-middle">
         <h1 className="text-center  text-3xl md:text-8xl font-bold">
           Students4Students
@@ -37,7 +37,7 @@ export default function Home() {
         </a>
       </div>
       <CollegeLogos />
-      <StudentSuccess />
+      <Testimony />
       <Formula />
     </main>
   );
