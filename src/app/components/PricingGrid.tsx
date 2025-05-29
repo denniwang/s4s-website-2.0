@@ -1,4 +1,6 @@
+import { Label } from "@/components/ui/label";
 import PricingCard from "./PricingCard";
+import { Badge } from "@/components/ui/badge";
 
 const pricingPlans = [
   //{
@@ -12,7 +14,11 @@ const pricingPlans = [
     title: "Async Writing",
     price: "$15/round",
     description: "Everything you need to polish your college essay.",
-    features: ["Expert writing advice", "48-hr turnaround available for +$15", "placeholder"],
+    features: [
+      "Expert writing advice",
+      "48-hr turnaround available for +$15",
+      "placeholder",
+    ],
     buttonVariant: "outline" as const,
   },
   {
@@ -34,7 +40,7 @@ const pricingPlans = [
 
 export default function PricingGrid() {
   return (
-    <div className="mt-12 lg:grid lg:grid-cols-3 gap-3 lg:gap-10 items-stretch px-10 flex flex-col">
+    <div className="lg:grid lg:grid-cols-3 gap-3 lg:gap-10 items-stretch px-10 flex flex-col">
       {pricingPlans.map((plan, index) => (
         <PricingCard
           key={index}
