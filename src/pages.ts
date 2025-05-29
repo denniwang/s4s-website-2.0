@@ -1,5 +1,3 @@
-import { url } from "inspector";
-
 interface Page {
   title: string;
   url: string;
