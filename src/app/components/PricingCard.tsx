@@ -49,7 +49,7 @@ export default function PricingCard({
   return (
     <Card
       className={`flex flex-col ${
-        isPopular ? "border-primary mt-15 lg:mt-0" : ""
+        isPopular ? "border-blue-500 mt-15 lg:mt-0" : ""
       } relative`}
       id={title}
     >
@@ -74,13 +74,15 @@ export default function PricingCard({
                 className="text-muted-foreground"
               />
             </svg>
-            <Badge className="mt-3 uppercase">50% summer sale</Badge>
+            <Badge className="mt-3 uppercase bg-blue-600">
+              50% summer sale
+            </Badge>
           </span>
         </Label>
       )}
       <CardHeader className="text-center pb-2">
         {isPopular && (
-          <Badge className="uppercase w-max self-center mb-3">
+          <Badge className="uppercase w-max self-center mb-3 bg-blue-600">
             Most popular
           </Badge>
         )}
@@ -103,7 +105,10 @@ export default function PricingCard({
         </ul>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" variant={buttonVariant}>
+        <Button
+          className={`w-full ${isPopular ? "bg-blue-600" : ""}`}
+          variant={buttonVariant}
+        >
           {buttonText}
         </Button>
       </CardFooter>

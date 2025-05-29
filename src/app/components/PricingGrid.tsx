@@ -12,7 +12,7 @@ const pricingPlans = [
   //},
   {
     title: "Async Writing",
-    price: "$15/round",
+    price: "15/round",
     description: "Everything you need to polish your college essay.",
     features: [
       "Expert writing advice",
@@ -23,14 +23,14 @@ const pricingPlans = [
   },
   {
     title: "Sync Writing",
-    price: "$30/hr",
+    price: "30/hr",
     description: "Banger college essay, from start to finish.",
     features: ["10 user", "Plan features", "Product support"],
     buttonVariant: "outline" as const,
   },
   {
     title: "Big Little Program",
-    price: "$50/month",
+    price: "50/month",
     description: "Everything you need for the college application and more.",
     features: ["2 user", "Plan features", "Product support"],
     isPopular: true,
