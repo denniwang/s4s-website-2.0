@@ -11,9 +11,5 @@ const pages: Page[] = [
     title: "About Us",
     url: "/about",
   },
-  {
-    title: "Pricing",
-    url: "/pricing",
-  },
 ];
 export default pages;

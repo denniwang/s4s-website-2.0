@@ -15,15 +15,13 @@ const collegeLogos = [
 ];
 
 export const CollegeLogos = () => {
-    useEffect (() => {
-    Aos.init({ duration: 500, once: true}); // Added once: true to ensure animation only happens on first scroll
-  }, [])
+  useEffect(() => {
+    Aos.init({ duration: 500, once: true }); // Added once: true to ensure animation only happens on first scroll
+  }, []);
   return (
     <div className="w-full bg-white py-4 md:py-7 overflow-hidden">
       <ul className="flex w-max min-w-full shrink-0 flex-nowrap gap-16 py-2">
-        <div
-          className="align-center flex w-full justify-center overflow-hidden gap-20"
-        >
+        <div className="w-full justify-center overflow-hidden lg:flex grid grid-cols-3 gap-y-2 items-center g:gap-20 place-items-center">
           {collegeLogos.map((logo, index) => {
             return (
               <li
