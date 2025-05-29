@@ -1,8 +1,10 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { CollegeLogos } from "./components/CollegeLogos";
 import { ScrollingText } from "./components/ScrollingText";
 import Formula from "./components/Formula";
 import Testimony from "./components/Testimony";
+import { PopupButton } from "react-calendly";
 
 export default function Home() {
   const helpWith = [
@@ -13,7 +15,10 @@ export default function Home() {
     "transfers",
   ];
   return (
-    <main className="flex flex-col justify-center items-center overflow-hidden">
+    <main
+      className="flex flex-col justify-center items-center overflow-hidden"
+      id="root"
+    >
       <div className="h-[80vh] flex flex-col justify-center items-center align-middle">
         <h1 className="text-center  text-3xl md:text-8xl font-bold">
           Students4Students
@@ -28,13 +33,14 @@ export default function Home() {
           </span>
           now
         </h2>
-        <a
-          href="https://calendly.com/studs4students/15-min-free-trial"
-          target="_blank"
-          className="w-min"
-        >
-          <Button>Book 15-min free trial</Button>
-        </a>
+        {typeof window !== "undefined" && document.getElementById("root") && (
+          <PopupButton
+            url="https://calendly.com/studs4students/15-min-free-trial"
+            rootElement={document.getElementById("root") as HTMLElement}
+            text="15-min free trial"
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200 text-sm font-bold"
+          />
+        )}
       </div>
       <CollegeLogos />
       <Testimony />
