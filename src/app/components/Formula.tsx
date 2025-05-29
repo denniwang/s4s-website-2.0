@@ -39,10 +39,10 @@ function TextImageBlock() {
         <p>
           Our focus is on the fundamentals. Having experienced the same, we have
           realized most students struggle in classes due to a lack of
-          understanding of the fundamental 'whys' and 'hows' of harder subjects.
-          Pure memorization of concepts only works for so long. Here at
-          CalTutors, we want students to have a strong grasp of the fundamentals
-          to unlock their full potential.
+          understanding of the fundamental &apos;whys&apos; and &apos;hows&apos;
+          of harder subjects. Pure memorization of concepts only works for so
+          long. Here at CalTutors, we want students to have a strong grasp of
+          the fundamentals to unlock their full potential.
         </p>
       </div>
       <div className="hidden lg:block relative w-2/5 rounded-l-xl overflow-hidden p-5 h-[30vh]">
