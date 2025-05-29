@@ -13,7 +13,6 @@ import { CheckIcon } from "lucide-react";
 
 interface PricingCardProps {
   title: string;
-  price: string | number;
   description: string;
   features: string[];
   isPopular?: boolean;
@@ -21,25 +20,8 @@ interface PricingCardProps {
   buttonVariant?: "default" | "outline";
 }
 
-// Helper function to format price with smaller suffix after "/"
-const formatPrice = (price: string | number) => {
-  if (typeof price === "number") {
-    return <span className="font-bold text-3xl lg:text-5xl">{price}</span>;
-  }
-  if (price.includes("/")) {
-    const [mainPrice, suffix] = price.split("/");
-    return (
-      <span className="inline">
-        <span className="font-bold text-3xl lg:text-5xl">{mainPrice}</span>
-        <span className="text-lg text-muted-foreground">/{suffix}</span>
-      </span>
-    );
-  }
-};
-
 export default function PricingCard({
   title,
-  price,
   description,
   features,
   isPopular = false,
@@ -89,7 +71,6 @@ export default function PricingCard({
         <CardTitle className={`${isPopular ? "!mb-7" : "mb-7"}`}>
           {title}
         </CardTitle>
-        {formatPrice(price)}
       </CardHeader>
       <CardDescription className="text-center w-11/12 mx-auto">
         {description}

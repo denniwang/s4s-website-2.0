@@ -12,8 +12,8 @@ const pages: Page[] = [
     url: "/about",
   },
   {
-    title: "Pricing",
-    url: "/pricing",
+    title: "Programs",
+    url: "/programs",
   },
 ];
 export default pages;
