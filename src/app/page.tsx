@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { CollegeLogos } from "./components/CollegeLogos";
 import { ScrollingText } from "./components/ScrollingText";
 import Formula from "./components/Formula";

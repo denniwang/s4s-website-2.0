@@ -1,19 +1,16 @@
-import { Badge } from "@/components/ui/badge";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import React from "react";
 import PricingGrid from "./PricingGrid";
 import PricingTable from "./PricingTable";
 
-interface PlanFeature {
-  type: string;
-  features: {
-    name: string;
-    asyncWriting: boolean;
-    syncWriting: boolean;
-    bigLittleProgram: boolean;
-  }[];
-}
+//interface PlanFeature {
+//type: string;
+//features: {
+//name: string;
+//asyncWriting: boolean;
+//syncWriting: boolean;
+//bigLittleProgram: boolean;
+//}[];
+//}
 
 export default function PricingSectionCards() {
   return (

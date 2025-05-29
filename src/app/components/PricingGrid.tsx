@@ -1,6 +1,4 @@
-import { Label } from "@/components/ui/label";
 import PricingCard from "./PricingCard";
-import { Badge } from "@/components/ui/badge";
 
 const pricingPlans = [
   //{

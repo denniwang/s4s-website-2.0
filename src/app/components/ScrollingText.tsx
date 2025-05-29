@@ -20,18 +20,9 @@ export const ScrollingText = ({
     return options;
   }, [options]);
 
-  // Early return for empty or single options
-  if (!validOptions.length) {
-    return <span className={className}></span>;
-  }
-
-  if (validOptions.length === 1) {
-    return <span className={className}>{validOptions[0]}</span>;
-  }
-
-  // Only create the items array once on component mount
+  // Always create the items array (will only be used if we have multiple items)
   const items = useMemo(
-    () => [...validOptions, validOptions[0]],
+    () => validOptions.length > 1 ? [...validOptions, validOptions[0]] : validOptions,
     [validOptions]
   );
 
@@ -51,6 +42,8 @@ export const ScrollingText = ({
 
   // Effect to initialize measurements
   useEffect(() => {
+    if (validOptions.length <= 1) return;
+    
     // Initialize refs array
     itemsRef.current = itemsRef.current.slice(0, items.length);
 
@@ -63,7 +56,7 @@ export const ScrollingText = ({
     return () => {
       clearTimeout(initTimeout);
     };
-  }, [items.length, currentIndex, measureItemWidth]);
+  }, [items.length, currentIndex, measureItemWidth, validOptions.length]);
 
   useEffect(() => {
     // Prevent any animation if there's only 0-1 options
@@ -150,6 +143,8 @@ export const ScrollingText = ({
 
   // Handle window resize events to recalculate widths
   useEffect(() => {
+    if (validOptions.length <= 1) return;
+    
     const handleResize = () => {
       if (!isTransitioning) {
         const width = measureItemWidth(currentIndex);
@@ -161,7 +156,16 @@ export const ScrollingText = ({
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [currentIndex, isTransitioning, measureItemWidth]);
+  }, [currentIndex, isTransitioning, measureItemWidth, validOptions.length]);
+
+  // Render appropriate content based on options length
+  if (!validOptions.length) {
+    return <span className={className}></span>;
+  }
+
+  if (validOptions.length === 1) {
+    return <span className={className}>{validOptions[0]}</span>;
+  }
 
   return (
     <div
