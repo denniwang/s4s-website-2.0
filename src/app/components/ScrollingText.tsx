@@ -85,16 +85,16 @@ export const ScrollingText = ({
   return (
     <div
       ref={containerRef}
-      className={`inline-block relative overflow-hidden transition-all duration-500 ease-in-out ${className}`}
+      className={`relative overflow-hidden transition-all duration-500 ease-in-out flex items-center justify-center ${className}`} // Removed `inline-block` and used `flex` for centering
       style={{
-        height: "1.35em",
+        height: "1.5em",
         width: `${largestWidth}px`,
         verticalAlign: "bottom",
-        boxShadow: "inset 0 0 10px rgba(0, 0, 255, 0.2)",
+        boxShadow: "inset 0 0 3px rgba(0, 0, 0, 0.2)",
         overflow: "hidden", // Ensure overflowing content is hidden
-        borderRadius:"10px",
-        paddingBottom:"0.1em",
-        marginRight:"0.3em"
+        borderRadius: "10px",
+        paddingBottom: "0.1em",
+        marginRight: "0.2em",
       }}
     >
       <div

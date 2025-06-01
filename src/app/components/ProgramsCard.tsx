@@ -64,11 +64,11 @@ export default function PricingCard({
       )}
       <CardHeader className="text-center pb-2">
         {isPopular && (
-          <Badge className="uppercase w-max self-center mb-3 bg-blue-600">
+          <Badge className="uppercase w-max self-center mb-3 bg-blue-600 absolute -top-2 -left-2">
             Most popular
           </Badge>
         )}
-        <CardTitle className={`${isPopular ? "!mb-7" : "mb-7"}`}>
+        <CardTitle className={` text-xl font-bold`}>
           {title}
         </CardTitle>
       </CardHeader>

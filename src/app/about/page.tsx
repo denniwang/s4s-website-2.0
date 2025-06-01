@@ -3,6 +3,7 @@ import Image from "next/image";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import AboutSectionCompanyValues from "@/components/ui/values";
 
 export default function About() {
   const team = [
@@ -83,6 +84,7 @@ export default function About() {
   return (
     <main className="flex flex-row justify-center">
       <div className="flex w-11/12 flex-col justify-center gap-8 lg:w-4/5">
+      <AboutSectionCompanyValues />
         <h2 className="pt-10 text-4xl font-bold">Our team!</h2>
 
         <div className="flex flex-col items-center justify-center gap-5 md:flex-row md:items-start">

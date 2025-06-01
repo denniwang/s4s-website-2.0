@@ -4,6 +4,13 @@ import { ScrollingText } from "./components/ScrollingText";
 import Formula from "./components/Formula";
 import Testimony from "./components/Testimony";
 import { PopupButton } from "react-calendly";
+import {
+  TypewriterEffect,
+  TypewriterEffectSmooth,
+} from "@/components/ui/typewriter-effect";
+import FeatureSectionSimple from "@/components/ui/feature-section";
+import { Cta4 } from "@/components/ui/cta";
+import { Stats8 } from "@/components/ui/stats8";
 
 export default function Home() {
   const helpWith = [
@@ -18,11 +25,22 @@ export default function Home() {
       className="flex flex-col justify-center items-center overflow-hidden"
       id="root"
     >
-      <div className="h-[80vh] flex flex-col justify-center items-center align-middle">
-        <h1 className="text-center  text-4xl md:text-8xl font-bold">
-          Students4Students
+      <div
+        className="h-[80vh] w-full flex flex-col justify-center items-center align-middle bg-cover bg-center relative"
+        style={{
+          backgroundImage: "url('/home/row.png')",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="absolute inset-0 bg-white opacity-85"></div>
+        <h1 className="text-center font-bold relative">
+          <TypewriterEffect
+            words={[
+              { text: "Students4Students", className: "text-4xl md:text-8xl" },
+            ]}
+          />
         </h1>
-        <h2 className="text-center text-xl md:text-2xl font-bold mb-8">
+        <h2 className="text-center text-xl md:text-2xl font-bold mb-8 flex items-center justify-center gap-2 relative">
           Get help with{" "}
           <span className="inline-block">
             <ScrollingText
@@ -37,13 +55,17 @@ export default function Home() {
             url="https://calendly.com/studs4students/15-min-free-trial"
             rootElement={document.getElementById("root") as HTMLElement}
             text="15-min free trial"
-            className="px-6 py-3  bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200 text-2xl font-bold"
+            className="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200 text-2xl font-bold relative"
           />
         )}
       </div>
       <CollegeLogos />
       <Testimony />
-      <Formula />
+      <Stats8 />
+
+
+      <FeatureSectionSimple />
+      <Cta4 />
     </main>
   );
 }
