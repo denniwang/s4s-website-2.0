@@ -32,7 +32,7 @@ export const ScrollingText = ({
   // Measure the largest width of all items
   const largestWidth = useMemo(() => {
     let maxWidth = 0;
-    items.forEach((item, index) => {
+    items.forEach((item) => {
       const div = document.createElement("div");
       div.style.position = "absolute";
       div.style.visibility = "hidden";
