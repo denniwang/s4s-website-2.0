@@ -7,7 +7,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button"; // Import Button
-import { MenuIcon, XCircleIcon, XIcon } from "lucide-react"; // Import Menu and X icons
+import { MenuIcon, XCircleIcon} from "lucide-react"; // Import Menu and X icons
 
 import pages from "@/pages";
 import Image from "next/image";

@@ -1,12 +1,10 @@
 "use client";
 import { CollegeLogos } from "./components/CollegeLogos";
 import { ScrollingText } from "./components/ScrollingText";
-import Formula from "./components/Formula";
 import Testimony from "./components/Testimony";
 import { PopupButton } from "react-calendly";
 import {
   TypewriterEffect,
-  TypewriterEffectSmooth,
 } from "@/components/ui/typewriter-effect";
 import FeatureSectionSimple from "@/components/ui/feature-section";
 import { Cta4 } from "@/components/ui/cta";
