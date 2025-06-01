@@ -32,14 +32,16 @@ export default function Home() {
           </span>
           now
         </h2>
-        {typeof window !== "undefined" && document.getElementById("root") && (
-          <PopupButton
-            url="https://calendly.com/studs4students/15-min-free-trial"
-            rootElement={document.getElementById("root") as HTMLElement}
-            text="15-min free trial"
-            className="px-6 py-3  bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200 text-2xl font-bold"
-          />
-        )}
+        {typeof window !== "undefined" &&
+          typeof document !== "undefined" &&
+          document.getElementById("root") && (
+            <PopupButton
+              url="https://calendly.com/studs4students/15-min-free-trial"
+              rootElement={document.getElementById("root") as HTMLElement}
+              text="15-min free trial"
+              className="px-6 py-3  bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200 text-2xl font-bold"
+            />
+          )}
       </div>
       <CollegeLogos />
       <Testimony />
