@@ -13,7 +13,7 @@ export default function NavMenu() {
       <NavigationMenuList>
         {pages.map((page: { url: string; title: string }, index) => (
           <Link key={index} href={page.url}>
-            <NavigationMenuItem className="p-3 rounded-md hover:bg-accent">
+            <NavigationMenuItem className="p-3 rounded-md hover:bg-accent font-bold text-lg">
               {page.title}
             </NavigationMenuItem>
           </Link>
