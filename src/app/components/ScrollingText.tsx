@@ -175,6 +175,7 @@ export const ScrollingText = ({
         height: "1.5em",
         width: currentWidth > 0 ? `${currentWidth}px` : "auto",
         verticalAlign: "bottom",
+        paddingBottom:"5px",
         willChange: "width",
       }}
     >

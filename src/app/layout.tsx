@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import NavMenu from "./components/NavMenu";
 import { Footer } from "./components/Footer";
+import ClientLayout from "@/app/ClientLayout";
+
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
@@ -11,7 +12,6 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Students4Students",
   description: "Personalized college mentorship program, sign up for 15-minute free trial today!",
-
 };
 
 export default function RootLayout({
@@ -22,10 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} antialiased`} id="root">
-        <div className="w-full flex flex-row-reverse p-2">
-          <NavMenu />
-        </div>
-        {children}
+        <ClientLayout>
+          {children}
+        </ClientLayout>
         <Footer />
       </body>
     </html>

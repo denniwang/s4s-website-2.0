@@ -34,7 +34,7 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-white opacity-85"></div>
         {/* New container for text content, positioned to the right */}
-        <div className="absolute top-0 right-0 w-3/4 h-full flex flex-col justify-center items-center text-center p-4 md:p-8">
+        <div className="absolute top-0 right-0 w-full lg:w-3/4 h-full flex flex-col justify-center items-center text-center p-4 md:p-8">
           <h1 className="font-bold relative"> {/* Changed: Removed text-right */}
             <TypewriterEffect
               words={[
@@ -42,7 +42,7 @@ export default function Home() {
               ]}
             />
           </h1>
-          <h2 className="text-xl md:text-2xl font-bold mb-8 flex items-center justify-center gap-2 relative"> {/* Kept text-center from parent */}
+          <h2 className="text-lg md:text-2xl font-bold mb-8 flex items-center justify-center gap-2 relative"> {/* Kept text-center from parent */}
             Get help with{" "}
             <span className="inline-block">
               <ScrollingText
