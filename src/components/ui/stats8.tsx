@@ -15,37 +15,37 @@ interface Stats8Props {
 }
 
 const Stats8 = ({
-  heading = "Platform performance insights",
-  description = "Ensuring stability and scalability for all users",
+  heading = "The mentorship advantage",
+  description = "Students with relatable mentors see significant improvements in college admissions outcomes",
   link = {
-    text: "Read the full impact report",
-    url: "https://www.shadcnblocks.com",
+    text: "Read our student success stories",
+    url: "/success",
   },
   stats = [
     {
       id: "stat-1",
-      value: "250%+",
-      label: "average growth in user engagement",
+      value: "85%",
+      label: "of mentored students get into their top 3 colleges",
     },
     {
       id: "stat-2",
-      value: "$2.5m",
-      label: "annual savings per enterprise partner",
+      value: "73%",
+      label: "increase in scholarship funding with mentor guidance",
     },
     {
       id: "stat-3",
-      value: "200+",
-      label: "integrations with top industry platforms",
+      value: "3.5x",
+      label: "more likely to pursue dream schools with confidence",
     },
     {
       id: "stat-4",
-      value: "99.9%",
-      label: "customer satisfaction over the last year",
+      value: "92%",
+      label: "of students say relatable mentors were crucial to their success",
     },
   ],
 }: Stats8Props) => {
   return (
-    <section className="py-32">
+    <section className="py-32 lg:px-20">
       <div className="container">
         <div className="flex flex-col gap-4">
           <h2 className="text-2xl font-bold md:text-4xl">{heading}</h2>

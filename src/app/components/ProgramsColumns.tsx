@@ -23,7 +23,7 @@ export default function PricingSectionCards() {
             Programs
           </h2>
           <p className="mt-1 text-muted-foreground">
-            Whatever your status, our offers evolve according to your needs.
+            Whatever stage of the college application process, our offers evolve according to your needs.
           </p>
         </div>
         {/* End Title */}

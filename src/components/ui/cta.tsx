@@ -11,11 +11,11 @@ interface Cta4Props {
 }
 
 const defaultItems = [
-  "Expert writing advice",
-  "24/7 mentor access",
-  "Customizable Design",
-  "Scalable Performance",
-  "Hundreds of Blocks",
+  "Personalized essay feedback",
+  "24/7 mentor text access",
+  "Application strategy guidance",
+  "Interview preparation",
+  "Scholarship application support",
 ];
 
 const Cta4 = ({
