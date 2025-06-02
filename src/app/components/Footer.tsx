@@ -10,9 +10,9 @@ export const Footer = () => {
           <h2 className="text-4xl">S4S</h2>
           <p className="text-lg">© 2024 Students4Students</p>
           <p className="text-lg">+1 949 864 9615</p>
-          <a href="mailto:hello@trys4s.com">
+          <a href="mailto:info@trys4s.com">
             <p className="text-lg hover:underline hover:text-blue-500">
-              hello@trys4s.com
+            info@trys4s.com
             </p>
           </a>
           <div className="h-2"></div>

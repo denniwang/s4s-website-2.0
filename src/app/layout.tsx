@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} antialiased`} id="root">
-        <div className="w-full flex flex-row-reverse p-6">
+        <div className="w-full flex flex-row-reverse p-2">
           <NavMenu />
         </div>
         {children}

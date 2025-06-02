@@ -24,38 +24,43 @@ export default function Home() {
       id="root"
     >
       <div
-        className="h-[80vh] w-full flex flex-col justify-center items-center align-middle bg-cover bg-center relative"
+        className="h-[80vh] w-full relative" // Changed: Removed flex, justify-center, items-center, align-middle
         style={{
-          backgroundImage: "url('/home/row.png')",
+          backgroundImage: "url('/home/website-collage.png')",
           backgroundRepeat: "no-repeat",
+          backgroundPosition: "left center",
+          backgroundSize: "40% auto",
         }}
       >
         <div className="absolute inset-0 bg-white opacity-85"></div>
-        <h1 className="text-center font-bold relative">
-          <TypewriterEffect
-            words={[
-              { text: "Students4Students", className: "text-4xl md:text-8xl" },
-            ]}
-          />
-        </h1>
-        <h2 className="text-center text-xl md:text-2xl font-bold mb-8 flex items-center justify-center gap-2 relative">
-          Get help with{" "}
-          <span className="inline-block">
-            <ScrollingText
-              options={helpWith}
-              className="font-bold text-blue-500"
-            />{" "}
-          </span>
-          now
-        </h2>
-        {typeof window !== "undefined" && document.getElementById("root") && (
-          <PopupButton
-            url="https://calendly.com/studs4students/15-min-free-trial"
-            rootElement={document.getElementById("root") as HTMLElement}
-            text="15-min free trial"
-            className="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200 text-2xl font-bold relative"
-          />
-        )}
+        {/* New container for text content, positioned to the right */}
+        <div className="absolute top-0 right-0 w-3/4 h-full flex flex-col justify-center items-center text-center p-4 md:p-8">
+          <h1 className="font-bold relative"> {/* Changed: Removed text-right */}
+            <TypewriterEffect
+              words={[
+                { text: "Students4Students", className: "text-3xl md:text-6xl" },
+              ]}
+            />
+          </h1>
+          <h2 className="text-xl md:text-2xl font-bold mb-8 flex items-center justify-center gap-2 relative"> {/* Kept text-center from parent */}
+            Get help with{" "}
+            <span className="inline-block">
+              <ScrollingText
+                options={helpWith}
+                className="font-bold text-blue-500"
+              />{" "}
+            </span>
+            now
+          </h2>
+          {typeof window !== "undefined" && document.getElementById("root") && (
+            <PopupButton
+              url="https://calendly.com/studs4students/15-min-free-trial"
+              rootElement={document.getElementById("root") as HTMLElement}
+              text="15-min free trial"
+              className="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200 text-2xl font-bold relative"
+            />
+          )}
+        </div>
       </div>
       <CollegeLogos />
       <Testimony />

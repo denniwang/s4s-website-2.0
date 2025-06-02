@@ -24,7 +24,7 @@ export default function NavMenu() {
     <div className="flex items-center justify-between w-full px-6 py-2 relative">
       {/* Logo on the left */}
       <Link href={"/"} className="z-20">
-        <Image alt="s4s logo" src={"/s4s-logo.png"} width={100} height={100} />
+        <Image alt="s4s logo" src={"/s4s-logo.png"} width={75} height={75} />
       </Link>
 
       {/* Desktop NavigationMenu component on the right */}
