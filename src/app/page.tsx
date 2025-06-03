@@ -24,12 +24,19 @@ export default function Home() {
       id="root"
     >
       <div
-        className="h-[80vh] w-full relative" // Changed: Removed flex, justify-center, items-center, align-middle
+        className="h-[80vh] w-full relative
+
+          bg-[url('/home/website-collage.png')] 
+          lg:bg-[url('/home/website-collage-wide.png')] 
+          bg-contain
+          lg:bg-size-[40%]
+        
+        
+        " // Changed: Removed flex, justify-center, items-center, align-middle
         style={{
-          backgroundImage: "url('/home/website-collage.png')",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "left center",
-          backgroundSize: "40% auto",
+          //backgroundSize: "40% auto",
         }}
       >
         <div className="absolute inset-0 bg-white opacity-85"></div>
