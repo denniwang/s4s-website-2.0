@@ -12,6 +12,9 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Students4Students",
   description: "Personalized college mentorship program, sign up for 15-minute free trial today!",
+  icons:{
+    icon:"/favicon.ico"
+  }
 };
 
 export default function RootLayout({
