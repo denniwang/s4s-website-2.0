@@ -42,16 +42,18 @@ export default function AboutClient() {
   }, []);
 
   return (
-    <main className="w-full flex flex-col items-center px-4 py-8">
-      <header className="text-center mb-12">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4" data-aos="fade-up">
+    <main className="w-full flex flex-col items-center px-4 py-6" >
+      <header className="text-center mb-10 h-[50vh] flex flex-col justify-center gap-6">
+        <h1 className="text-4xl md:text-6xl font-bold mb-4" data-aos="fade-up" data-aos-duration="800">
           About Students4Students
         </h1>
-        <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+        <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
           We&apos;re a team of college students passionate about helping high schoolers navigate the college admissions process.
         </p>
+        <p data-aos="fade-up" data-aos-delay="500" className="text-5xl mt-5" data-aos-duration="1500">🎓</p>
       </header>
 
+<div className="h-0.5 w-64 bg-black" />
       <section className="w-full max-w-6xl mb-16">
         <AboutSectionCompanyValues />
       </section>

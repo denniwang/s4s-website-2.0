@@ -46,7 +46,7 @@ const companyValues: CompanyValue[] = [
     description:
       "Our clients are at the heart of everything we do. We are dedicated to providing personalized guidance and support to help students achieve their academic and personal goals.",
     icon: HeartIcon,
-    color: "text-red-500",
+    color: "text-blue-500",
     principles: [
       "Understand each student's unique needs and aspirations",
       "Provide tailored strategies for college applications",
@@ -55,8 +55,8 @@ const companyValues: CompanyValue[] = [
     ],
     testimonial: {
       quote:
-        "The personalized attention and expert advice I received made all the difference in my college applications. I felt supported every step of the way.",
-      author: "Emily Johnson",
+        "The mentors are amazing...we got to bond and talk about our similar interests. I looked forward to every single meeting and my essays turned out amazing!",
+      author: "Isabella",
       role: "High School Senior",
       image:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400",
@@ -70,7 +70,7 @@ const companyValues: CompanyValue[] = [
     description:
       "Our mentors are passionate educators who bring their own successful college application experiences to guide and inspire students.",
     icon: UserCheckIcon,
-    color: "text-blue-500",
+    color: "text-yellow-500",
     principles: [
       "Share firsthand knowledge and expertise",
       "Foster a supportive and encouraging environment",
@@ -94,7 +94,7 @@ const companyValues: CompanyValue[] = [
     description:
       "We work closely with parents to ensure they feel informed, supported, and confident throughout their child's college application journey.",
     icon: UsersIcon,
-    color: "text-emerald-500",
+    color: "text-purple-500",
     principles: [
       "Maintain open and transparent communication",
       "Provide resources to help parents support their child",
@@ -153,9 +153,9 @@ export default function AboutSectionCompanyValues() {
                 </SelectTrigger>
                 <SelectContent>
                   {companyValues.map((value) => (
-                    <SelectItem key={value.id} value={value.id}>
+                    <SelectItem key={value.id} value={value.id} >
                       <div className="flex items-center gap-2">
-                        <value.icon className={cn("h-4 w-4", value.color)} />
+                        <value.icon className={cn("h-4 w-4 ", value.color)} />
                         <span>{value.name}</span>
                       </div>
                     </SelectItem>
@@ -165,7 +165,7 @@ export default function AboutSectionCompanyValues() {
             </div>
 
             {/* Tabs for medium screens and above */}
-            <TabsList className="hidden h-auto bg-transparent p-1 md:flex">
+            <TabsList className="hidden h-auto bg-transparent p-2 md:flex">
               {companyValues.map((value) => (
                 <TabsTrigger
                   key={value.id}
@@ -173,6 +173,7 @@ export default function AboutSectionCompanyValues() {
                   className={cn(
                     "data-[state=active]:bg-muted gap-2",
                     "data-[state=active]:border-border border border-transparent",
+                    "hover:bg-gray-50 mx-2 p-2"
                   )}
                 >
                   <value.icon className={cn("h-4 w-4", value.color)} />
@@ -286,7 +287,7 @@ export default function AboutSectionCompanyValues() {
             team that lives these values every day?
           </p>
           <Button asChild size="lg">
-            <Link href="/careers">Join Our Team</Link>
+            <Link href="https://docs.google.com/forms/d/e/1FAIpQLSfMgpxmVPS5ohae8BajQRrCoPI-BbxMnK32SGKdKKE6fXHUKQ/viewform" target="_blank">Join Our Team</Link>
           </Button>
         </div>
       </div>
