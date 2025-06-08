@@ -13,16 +13,20 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: "Students4Students - College Consulting & Admissions Mentorship",
+    default: "Students4Students - #1 College Consulting for High Schoolers | Students 4 Students",
     template: "%s | Students4Students"
   },
-  description: "Expert college consulting and admissions mentorship. Get personalized guidance for essays, applications, and college prep. Free 15-minute trial available.",
+  description: "Students4Students - Leading college consulting for high schoolers. Expert admissions mentorship, essay help, and application guidance. Get into your dream college with personalized support. Free 15-minute trial available.",
   keywords: [
+    "students4students",
+    "students 4 students",
+    "college consulting for high schoolers",
+    "high school college consulting",
     "college consulting",
     "college admissions",
     "college mentorship",
     "college essays",
-    "college applications",
+    "college applications", 
     "admissions counseling",
     "college prep",
     "university applications",
@@ -30,7 +34,11 @@ export const metadata: Metadata = {
     "admissions help",
     "college advisor",
     "SAT prep",
-    "college planning"
+    "college planning",
+    "high school students college help",
+    "college application assistance",
+    "college admission consulting",
+    "college counseling services"
   ],
   authors: [{ name: "Students4Students Team" }],
   creator: "Students4Students",
@@ -43,8 +51,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://trys4s.com',
-    title: 'Students4Students - College Consulting & Admissions Mentorship',
-    description: 'Expert college consulting and admissions mentorship. Get personalized guidance for essays, applications, and college prep.',
+    title: 'Students4Students - #1 College Consulting for High Schoolers | Students 4 Students',
+    description: 'Students4Students - Leading college consulting for high schoolers. Expert admissions mentorship and application guidance.',
     siteName: 'Students4Students',
     images: [
       {
@@ -57,8 +65,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Students4Students - College Consulting & Admissions Mentorship',
-    description: 'Expert college consulting and admissions mentorship. Get personalized guidance for essays, applications, and college prep.',
+    title: 'Students4Students - #1 College Consulting for High Schoolers | Students 4 Students',
+    description: 'Students4Students - Leading college consulting for high schoolers. Expert admissions mentorship and application guidance.',
     images: ['/s4s-logo.png'],
   },
   robots: {
@@ -93,9 +101,12 @@ export default function RootLayout({
     '@context': 'https://schema.org',
     '@type': 'EducationalOrganization',
     name: 'Students4Students',
-    description: 'Expert college consulting and admissions mentorship program',
+    alternateName: ['Students 4 Students', 'S4S'],
+    description: 'Students4Students - Premier college consulting for high schoolers. Expert admissions mentorship, essay guidance, and application assistance.',
     url: 'https://trys4s.com',
-    logo: 'https://trys4s.com',
+    logo: 'https://trys4s.com/s4s-logo.png',
+    slogan: '#1 College Consulting for High Schoolers',
+    keywords: 'students4students, students 4 students, college consulting for high schoolers, college admissions help',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Free trial',
@@ -108,18 +119,23 @@ export default function RootLayout({
     ],
     offers: {
       '@type': 'Offer',
-      name: 'Free 15-minute College Consulting Trial',
-      description: 'Get expert college admissions guidance with our free trial session',
+      name: 'Free 15-minute College Consulting Trial for High Schoolers',
+      description: 'Get expert college admissions guidance with our free trial session - Students4Students',
       price: '0',
       priceCurrency: 'USD',
     },
     serviceType: [
-      'College Consulting',
-      'College Admissions',
+      'College Consulting for High Schoolers',
+      'College Admissions for Students',
       'Essay Writing Help',
       'Application Assistance',
-      'College Mentorship'
+      'College Mentorship',
+      'High School College Prep'
     ],
+    audience: {
+      '@type': 'EducationalAudience',
+      educationalRole: 'High School Student'
+    },
   };
 
   return (

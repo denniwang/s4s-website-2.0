@@ -23,18 +23,24 @@ export default function Home() {
   const homePageJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Students4Students - College Consulting Home',
-    description: 'Get expert college consulting and admissions mentorship. We help with essays, applications, and college prep.',
-    url: 'http://trys4s.com',
+    name: 'Students4Students - College Consulting for High Schoolers Home',
+    description: 'Students4Students - Get expert college consulting for high schoolers. We help with essays, applications, and college prep.',
+    url: 'https://trys4s.com',
+    keywords: 'students4students, students 4 students, college consulting for high schoolers',
     mainEntity: {
       '@type': 'Service',
-      name: 'College Consulting Services',
-      description: 'Personalized college mentorship program with expert guidance for college applications',
+      name: 'College Consulting Services for High Schoolers',
+      description: 'Students4Students personalized college mentorship program with expert guidance for high school students applying to college',
       provider: {
         '@type': 'EducationalOrganization',
-        name: 'Students4Students'
+        name: 'Students4Students',
+        alternateName: 'Students 4 Students'
       },
       areaServed: 'United States',
+      audience: {
+        '@type': 'EducationalAudience',
+        educationalRole: 'High School Student'
+      },
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
         name: 'College Consulting Services',
@@ -91,6 +97,10 @@ export default function Home() {
                   ]}
                 />
               </h1>
+              <div className="sr-only">
+                <h2>Students 4 Students - College Consulting for High Schoolers</h2>
+                <p>Premier college consulting services for high school students. Get expert help with college applications, essays, and admissions guidance.</p>
+              </div>
               <h2 className="text-lg md:text-2xl font-bold mb-8 flex items-center justify-center gap-2 relative">
                 Get help with{" "}
                 <span className="inline-block">
