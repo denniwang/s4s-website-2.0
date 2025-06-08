@@ -19,8 +19,8 @@ const Stats8 = ({
   heading = "The mentorship advantage",
   description = "Students with relatable mentors see significant improvements in college admissions outcomes",
   link = {
-    text: "Read our student success stories",
-    url: "/success",
+    text: "Speak with a mentor today!",
+    url: "https://calendly.com/studs4students/15-min-free-trial",
   },
   stats = [
     {
