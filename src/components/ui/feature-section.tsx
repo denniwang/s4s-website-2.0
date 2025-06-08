@@ -36,7 +36,7 @@ const features = [
 export default function FeatureSectionSimple() {
   return (
     <section className="container mx-auto space-y-8 px-4 py-24 md:px-6 2xl:max-w-[1400px]">
-      <div className="space-y-4 text-center">
+      <div className="space-y-4 text-center bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
         <h2 className="text-3xl font-bold">High-Quality, Relevant Guidance</h2>
         <p className="text-muted-foreground mx-auto max-w-2xl">
           Our mentors are passionate about teaching and bring extensive experience
@@ -46,12 +46,12 @@ export default function FeatureSectionSimple() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 ">
         {features.map((feature) => (
-          <Card key={feature.title} className="p-0">
+          <Card key={feature.title} className="p-0 transition-all duration-300 hover:border-yellow-300 hover:shadow-lg hover:shadow-yellow-400/20 group">
             <CardContent className="space-y-2 p-6">
-              <feature.icon className="text-primary h-12 w-12" />
-              <h3 className="font-bold">{feature.title}</h3>
+              <feature.icon className="text-primary h-12 w-12 transiiton duration-200 group-hover:text-yellow-500" />
+              <h3 className="font-bold transiiton duration-200 group-hover:text-yellow-500">{feature.title}</h3>
               <p className="text-muted-foreground text-sm">
                 {feature.description}
               </p>
