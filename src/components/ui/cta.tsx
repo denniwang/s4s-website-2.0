@@ -1,6 +1,5 @@
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { PopupButton } from "react-calendly";
 
 interface Cta4Props {
@@ -22,8 +21,6 @@ const defaultItems = [
 const Cta4 = ({
   title = "College Apps Shouldn't be Stressful",
   description = "Experience the difference with Students4Students Today",
-  buttonText = "15-min free trial",
-  buttonUrl = "https://calendly.com/studs4students/15-min-free-trial",
   items = defaultItems,
 }: Cta4Props) => {
   return (
