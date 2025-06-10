@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import { CardContainer, CardBody, CardItem } from "./3d-card";
 
 interface Stats8Props {
   heading?: string;
@@ -92,23 +93,28 @@ const Stats8 = ({
             <ArrowRight className="h-auto w-4" />
           </a>
         </div>
-        <div className="mt-14 grid gap-x-5 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid gap-4 sm:gap-5 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
-            <div 
-              key={stat.id} 
-              className="flex flex-col gap-5 group cursor-pointer transform transition-all duration-300 hover:scale-105"
-            >
-              <div 
-                className="text-6xl font-bold bg-clip-text text-transparent transition-all duration-500"
-                style={{ 
-                  backgroundImage: `linear-gradient(135deg, ${getGradientColor(index)}, ${getGradientColor(index + 2)})`,
-                  filter: `saturate(${1 + Math.sin(scrollY * 0.001 + index) * 0.3})`,
-                }}
-              >
-                {stat.value}
-              </div>
-              <p className="transition-colors duration-300 group-hover:text-gray-600">{stat.label}</p>
-            </div>
+            <CardContainer key={stat.id} className="inter-var w-full h-full">
+              <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full h-[200px] sm:h-[220px] md:h-[240px] rounded-xl p-4 sm:p-6 border flex flex-col justify-center items-center text-center">
+                <CardItem
+                  translateZ="80"
+                  className="text-4xl sm:text-5xl md:text-6xl font-bold bg-clip-text text-transparent transition-all duration-500 mb-2 sm:mb-4"
+                  style={{ 
+                    backgroundImage: `linear-gradient(135deg, ${getGradientColor(index)}, ${getGradientColor(index + 2)})`,
+                    filter: `saturate(${1 + Math.sin(scrollY * 0.001 + index) * 0.3})`,
+                  }}
+                >
+                  {stat.value}
+                </CardItem>
+                <CardItem
+                  translateZ="50"
+                  className="transition-colors duration-300 group-hover:text-gray-600 text-neutral-600 text-xs sm:text-sm dark:text-neutral-300 leading-relaxed"
+                >
+                  {stat.label}
+                </CardItem>
+              </CardBody>
+            </CardContainer>
           ))}
         </div>
       </div>

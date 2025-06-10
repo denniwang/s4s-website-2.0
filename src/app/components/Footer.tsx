@@ -9,7 +9,6 @@ export const Footer = () => {
         <div className="flex flex-col gap-1">
           <h2 className="text-3xl font-bold">S4S</h2>
           <p className="text-lg">© 2025 Students4Students</p>
-          <p className="text-lg">+1 949 864 9615</p>
           <a href="mailto:info@trys4s.com">
             <p className="text-lg hover:underline hover:text-blue-500">
             info@trys4s.com

@@ -139,9 +139,6 @@ export default function Home() {
           <FeatureSectionSimple />
         </section>
         
-        <section aria-label="Call to Action">
-          <Cta4 />
-        </section>
       </main>
     </>
   );
