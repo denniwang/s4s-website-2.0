@@ -62,6 +62,8 @@ export const ScrollingText = ({
     // Prevent any animation if there's only 0-1 options
     if (validOptions.length <= 1) return;
 
+    let currentIndexRef = 0; // Use local ref to track current index
+
     const startAnimation = () => {
       // Clear existing timeout to prevent memory leaks
       if (timeoutRef.current) {
@@ -73,9 +75,18 @@ export const ScrollingText = ({
 
       // Set timeout for the animation cycle
       timeoutRef.current = setTimeout(() => {
-        // Determine next index
-        const nextIndex =
-          currentIndex === items.length - 2 ? 0 : currentIndex + 1;
+        // Determine next index - always move forward
+        const nextIndex = currentIndexRef + 1;
+
+        // Handle wrap around - if we're past the duplicate, go back to 1 (not 0)
+        if (nextIndex >= items.length) {
+          currentIndexRef = 1;
+          setCurrentIndex(1);
+          const nextWidth = measureItemWidth(1);
+          setCurrentWidth(nextWidth);
+          startAnimation(); // Continue animation
+          return;
+        }
 
         // Measure the next item's width before transitioning
         const nextWidth = measureItemWidth(nextIndex);
@@ -86,38 +97,41 @@ export const ScrollingText = ({
         // Update width to next item's width
         setCurrentWidth(nextWidth);
 
-        // If we've reached the duplicate item (end of list)
-        if (currentIndex === items.length - 2) {
-          // Quick reset to first item without animation
-          const element = containerRef.current
-            ?.firstElementChild as HTMLElement;
-          if (element) {
-            // Temporarily remove transition to instantly jump back to first position
-            element.style.transition = "none";
-            setCurrentIndex(0);
+        // Move to next item
+        currentIndexRef = nextIndex;
+        setCurrentIndex(nextIndex);
 
-            // Force a reflow to ensure the style change takes effect immediately
-            void element.offsetWidth;
-
-            // Restore the transition after browser has processed the change
-            requestAnimationFrame(() => {
-              if (element) {
-                element.style.transition = "transform 500ms ease-in-out";
-              }
-            });
-          }
-        } else {
-          // Move to next item
-          setCurrentIndex((prevIndex) => prevIndex + 1);
-        }
-
-        // After animation completes, allow new measurements
+        // After animation completes
         transitionRef.current = setTimeout(() => {
           setIsTransitioning(false);
 
+          // If we just moved to the duplicate item (last position), reset to first
+          if (nextIndex === items.length - 1) {
+            // Brief delay then instant reset to index 0
+            setTimeout(() => {
+              const element = containerRef.current?.firstElementChild as HTMLElement;
+              if (element) {
+                // Remove transition for instant reset
+                element.style.transition = "none";
+                currentIndexRef = 0;
+                setCurrentIndex(0);
+                
+                // Force reflow and restore transition
+                void element.offsetWidth;
+                requestAnimationFrame(() => {
+                  if (element) {
+                    element.style.transition = "transform 500ms ease-in-out";
+                  }
+                });
+              }
+            }, 50);
+          }
+
           // Schedule next animation
-          startAnimation();
-        }, 500); // This should match the CSS transition duration
+          setTimeout(() => {
+            startAnimation();
+          }, nextIndex === items.length - 1 ? 150 : 0);
+        }, 500);
       }, delay);
     };
 
@@ -134,7 +148,6 @@ export const ScrollingText = ({
       }
     };
   }, [
-    currentIndex,
     delay,
     items.length,
     validOptions.length,

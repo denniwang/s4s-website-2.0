@@ -18,26 +18,10 @@ interface ModalProps {
 }
 
 export default function Modal({ showModal, setShowModal }: ModalProps) {
-  const [delayDone, setDelayDone] = useState(false)
   function noModal() {
     setShowModal(false)
     sessionStorage.setItem('modal', 'false')
   }
-
-  useEffect(() => {
-    // Check if the user has already dismissed the modal in this session.
-    if (sessionStorage.getItem('modal') === 'false') {
-      return
-    }
-
-    // Otherwise, delay showing the modal for 5 seconds.
-    const timer = setTimeout(() => {
-      setDelayDone(true)
-      setShowModal(true)
-    }, 5000)
-
-    return () => clearTimeout(timer)
-  }, [setShowModal])
 
   const [activeTab, setActiveTab] = useState<'student' | 'parent'>('student');
 
@@ -57,7 +41,7 @@ export default function Modal({ showModal, setShowModal }: ModalProps) {
   const bookingUrl = 'https://calendly.com/studs4students/15-min-free-trial';
 
   return (
-    <Credenza open={delayDone && showModal} onOpenChange={setShowModal}>
+    <Credenza open={showModal} onOpenChange={setShowModal}>
       <CredenzaContent className='sm:max-w-md ' >
         <CredenzaHeader >
           <CredenzaTitle className='text-2xl font-semibold text-center mb-2'>
