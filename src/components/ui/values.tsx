@@ -59,7 +59,7 @@ const companyValues: CompanyValue[] = [
       author: "Isabella",
       role: "High School Senior",
       image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400",
+        "/success/isabella.jpeg",
     },
     image:
       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800",
