@@ -7,7 +7,7 @@ import {
   TypewriterEffect,
 } from "@/components/ui/typewriter-effect";
 import FeatureSectionSimple from "@/components/ui/feature-section";
-import { Cta4 } from "@/components/ui/cta";
+//import { Cta4 } from "@/components/ui/cta";
 import { Stats8 } from "@/components/ui/stats8";
 
 export default function Home() {

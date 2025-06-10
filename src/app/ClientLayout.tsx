@@ -17,7 +17,6 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       return
     }
 
-    let hasScrolled = false
     let timeSpent = 0
     let isEngaged = false
     let modalTriggered = false // Prevent multiple triggers
@@ -27,7 +26,6 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       if (modalTriggered) return
       const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
       if (scrollPercent > 30) {
-        hasScrolled = true
         isEngaged = true
       }
     }
