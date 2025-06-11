@@ -55,11 +55,11 @@ const companyValues: CompanyValue[] = [
     ],
     testimonial: {
       quote:
-        "The mentors are amazing...we got to bond and talk about our similar interests. I looked forward to every single meeting and my essays turned out amazing!",
-      author: "Isabella",
-      role: "High School Senior",
+        "Having Darsh as a mentor covered everything, from editing every single one of my PIQ’s with thoughtful feedback… as a first generation student, it was incredible reassuring to have someone to text and communicate with throughout this whole process.",
+      author: "Angeline Nguyen",
+      role: "UCI '29",
       image:
-        "/success/isabella.jpeg",
+        "/face/angeline.jpeg",
     },
     image:
       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800",

@@ -81,7 +81,7 @@ export default function Home() {
         className="flex flex-col justify-center items-center overflow-hidden"
         id="root"
       >
-        <section className="h-[80vh] w-full relative bg-[url('/home/website-collage.png')] lg:bg-[url('/home/website-collage-wide.png')] bg-contain lg:bg-size-[40%]" 
+        <section className="h-[80vh] w-full relative bg-[url('/home/website-collage.jpeg')] lg:bg-[url('/home/website-collage-wide.jpeg')] bg-contain lg:bg-size-[40%]" 
           style={{
             backgroundRepeat: "no-repeat",
             backgroundPosition: "left center",

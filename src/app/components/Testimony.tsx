@@ -8,7 +8,7 @@ export default function Testimony() {
         "Having Darsh as a mentor covered everything, from editing every single one of my PIQ’s with thoughtful feedback… as a first generation student, it was incredible reassuring to have someone to text and communicate with throughout this whole process.",
       name: "Angeline Nguyen",
       designation: "UCI '29",
-      src: "angeline-uci.png",
+      src: "angeline-uci.jpeg",
     },
     {
       quote:

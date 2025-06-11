@@ -7,7 +7,6 @@ export const Footer = () => {
     <div className="footer mt-20 flex flex-row justify-center bg-gradient-to-t from-blue-200 to-white py-12">
       <div className="my-5 flex w-3/4 flex-col gap-10 lg:gap-0  justify-between lg:flex-row">
         <div className="flex flex-col gap-1">
-          <h2 className="text-3xl font-bold">S4S</h2>
           <p className="text-lg">© 2025 Students4Students</p>
           <a href="mailto:info@trys4s.com">
             <p className="text-lg hover:underline hover:text-blue-500">
@@ -18,28 +17,27 @@ export const Footer = () => {
             <a
               href="https://www.instagram.com/students.4students/"
               target="_blank"
-              className="hover:bg-b rounded-full bg-background-secondary p-2 transition-colors duration-150 hover:bg-blue-400"
+              className="rounded-full bg-background-secondary p-2 transition-colors duration-150 hover:bg-gradient-to-r hover:from-purple-500 hover:via-pink-500 hover:to-orange-400 hover:text-white"
             >
               <FaInstagram size="20px" />
             </a>
             <a
               href="https://linktr.ee/stu4stu"
               target="_blank"
-              className="hover:bg-b rounded-full bg-background-secondary p-2 transition-colors duration-150 hover:bg-blue-400"
+              className="rounded-full bg-background-secondary p-2 transition-colors duration-150 hover:bg-green-500"
             >
               <SiLinktree size="20px" />
             </a>
             <a
               href="https://www.tiktok.com/@students.4students"
               target="_blank"
-              className="hover:bg-b rounded-full bg-background-secondary p-2 transition-colors duration-150 hover:bg-blue-400"
+              className="rounded-full bg-background-secondary p-2 transition-colors duration-150 hover:bg-black hover:text-white"
             >
               <FaTiktok size="20px" />
             </a>
           </div>
         </div>
         <div className="flex flex-col gap-1">
-          <h2 className="text-3xl font-bold ">Pages</h2>
           <Link href={"/programs"}>
             <h2 className="transition-colors duration-200 hover:text-blue-500 text-lg">
               Programs
