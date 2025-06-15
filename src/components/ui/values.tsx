@@ -62,7 +62,7 @@ const companyValues: CompanyValue[] = [
         "/face/angeline.jpeg",
     },
     image:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800",
+      "/values/success-collage.jpeg",
   },
   {
     id: "mentors",
@@ -86,32 +86,32 @@ const companyValues: CompanyValue[] = [
         "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=400",
     },
     image:
-      "https://images.unsplash.com/photo-1534120247760-c44c3e4a62f1?q=80&w=800",
+      "/values/mentors.jpeg",
   },
-  {
-    id: "parents",
-    name: "Parent Partnership",
-    description:
-      "We work closely with parents to ensure they feel informed, supported, and confident throughout their child's college application journey.",
-    icon: UsersIcon,
-    color: "text-purple-500",
-    principles: [
-      "Maintain open and transparent communication",
-      "Provide resources to help parents support their child",
-      "Address concerns with empathy and understanding",
-      "Celebrate successes as a team",
-    ],
-    testimonial: {
-      quote:
-        "The team kept us informed and involved every step of the way. It was reassuring to know our child was in such capable hands.",
-      author: "Sarah Wilson",
-      role: "Parent of a Student",
-      image:
-        "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=400",
-    },
-    image:
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800",
-  },
+  //{
+    //id: "parents",
+    //name: "Parent Partnership",
+    //description:
+      //"We work closely with parents to ensure they feel informed, supported, and confident throughout their child's college application journey.",
+    //icon: UsersIcon,
+    //color: "text-purple-500",
+    //principles: [
+      //"Maintain open and transparent communication",
+      //"Provide resources to help parents support their child",
+      //"Address concerns with empathy and understanding",
+      //"Celebrate successes as a team",
+    //],
+    //testimonial: {
+      //quote:
+        //"The team kept us informed and involved every step of the way. It was reassuring to know our child was in such capable hands.",
+      //author: "Sarah Wilson",
+      //role: "Parent of a Student",
+      //image:
+        //"https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=400",
+    //},
+    //image:
+      //"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800",
+  //},
 ];
 
 export default function AboutSectionCompanyValues() {
@@ -246,14 +246,14 @@ export default function AboutSectionCompanyValues() {
             {/* Right column: Value image */}
             <div className="md:col-span-6">
               {currentValue.image ? (
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl shadow-lg">
+                <div className="relative aspect-[3/3] overflow-hidden rounded-xl shadow-lg">
                   <Image
                     src={currentValue.image}
                     alt={`Illustration of our ${currentValue.name} value`}
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                   <div className="absolute right-0 bottom-0 left-0 p-6">
                     <div
                       className={cn(

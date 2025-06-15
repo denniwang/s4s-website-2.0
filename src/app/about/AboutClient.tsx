@@ -4,6 +4,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import AboutSectionCompanyValues from "@/components/ui/values";
+import Link from "next/link";
 
 export default function AboutClient() {
   const team = [
@@ -84,6 +85,14 @@ export default function AboutClient() {
               <p className="text-gray-600 text-sm leading-relaxed">{member.desc}</p>
             </article>
           ))}
+        </div>
+        <div className="w-full text-center mb-[-10] mt-10">
+        <Link 
+            href={"/programs"}
+            className="inline-block bg-gradient-to-r from-blue-400 to-blue-500 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-300 ease-in-out hover:-translate-y-1"
+          >
+            Find the best plan for you! ✨
+          </Link>
         </div>
       </section>
     </main>
