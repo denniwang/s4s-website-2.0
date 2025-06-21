@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PricingCols from "../components/ProgramsColumns";
 
 export const metadata: Metadata = {
-  title: "Programs - Students4Students",
+  title: "Expert College Consulting Programs - Students4Students",
   description: "Explore our college consulting programs. From essay help to complete application assistance, find the perfect mentorship package for your college journey.",
   keywords: [
     "college consulting programs",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     "college prep programs"
   ],
   openGraph: {
-    title: "Programs - Students4Students",
+    title: "Expert College Consulting Programs - Students4Students",
     description: "Explore our college consulting programs. From essay help to complete application assistance.",
     url: "https://trys4s.com/programs",
     type: "website",
