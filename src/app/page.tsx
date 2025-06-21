@@ -101,7 +101,7 @@ export default function Home() {
                 <h2>Students 4 Students - College Consulting for High Schoolers</h2>
                 <p>Premier college consulting services for high school students. Get expert help with college applications, essays, and admissions guidance.</p>
               </div>
-              <h2 className="text-lg md:text-2xl font-bold mb-8 flex items-center justify-center gap-2 relative">
+              <h2 className="text-lg md:text-2xl font-bold mb-8 flex items-center justify-center gap-1 relative">
                 Get help with{" "}
                 <span className="inline-block">
                   <ScrollingText

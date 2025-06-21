@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { CardContainer, CardBody, CardItem } from "./3d-card";
 
 interface Stats8Props {
@@ -47,6 +47,26 @@ const Stats8 = ({
   ],
 }: Stats8Props) => {
   const [scrollY, setScrollY] = useState(0);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const [isHeadingVisible, setIsHeadingVisible] = useState(false);
+
+  useEffect(() => {
+    const currentHeading = headingRef.current;
+    if (!currentHeading) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsHeadingVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(currentHeading);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -83,7 +103,16 @@ const Stats8 = ({
     >
       <div className="container">
         <div className="flex flex-col gap-4">
-          <h2 className="text-2xl font-bold md:text-4xl">{heading}</h2>
+          <h2 ref={headingRef} className="text-2xl font-bold md:text-4xl">
+            <span className="relative inline-block pb-2">
+              {heading}
+              <span
+                className={`absolute bottom-0 left-0 h-0.5 bg-yellow-500 transition-all duration-900 ease-out ${
+                  isHeadingVisible ? "w-full" : "w-0"
+                }`}
+              />
+            </span>
+          </h2>
           <p>{description}</p>
           <a
             href={link.url}
