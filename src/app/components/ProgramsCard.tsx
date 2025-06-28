@@ -87,14 +87,14 @@ export default function PricingCard({
         </ul>
       </CardContent>
       <CardFooter>
-        <Link href={"https://calendly.com/studs4students/15-min-free-trial"}> </Link>
+        <Link href={"https://calendly.com/studs4students/15-min-free-trial"}> 
         <Button
           className={`w-full ${isPopular ? "bg-blue-600" : ""}`}
           variant={buttonVariant}
 
         >
           {buttonText}
-        </Button>
+        </Button></Link>
       </CardFooter>
     </Card>
   );
