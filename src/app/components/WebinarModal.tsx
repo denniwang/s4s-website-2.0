@@ -8,7 +8,6 @@ import {
   CredenzaTitle,
   CredenzaDescription,
   CredenzaFooter,
-  CredenzaClose,
 } from '@/components/ui/credenza'
 
 interface WebinarModalProps {
@@ -17,10 +16,6 @@ interface WebinarModalProps {
 }
 
 export default function WebinarModal({ showModal, setShowModal }: WebinarModalProps) {
-  function closeModal() {
-    setShowModal(false)
-    sessionStorage.setItem('modal', 'false')
-  }
 
   const rsvpUrl = 'https://forms.gle/3vZ3Ps9rSURg3W9t8'
 
