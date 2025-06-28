@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { CardContainer, CardBody, CardItem } from "./3d-card";
+import { LINKS } from "@/consts";
 
 interface Stats8Props {
   heading?: string;
@@ -21,7 +22,7 @@ const Stats8 = ({
   description = "Students with relatable mentors see significant improvements in college admissions outcomes",
   link = {
     text: "Speak with a mentor today!",
-    url: "https://calendly.com/studs4students/15-min-free-trial",
+    url: LINKS.calendly,
   },
   stats = [
     {

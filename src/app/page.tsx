@@ -9,6 +9,7 @@ import {
 import FeatureSectionSimple from "@/components/ui/feature-section";
 //import { Cta4 } from "@/components/ui/cta";
 import { Stats8 } from "@/components/ui/stats8";
+import { LINKS } from "@/consts";
 
 export default function Home() {
   const helpWith = [
@@ -114,10 +115,10 @@ export default function Home() {
             </header>
             {typeof window !== "undefined" && document.getElementById("root") && (
               <PopupButton
-                url="https://calendly.com/studs4students/15-min-free-trial"
+                url={LINKS.calendly}
                 rootElement={document.getElementById("root") as HTMLElement}
-                text="15-min free trial"
-                className="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200 text-2xl font-bold relative"
+                text="Connect with a mentor!"
+                className="px-3 py-1 mt-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200 text-xl font-bold relative"
               />
             )}
           </div>

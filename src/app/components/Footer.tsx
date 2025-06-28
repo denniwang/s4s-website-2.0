@@ -2,34 +2,35 @@ import Link from "next/link";
 import { FaInstagram } from "react-icons/fa";
 import { SiLinktree } from "react-icons/si";
 import { FaTiktok } from "react-icons/fa";
+import { LINKS } from "@/consts";
 export const Footer = () => {
   return (
     <div className="footer mt-20 flex flex-row justify-center bg-gradient-to-t from-blue-200 to-white py-12">
       <div className="my-5 flex w-3/4 flex-col gap-10 lg:gap-0  justify-between lg:flex-row">
         <div className="flex flex-col gap-1">
           <p className="text-lg">© 2025 Students4Students</p>
-          <a href="mailto:info@trys4s.com">
+          <a href={`mailto:${LINKS.email}`}>
             <p className="text-lg hover:underline hover:text-blue-500">
-            info@trys4s.com
+            {LINKS.email}
             </p>
           </a>
           <div className="flex flex-row gap-2">
             <a
-              href="https://www.instagram.com/students.4students/"
+              href={LINKS.instagram}
               target="_blank"
               className="rounded-full bg-background-secondary p-2 transition-colors duration-150 hover:bg-gradient-to-r hover:from-purple-500 hover:via-pink-500 hover:to-orange-400 hover:text-white"
             >
               <FaInstagram size="20px" />
             </a>
             <a
-              href="https://linktr.ee/stu4stu"
+              href={LINKS.linktree}
               target="_blank"
               className="rounded-full bg-background-secondary p-2 transition-colors duration-150 hover:bg-green-500"
             >
               <SiLinktree size="20px" />
             </a>
             <a
-              href="https://www.tiktok.com/@students.4students"
+              href={LINKS.tiktok}
               target="_blank"
               className="rounded-full bg-background-secondary p-2 transition-colors duration-150 hover:bg-black hover:text-white"
             >
@@ -38,13 +39,13 @@ export const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col gap-1">
-          <Link href={"/programs"}>
+          <Link href={LINKS.programs}>
             <h2 className="transition-colors duration-200 hover:text-blue-500 text-lg">
               Programs
             </h2>
           </Link>
 
-          <Link href={"/about"}>
+          <Link href={LINKS.about}>
             <h2 className="transition-colors duration-200 hover:text-blue-500 text-lg">
               About
             </h2>

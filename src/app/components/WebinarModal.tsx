@@ -9,6 +9,7 @@ import {
   CredenzaDescription,
   CredenzaFooter,
 } from '@/components/ui/credenza'
+import { LINKS } from "@/consts";
 
 interface WebinarModalProps {
   showModal: boolean
@@ -17,7 +18,7 @@ interface WebinarModalProps {
 
 export default function WebinarModal({ showModal, setShowModal }: WebinarModalProps) {
 
-  const rsvpUrl = 'https://forms.gle/3vZ3Ps9rSURg3W9t8'
+  const rsvpUrl = LINKS.webinarRSVP
 
   return (
     <Credenza open={showModal} onOpenChange={setShowModal}>

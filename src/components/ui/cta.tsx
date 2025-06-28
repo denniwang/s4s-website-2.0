@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 
 import { PopupButton } from "react-calendly";
+import { LINKS } from "@/consts";
 
 interface Cta4Props {
   title?: string;
@@ -34,9 +35,9 @@ const Cta4 = ({
                 <p className="text-muted-foreground">{description}</p>
             {typeof window !== "undefined" && document.getElementById("root") && (
               <PopupButton
-                url="https://calendly.com/studs4students/15-min-free-trial"
+                url={LINKS.calendly}
                 rootElement={document.getElementById("root") as HTMLElement}
-                text="15-min free trial"
+                text="Connect with a mentor!"
                 className="px-3 py-1 mt-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200 text-xl font-bold relative"
               />
             )}

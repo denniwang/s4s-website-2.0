@@ -5,6 +5,9 @@ import {
   HeartIcon,
   TrendingUpIcon,
 } from "lucide-react";
+import { Button } from "./button";
+import Link from "next/link";
+import { LINKS } from "@/consts";
 
 const features = [
   {
@@ -35,7 +38,7 @@ const features = [
 
 export default function FeatureSectionSimple() {
   return (
-    <section className="container mx-auto space-y-8 px-4 py-24 md:px-6 2xl:max-w-[1400px]">
+    <section className="container mx-auto space-y-8 px-4 py-24 md:px-6 2xl:max-w-[1400px] flex flex-col items-center">
       <div className="space-y-4 text-center bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
         <h2 className="text-3xl font-bold">High-Quality, Relevant Guidance</h2>
         <p className="text-muted-foreground mx-auto max-w-2xl">
@@ -59,6 +62,16 @@ export default function FeatureSectionSimple() {
           </Card>
         ))}
       </div>
+
+
+
+        <Link href={LINKS.calendly}> 
+        <Button
+          className={`w-auto bg-blue-600`}
+        >
+          Speak with a mentor!
+        </Button></Link>
+
     </section>
   );
 }

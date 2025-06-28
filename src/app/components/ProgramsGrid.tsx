@@ -1,4 +1,5 @@
 import PricingCard from "./ProgramsCard";
+import { LINKS } from "@/consts";
 
 const pricingPlans = [
 	{
@@ -10,7 +11,7 @@ const pricingPlans = [
 			"Actionable suggestions to improve your writing",
 		],
 		buttonVariant: "outline" as const,
-		link: "https://calendly.com/studs4students/15-min-free-trial",
+		link: LINKS.calendly,
 	},
 	{
 		title: "Sync Writing",
@@ -21,7 +22,7 @@ const pricingPlans = [
 			"Personalized feedback tailored to your story",
 		],
 		buttonVariant: "outline" as const,
-		link: "https://calendly.com/studs4students/15-min-free-trial",
+		link: LINKS.calendly,
 	},
 	{
 		title: "Big Little Program",
@@ -33,7 +34,7 @@ const pricingPlans = [
 		],
 		isPopular: true,
 		buttonVariant: "default" as const,
-		link: "https://calendly.com/studs4students/15-min-free-trial",
+		link: LINKS.calendly,
 	},
 ];
 

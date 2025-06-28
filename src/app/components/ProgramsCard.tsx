@@ -11,6 +11,7 @@ import {
 import { Label } from "@radix-ui/react-label";
 import { CheckIcon } from "lucide-react";
 import Link from "next/link";
+import { LINKS } from "@/consts";
 
 interface PricingCardProps {
   title: string;
@@ -26,7 +27,7 @@ export default function PricingCard({
   description,
   features,
   isPopular = false,
-  buttonText = "Free trial",
+  buttonText = "Speak with a mentor!",
   buttonVariant = "outline",
 }: PricingCardProps) {
   return (
@@ -87,14 +88,14 @@ export default function PricingCard({
         </ul>
       </CardContent>
       <CardFooter>
-        <Link href={"https://calendly.com/studs4students/15-min-free-trial"}> 
-        <Button
-          className={`w-full ${isPopular ? "bg-blue-600" : ""}`}
-          variant={buttonVariant}
-
-        >
-          {buttonText}
-        </Button></Link>
+        <Link href={LINKS.calendly} className="w-full">
+          <Button
+            className={`w-full ${isPopular ? "bg-blue-600" : ""}`}
+            variant={buttonVariant}
+          >
+            {buttonText}
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );

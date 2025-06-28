@@ -5,6 +5,7 @@ import { Footer } from "./components/Footer";
 import ClientLayout from "@/app/ClientLayout";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { Analytics } from "@vercel/analytics/next"
+import { LINKS } from "@/consts";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -109,8 +110,8 @@ export default function RootLayout({
     keywords: 'students4students, students 4 students, college consulting for high schoolers, college admissions help',
     contactPoint: {
       '@type': 'ContactPoint',
-      contactType: 'Free trial',
-      url: 'https://calendly.com/studs4students/15-min-free-trial',
+      contactType: 'Connect with a mentor!',
+      url: LINKS.calendly,
     },
     sameAs: [
       'https://instagram.com/students.4students',

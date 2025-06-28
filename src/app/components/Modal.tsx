@@ -10,6 +10,7 @@ import {
   CredenzaFooter,
   CredenzaClose,
 } from '@/components/ui/credenza'
+import { LINKS } from "@/consts";
 
 // Add props interface so the Modal can be controlled by its parent
 interface ModalProps {
@@ -38,7 +39,7 @@ export default function Modal({ showModal, setShowModal }: ModalProps) {
     "Support without becoming the \"nagging parent\""
   ];
 
-  const bookingUrl = 'https://calendly.com/studs4students/15-min-free-trial';
+  const bookingUrl = LINKS.calendly;
 
   return (
     <Credenza open={showModal} onOpenChange={setShowModal}>
