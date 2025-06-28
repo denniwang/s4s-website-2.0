@@ -12,28 +12,35 @@ export default function AboutClient() {
       img: "Andrew.jpg",
       name: "Andrew Chen",
       school: "UW Seattle '27",
-      desc: "Andrew is a computer science TA and an applied math major at the University of Washington. Ever laughed or cringed at any of our TikToks? He's the guy to blame.",
+      desc: "Andrew is a CS TA and applied math major! Ever laughed or cringed at any of our TikTok’s? He’s the guy to blame.",
       delay: 0,
     },
     {
-      img: "Keyon.jpg",
-      name: "Keyon Jazayeri",
-      school: "UC Irvine '27",
-      desc: "Keyon is a stellar student at UCI, majoring in Computer Science. He loves to work on startups and practices jiu jitsu in his free time.",
+      img: "Darsh.jpg",
+      name: "Darsh Verma",
+      school: "UCLA '27",
+      desc: "Darsh is a math and CS major, and loves to grill. He will happily send you his Tandoori Chicken recipe (only if you buy S4S shares tho lol).",
       delay: 200,
     },
     {
       img: "Dennis.jpg",
       name: "Dennis Wang",
       school: "Northeastern University '27",
-      desc: "Dennis is a CS + Business major at NEU, he loves to play tennis and participate in hackathons. He aspires to be retired by 30.",
+      desc: "Howdy! I made everything you’re seeing so far. I’m a Business + CS major at Northeastern. if you have website feedback, DMs are open 😉",
       delay: 300,
     },
     {
-      img: "Darsh.jpg",
-      name: "Darsh Verma",
-      school: "UCLA '27",
-      desc: "Darsh is a math and CS major at UCLA, and loves working out, playing cricket, and cooking in his free time. He is on track to solving the Riemann Hypothesis by the end of his career.",
+      img: "Keyon.jpg",
+      name: "Keyon Jazayeri",
+      school: "UC Irvine '27",
+      desc: "Keyon is a CS major, and loves to practice jiu-jitsu in his free time. You’ll probably meet him in an interview if you apply to join the team 😱 Good luck!",
+      delay: 200,
+    },
+    {
+      img: "Steven.jpg",
+      name: "Steven Zhang",
+      school: "Berkeley '27",
+      desc: "Steven is a Microbial Biology major on the Pre-Med track at UC Berkeley. He loves working in the lab, playing sports and music, and working out in his free time.",
       delay: 200,
     },
   ];
@@ -63,7 +70,8 @@ export default function AboutClient() {
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12" data-aos="fade-up">
           Meet Our Team
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 place-items-center justify-center">
+        
           {team.map((member, index) => (
             <article 
               key={index} 

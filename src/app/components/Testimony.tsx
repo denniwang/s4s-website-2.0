@@ -5,7 +5,7 @@ export default function Testimony() {
   const testimonials = [
     {
       quote:
-        "Having Darsh as a mentor covered everything, from editing every single one of my PIQ’s with thoughtful feedback… as a first generation student, it was incredible reassuring to have someone to text and communicate with throughout this whole process.",
+        '"Having Darsh as a mentor covered everything, from editing every single one of my PIQ’s with thoughtful feedback… as a first generation student, it was incredible reassuring to have someone to text and communicate with throughout this whole process."',
       name: "Angeline Nguyen",
       designation: "UCI '29",
       src: "angeline-uci.jpeg",
@@ -19,15 +19,15 @@ export default function Testimony() {
     },
     {
       quote:
-        "Love went through multiple grueling rounds of essay revisions with our writing experts. She is easily one of our strongest writers now and will be joining the UC Berkeley class of '29",
+        '"[S4S Writing Wonders] transformed my essays and really helped me reflect how I\'ve implemented my passions throughout my four years in high school. With their help, I got into every single UC and I couldn\'t be more thankful. They really understood the process and they made it so much less stressful for me."',
       name: "Love Afolabi",
       designation: "UC Berkeley '29",
       src: "love-berk.jpg",
     },
     {
       quote:
-        "The mentors are amazing...we got to bond and talk about our similar interests. I looked forward to every single meeting and my essays turned out amazing!",
-      name: "Isabella Inio ",
+        '"The mentors are amazing... we got to bond and talk about our similar interests. I looked forward to every single meeting and my essays turned out amazing!"',
+      name: "Isabella Inio",
       designation: "SDSU '29",
       src: "isabella.jpeg",
     },

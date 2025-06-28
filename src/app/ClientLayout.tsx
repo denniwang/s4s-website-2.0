@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from 'react'
 import NavMenu from './components/NavMenu'
-import Modal from './components/Modal'
+//import Modal from './components/Modal'
+import WebinarModal from './components/WebinarModal'
 
 interface ClientLayoutProps {
   children: React.ReactNode
@@ -92,7 +93,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       <div className="w-full flex flex-row-reverse p-2">
         <NavMenu />
       </div>
-      <Modal showModal={showModal} setShowModal={setShowModal} />
+      <WebinarModal showModal={showModal} setShowModal={setShowModal} />
       {children}
     </>
   )

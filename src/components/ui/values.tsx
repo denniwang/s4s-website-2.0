@@ -78,11 +78,11 @@ const companyValues: CompanyValue[] = [
     ],
     testimonial: {
       quote:
-        "Being a mentor here is incredibly rewarding. I love helping students navigate the process and seeing their confidence grow.",
-      author: "Alex Chen",
+        "It’s super fulfilling to help other high schoolers find their passion, and help them through this stressful process. It’s honestly a service I wish I had back in high school.",
+      author: "Steven Zhang",
       role: "College Mentor",
       image:
-        "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=400",
+        "/face/Steven.png",
     },
     image:
       "/values/mentors.jpeg",
