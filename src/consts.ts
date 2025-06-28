@@ -8,7 +8,7 @@ export const STUDENT_SLIDES = [
     big: "Dennis",
   },
   {
-    img: "love-berk.jpg",
+    img: "love-berk.jpeg",
     title: "Love Afolabi",
     school: "UC Berkeley",
     schoolLogo: "cal",

@@ -22,7 +22,7 @@ export default function Testimony() {
         '"[S4S Writing Wonders] transformed my essays and really helped me reflect how I\'ve implemented my passions throughout my four years in high school. With their help, I got into every single UC and I couldn\'t be more thankful. They really understood the process and they made it so much less stressful for me."',
       name: "Love Afolabi",
       designation: "UC Berkeley '29",
-      src: "love-berk.jpg",
+      src: "love-berk.jpeg",
     },
     {
       quote:
