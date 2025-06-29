@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 
 const collegeLogos = [
   { image: "/logos/cal.png", alt: "Cal" },
@@ -14,32 +13,47 @@ const collegeLogos = [
   { image: "/logos/um.svg", alt: "UMich" },
 ];
 
-// Duplicate logos for a seamless loop
-const duplicatedLogos = [...collegeLogos, ...collegeLogos];
-
 export const CollegeLogos = () => {
-  const duplicationFactor = duplicatedLogos.length / collegeLogos.length;
+  const [offset, setOffset] = useState(0);
+  const logoSetRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<number | null>(null);
+  const logoWidth = 150; // px, matches w-[150px] in Tailwind
+  const numLogos = collegeLogos.length;
+  const totalSetWidth = logoWidth * numLogos;
+
+  useEffect(() => {
+    let lastTimestamp = performance.now();
+    function animate(now: number) {
+      const elapsed = now - lastTimestamp;
+      lastTimestamp = now;
+      setOffset((prev) => {
+        const speed =30; // px per second
+        let newOffset = prev - (speed * elapsed) / 1000;
+        if (Math.abs(newOffset) >= totalSetWidth) {
+          // Reset to 0 for seamless loop
+          return 0;
+        }
+        return newOffset;
+      });
+      animationRef.current = requestAnimationFrame(animate);
+    }
+    animationRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, [totalSetWidth]);
 
   return (
     <div className="w-full bg-white py-4 md:py-7 overflow-hidden">
-      <motion.div
-        className="flex w-max" // Use w-max to allow content to define width
-        animate={{
-          // Animate by the percentage width of one set of original logos
-          x: ["0%", `-${100 / duplicationFactor}%`],
-          transition: {
-            ease: "linear",
-            duration: 35, // Adjust duration for desired speed (e.g., 20-25 seconds)
-            repeat: Infinity,
-          },
-        }}
-        // No explicit style.width here; it's determined by w-max and children
+      <div
+        className="flex w-max"
+        style={{ transform: `translateX(${offset}px)`, transition: "none", willChange: "transform" }}
+        ref={logoSetRef}
       >
-        {duplicatedLogos.map((logo, index) => (
+        {/* Render two sets for seamless looping */}
+        {[...collegeLogos, ...collegeLogos].map((logo, index) => (
           <div
             key={index}
-            // Apply responsive widths directly using Tailwind:
-            // w-[150px] for narrow screens, md:w-[250px] for medium screens and up.
             className="flex-shrink-0 flex justify-center items-center w-[150px] md:w-[250px]"
           >
             <div className="relative h-[50px] w-[100px] sm:h-[60px] sm:w-[120px]">
@@ -53,7 +67,7 @@ export const CollegeLogos = () => {
             </div>
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };
