@@ -12,6 +12,8 @@ import { MenuIcon, XCircleIcon} from "lucide-react"; // Import Menu and X icons
 import pages from "@/pages";
 import Image from "next/image";
 import Link from "next/link";
+import { LINKS } from "@/consts";
+import { linkSync } from "fs";
 
 export default function NavMenu() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -32,12 +34,21 @@ export default function NavMenu() {
         <NavigationMenu>
           <NavigationMenuList className="flex items-center space-x-4">
             {pages.map((page: { url: string; title: string }, index) => (
-              <Link key={index} href={page.url}>
-                <NavigationMenuItem className="p-3 rounded-md hover:bg-accent font-bold text-lg">
+              <Link key={index} href={page.url} className="flex items-center justify-center ">
+                <NavigationMenuItem className="p-3 rounded-md hover:bg-accent font-bold text-lg ">
                   {page.title}
                 </NavigationMenuItem>
               </Link>
             ))}
+            <NavigationMenuItem className="relative group p-3 rounded-md font-bold text-lg ml-[-4]">
+              <span className="cursor-pointer hover:bg-accent rounded-md p-3 ">Sign up!</span>
+              <div className="absolute right-0 mt-2 w-56 bg-background border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity z-30">
+                <div className="flex flex-col">
+                  <Link href={LINKS.webinarRSVP} target="_blank" className="px-4 py-3 hover:bg-accent rounded-t-md">RSVP for Webinar</Link>
+                  <Link href={LINKS.calendly} target="_blank" className="px-4 py-3 hover:bg-accent rounded-b-md">Connect with a Mentor</Link>
+                </div>
+              </div>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       </div>
@@ -60,6 +71,9 @@ export default function NavMenu() {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="lg:hidden absolute top-0 left-0 w-full h-screen bg-background z-10 flex flex-col items-center justify-center space-y-6">
+          {/* Opportunities links for mobile */}
+          <Link href={LINKS.webinarRSVP}target="_blank" className="text-2xl font-bold hover:text-accent-foreground">RSVP for Webinar</Link>
+          <Link href={LINKS.calendly} target="_blank" className="text-2xl font-bold hover:text-accent-foreground">Connect with a Mentor</Link>
           {pages.map((page: { url: string; title: string }, index) => (
             <Link
               key={index}
