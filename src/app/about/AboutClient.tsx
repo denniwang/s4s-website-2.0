@@ -91,7 +91,7 @@ export default function AboutClient() {
               </div>
               <h3 className="text-xl font-bold mb-2">{member.name}</h3>
               <p className="text-blue-600 font-semibold mb-3">{member.school}</p>
-              <p className="text-gray-600 text-sm leading-relaxed">{member.desc}</p>
+              <p className="text-gray-600 text-sm leading-relaxed lg:h-30">{member.desc}</p>
             </article>
           ))}
         </div>
