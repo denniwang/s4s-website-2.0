@@ -28,7 +28,7 @@ export const CollegeLogos = () => {
       lastTimestamp = now;
       setOffset((prev) => {
         const speed =30; // px per second
-        let newOffset = prev - (speed * elapsed) / 1000;
+        const newOffset = prev - (speed * elapsed) / 1000;
         if (Math.abs(newOffset) >= totalSetWidth) {
           // Reset to 0 for seamless loop
           return 0;
