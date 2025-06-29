@@ -1,6 +1,7 @@
 "use client";
 import { CollegeLogos } from "./components/CollegeLogos";
 import { ScrollingText } from "./components/ScrollingText";
+import PromoVideo from "./components/PromoVideo";
 import Testimony from "./components/Testimony";
 import { PopupButton } from "react-calendly";
 import {
@@ -82,7 +83,7 @@ export default function Home() {
         className="flex flex-col justify-center items-center overflow-hidden"
         id="root"
       >
-        <section className="h-[80vh] w-full relative bg-[url('/home/website-collage.jpeg')] lg:bg-[url('/home/website-collage-wide.jpeg')] bg-contain lg:bg-size-[40%]" 
+        <section className="h-[80vh] w-full relative bg-[url('/home/website-collage.jpeg')] lg:bg-[url('/home/website-collage-wide.jpeg')] bg-contain lg:bg-size-[40%]"
           style={{
             backgroundRepeat: "no-repeat",
             backgroundPosition: "left center",
@@ -123,15 +124,20 @@ export default function Home() {
             )}
           </div>
         </section>
-        
+
         <section aria-label="Partner Colleges">
           <CollegeLogos />
         </section>
-        
+
+        <section aria-label="Introduction Video">
+          <PromoVideo />
+        </section>
+
+
         <section aria-label="Student Testimonials">
           <Testimony />
         </section>
-        
+
         <section aria-label="Success Statistics">
           <Stats8 />
         </section>
@@ -139,7 +145,7 @@ export default function Home() {
         <section aria-label="Our Services">
           <FeatureSectionSimple />
         </section>
-        
+
       </main>
     </>
   );
