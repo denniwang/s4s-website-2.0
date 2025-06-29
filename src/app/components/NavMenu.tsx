@@ -13,7 +13,6 @@ import pages from "@/pages";
 import Image from "next/image";
 import Link from "next/link";
 import { LINKS } from "@/consts";
-import { linkSync } from "fs";
 
 export default function NavMenu() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
