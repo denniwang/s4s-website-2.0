@@ -5,7 +5,7 @@ import { FaTiktok } from "react-icons/fa";
 import { LINKS } from "@/consts";
 export const Footer = () => {
   return (
-    <div className="footer mt-20 flex flex-row justify-center bg-gradient-to-t from-blue-200 to-white py-12">
+    <div className="footer mt-5 flex flex-row justify-center bg-gradient-to-t from-blue-200 to-white py-12">
       <div className="my-5 flex w-3/4 flex-col gap-10 lg:gap-0  justify-between lg:flex-row">
         <div className="flex flex-col gap-1">
           <p className="text-lg">© 2025 Students4Students</p>

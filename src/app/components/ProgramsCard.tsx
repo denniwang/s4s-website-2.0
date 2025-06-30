@@ -59,7 +59,7 @@ export default function PricingCard({
               />
             </svg>
             <Badge className="mt-3 uppercase bg-blue-600">
-              50% summer sale
+              Best for 9th - 11th
             </Badge>
           </span>
         </Label>

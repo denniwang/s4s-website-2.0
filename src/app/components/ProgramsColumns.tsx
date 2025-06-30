@@ -22,7 +22,7 @@ export default function PricingSectionCards() {
           <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
             Programs
           </h2>
-          <p className="mt-1 text-muted-foreground">
+          <p className="mt-1 text-muted-foreground font-light text-sm">
             Whatever stage of the college application process, our offers evolve according to your needs.
           </p>
         </div>
@@ -33,9 +33,6 @@ export default function PricingSectionCards() {
         {/* Grid */}
         <PricingGrid />
         {/* End Grid */}
-        {/* Comparison table */}
-        <PricingTable />
-        {/* End Comparison table */}
       </div>
       {/* End Pricing */}
     </>
