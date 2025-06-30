@@ -6,6 +6,7 @@ import ClientLayout from "@/app/ClientLayout";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { Analytics } from "@vercel/analytics/next"
 import { LINKS } from "@/consts";
+import { Providers } from "./providers";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -150,9 +151,11 @@ export default function RootLayout({
       <body className={`${spaceGrotesk.variable} antialiased`} id="root">
         {/* Add Google Analytics - Replace with your actual GA4 Measurement ID */}
         <GoogleAnalytics GA_MEASUREMENT_ID="G-XXXXXXXXXX" />
-        <ClientLayout>
-          {children}
-        </ClientLayout>
+        <Providers>
+          <ClientLayout>
+            {children}
+          </ClientLayout>
+        </Providers>
         <Analytics />
         <Footer />
       </body>
