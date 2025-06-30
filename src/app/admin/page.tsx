@@ -24,6 +24,11 @@ interface User {
   createdAt: string
 }
 
+interface SessionUser {
+  email?: string | null
+  role?: string
+}
+
 export default function AdminPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -42,7 +47,7 @@ export default function AdminPage() {
       return
     }
 
-    const userRole = (session.user as any)?.role || 'STUDENT'
+    const userRole = (session.user as SessionUser)?.role || 'STUDENT'
     
     // Redirect to appropriate dashboard based on role
     if (userRole !== 'ADMIN') {
@@ -60,7 +65,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (status === "loading") return
 
-    if (!session || (session.user as any)?.role !== "ADMIN") {
+    if (!session || (session.user as SessionUser)?.role !== "ADMIN") {
       return // Don't redirect here, let the role-based protection handle it
     }
 
@@ -153,7 +158,7 @@ export default function AdminPage() {
     )
   }
 
-  if (!session || (session.user as any)?.role !== "ADMIN") {
+  if (!session || (session.user as SessionUser)?.role !== "ADMIN") {
     return null
   }
 

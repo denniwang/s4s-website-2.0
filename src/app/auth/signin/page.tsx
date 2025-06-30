@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { signIn, getSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -36,8 +36,8 @@ export default function SignIn() {
       } else {
         router.push('/dashboard')
       }
-    } catch (error) {
-      setError('An error occurred. Please try again.')
+    } catch (_error) {
+      setError('An error occurred. Please try again. ' + _error)
     } finally {
       setIsLoading(false)
     }
@@ -47,8 +47,8 @@ export default function SignIn() {
     setIsLoading(true)
     try {
       await signIn('google', { callbackUrl: '/dashboard' })
-    } catch (error) {
-      setError('An error occurred. Please try again.')
+    } catch (_error) {
+      setError('An error occurred. Please try again. ' + _error)
       setIsLoading(false)
     }
   }
@@ -125,7 +125,7 @@ export default function SignIn() {
           </form>
 
           <div className="text-center text-sm">
-            <span className="text-muted-foreground">Don't have an account? </span>
+            <span className="text-muted-foreground">Don&apos;t have an account? </span>
             <Link href="/auth/signup" className="text-blue-600 hover:underline">
               Sign up
             </Link>

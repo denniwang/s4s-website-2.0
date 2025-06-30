@@ -5,6 +5,21 @@ import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
 
+interface UserWithRole {
+  id: string
+  email: string
+  name: string
+  role: string
+}
+
+interface SessionUser {
+  id?: string
+  email?: string | null
+  name?: string | null
+  role?: string
+}
+
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -58,7 +73,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id
-        token.role = (user as any).role || "STUDENT"
+        token.role = (user as UserWithRole).role || "STUDENT"
       }
       
       // If this is a new OAuth sign-in, ensure role is set
@@ -70,8 +85,8 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        (session.user as any).id = token.id as string
-        (session.user as any).role = token.role as string || "STUDENT"
+        (session.user as SessionUser).id = token.id as string
+        (session.user as SessionUser).role = token.role as string || "STUDENT"
       }
       return session
     },
@@ -86,7 +101,7 @@ export const authOptions: NextAuthOptions = {
         if (existingUser) {
           // Check if Google account is already linked
           const existingGoogleAccount = existingUser.accounts.find(
-            (acc: any) => acc.provider === "google"
+            (acc) => acc.provider === "google"
           )
 
           if (!existingGoogleAccount) {

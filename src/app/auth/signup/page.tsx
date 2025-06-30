@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 
 export default function SignUpPage() {
@@ -55,8 +54,8 @@ export default function SignUpPage() {
         const data = await response.json()
         setError(data.error || "Sign up failed")
       }
-    } catch (error) {
-      setError("An error occurred")
+    } catch (_error) {
+      setError("An error occurred, " + _error)
     } finally {
       setIsLoading(false)
     }
@@ -70,8 +69,8 @@ export default function SignUpPage() {
       await signIn("google", {
         callbackUrl: "/auth/oauth-complete"
       })
-    } catch (error) {
-      setError("Google sign up failed")
+    } catch (e) {
+      setError("Google sign up failed, " + e)
       setIsLoading(false)
     }
   }

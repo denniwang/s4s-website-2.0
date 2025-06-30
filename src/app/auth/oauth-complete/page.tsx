@@ -67,8 +67,8 @@ export default function OAuthCompletePage() {
         const data = await response.json()
         setError(data.error || "Failed to complete profile")
       }
-    } catch (error) {
-      setError("An error occurred")
+    } catch (_error) {
+      setError("An error occurred. " + _error)
     } finally {
       setIsLoading(false)
     }

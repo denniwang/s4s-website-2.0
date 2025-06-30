@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { BookOpen, Users, ExternalLink, Search, Filter, GraduationCap, DollarSign, Clock } from "lucide-react"
+import { Users, ExternalLink, Search,  GraduationCap, DollarSign, Clock } from "lucide-react"
 
 interface Mentor {
   id: string
@@ -21,6 +21,12 @@ interface Mentor {
   expertise: string[]
   hourlyRate: number
   calendlyLink: string
+}
+
+interface SessionUser {
+  email?: string | null
+  name?: string | null
+  role?: string
 }
 
 export default function StudentDashboard() {
@@ -42,7 +48,7 @@ export default function StudentDashboard() {
       return
     }
 
-    const userRole = (session.user as any)?.role || 'STUDENT'
+    const userRole = (session.user as SessionUser)?.role || 'STUDENT'
     
     // Redirect to appropriate dashboard based on role
     if (userRole !== 'STUDENT') {

@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, User, Settings, BookOpen, Users, Crown } from "lucide-react"
+import { Calendar,  Settings, BookOpen, Users, Crown } from "lucide-react"
+
+interface SessionUser {
+  email?: string | null
+  name?: string | null
+  role?: string
+}
 
 export default function Dashboard() {
   const { data: session, status } = useSession()
@@ -20,7 +26,7 @@ export default function Dashboard() {
     }
 
     // Redirect based on user role
-    const userRole = (session.user as any)?.role || 'STUDENT'
+    const userRole = (session.user as SessionUser)?.role || 'STUDENT'
     
     switch (userRole) {
       case 'STUDENT':
@@ -51,7 +57,7 @@ export default function Dashboard() {
 
   // Show a brief welcome screen while redirecting
   if (session?.user) {
-    const userRole = (session.user as any)?.role || 'STUDENT'
+    const userRole = (session.user as SessionUser)?.role || 'STUDENT'
     
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">

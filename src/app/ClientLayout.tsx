@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import NavMenu from './components/NavMenu'
 //import Modal from './components/Modal'
 import WebinarModal from './components/WebinarModal'
@@ -11,6 +11,10 @@ interface ClientLayoutProps {
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
   const [showModal, setShowModal] = useState(false)
+
+  const handleShowModal = useCallback(() => {
+    setShowModal(true)
+  }, [])
 
   useEffect(() => {
     // Don't show modal if user already dismissed it or if it's already been shown
@@ -46,7 +50,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       if (modalTriggered || showModal) return
       if (e.clientY <= 0) {
         modalTriggered = true
-        setShowModal(true)
+        handleShowModal()
       }
     }
 
@@ -59,14 +63,14 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       // Show modal if user is engaged AND has spent enough time
       if (isEngaged && timeSpent >= 15000) { // 15 seconds + engagement
         modalTriggered = true
-        setShowModal(true)
+        handleShowModal()
         return
       }
       
       // Fallback: show after 45 seconds regardless (but still respectful)
       if (timeSpent >= 45000) {
         modalTriggered = true
-        setShowModal(true)
+        handleShowModal()
       }
     }
 
@@ -86,7 +90,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       document.removeEventListener('mouseleave', handleMouseLeave)
       clearInterval(timer)
     }
-  }, []) // Removed showModal dependency to prevent re-running effect
+  }, [showModal, handleShowModal])
 
   return (
     <>

@@ -24,9 +24,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { LINKS } from "@/consts";
 
+interface SessionUser {
+  email?: string | null
+  name?: string | null
+  image?: string | null
+  role?: string
+}
+
 export default function NavMenu() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -78,7 +85,7 @@ export default function NavMenu() {
                         Dashboard
                       </Link>
                     </DropdownMenuItem>
-                    {(session.user as any)?.role === 'ADMIN' && (
+                    {(session.user as SessionUser)?.role === 'ADMIN' && (
                       <DropdownMenuItem asChild>
                         <Link href="/admin">
                           Admin Panel
@@ -167,7 +174,7 @@ export default function NavMenu() {
               >
                 Dashboard
               </Link>
-              {(session.user as any)?.role === 'ADMIN' && (
+              {(session.user as SessionUser)?.role === 'ADMIN' && (
                 <Link
                   href="/admin"
                   onClick={toggleMobileMenu}

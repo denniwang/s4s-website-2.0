@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Settings, ExternalLink, Copy, CheckCircle } from "lucide-react"
 
 interface MentorProfile {
@@ -24,6 +23,12 @@ interface MentorProfile {
   hourlyRate: number
   timezone: string
   calendlyLink: string
+}
+
+interface SessionUser {
+  email?: string | null
+  name?: string | null
+  role?: string
 }
 
 export default function MentorDashboard() {
@@ -54,7 +59,7 @@ export default function MentorDashboard() {
       return
     }
 
-    const userRole = (session.user as any)?.role || 'STUDENT'
+    const userRole = (session.user as SessionUser)?.role || 'STUDENT'
     
     // Redirect to appropriate dashboard based on role
     if (userRole !== 'MENTOR') {
@@ -72,7 +77,7 @@ export default function MentorDashboard() {
   useEffect(() => {
     if (status === "loading") return
 
-    if (!session || (session.user as any)?.role !== "MENTOR") {
+    if (!session || (session.user as SessionUser)?.role !== "MENTOR") {
       return // Don't redirect here, let the role-based protection handle it
     }
 
@@ -159,7 +164,7 @@ export default function MentorDashboard() {
     )
   }
 
-  if (!session || (session.user as any)?.role !== "MENTOR") {
+  if (!session || (session.user as SessionUser)?.role !== "MENTOR") {
     return null
   }
 
@@ -364,7 +369,7 @@ export default function MentorDashboard() {
                       <li>• Set up your Calendly link in your profile</li>
                       <li>• Students will see your link on the student dashboard</li>
                       <li>• Students can book sessions directly through Calendly</li>
-                      <li>• You'll receive notifications from Calendly for new bookings</li>
+                      <li>• You&apos;ll receive notifications from Calendly for new bookings</li>
                     </ul>
                   </div>
                   
