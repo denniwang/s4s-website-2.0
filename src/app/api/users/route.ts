@@ -2,7 +2,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
+
+interface UserWhereInput {
+  role?: 'STUDENT' | 'MENTOR' | 'ADMIN'
+  OR?: Array<{
+    name?: { contains: string; mode: 'insensitive' }
+    email?: { contains: string; mode: 'insensitive' }
+    university?: { contains: string; mode: 'insensitive' }
+    major?: { contains: string; mode: 'insensitive' }
+    expertise?: { hasSome: string[] }
+  }>
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -23,7 +33,7 @@ export async function GET(request: NextRequest) {
     console.log("Fetching users with role:", role, "for user:", session.user.email)
 
     // Build where clause
-    const where: Prisma.UserWhereInput = {}
+    const where: UserWhereInput = {}
 
     if (role) {
       where.role = role as 'STUDENT' | 'MENTOR' | 'ADMIN'
