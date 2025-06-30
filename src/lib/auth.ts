@@ -101,7 +101,7 @@ export const authOptions: NextAuthOptions = {
         if (existingUser) {
           // Check if Google account is already linked
           const existingGoogleAccount = existingUser.accounts.find(
-            (acc) => acc.provider === "google"
+            (acc: { provider: string }) => acc.provider === "google"
           )
 
           if (!existingGoogleAccount) {
