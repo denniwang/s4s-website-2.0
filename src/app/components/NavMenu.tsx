@@ -39,9 +39,9 @@ export default function NavMenu() {
                 </NavigationMenuItem>
               </Link>
             ))}
-            <NavigationMenuItem className="relative group p-3 rounded-md font-bold text-lg ml-[-4]">
+            <NavigationMenuItem className="relative group/signup p-3 rounded-md font-bold text-lg ml-[-4]">
               <span className="cursor-pointer hover:bg-accent rounded-md p-3 text-blue-600">Sign up!</span>
-              <div className="absolute right-0 mt-2 w-56 bg-background border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity z-30">
+              <div className="absolute right-0 mt-2 w-56 bg-background border border-gray-200 rounded-md shadow-lg opacity-0 group-hover/signup:opacity-100 group-hover/signup:visible invisible transition-opacity z-30">
                 <div className="flex flex-col">
                   <Link href={LINKS.webinarRSVP} target="_blank" className="px-4 py-3 hover:bg-accent rounded-t-md">RSVP for Webinar</Link>
                   <Link href={LINKS.calendly} target="_blank" className="px-4 py-3 hover:bg-accent rounded-b-md">Connect with a Mentor</Link>
