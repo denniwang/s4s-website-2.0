@@ -1,6 +1,5 @@
 import React from "react";
 import PricingGrid from "./ProgramsGrid";
-import PricingTable from "./ProgramsTable";
 
 //interface PlanFeature {
 //type: string;
