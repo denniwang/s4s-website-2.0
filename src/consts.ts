@@ -10,4 +10,5 @@ export const LINKS = {
   webinarRSVP: "https://forms.gle/3vZ3Ps9rSURg3W9t8",
   about: "/about",
   programs: "/programs",
+  playbook: "/playbook",
 };
