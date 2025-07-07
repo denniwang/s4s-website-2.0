@@ -47,7 +47,7 @@ async function sendPlaybookEmail(to: string) {
             <p>Hi there!</p>
             <p>Thank you for requesting the S4S Playbook. You can download your PDF here:</p>
             <p><a href="${PLAYBOOK_URL}">Download the S4S Playbook</a></p>
-            <p>If you have any questions or want more personalized help, connect with a mentor for freeon our website!</p>
+            <p>If you have any questions or want more personalized help, connect with a mentor for free on our website!</p>
             <p>Best,<br/>Dennis Wang</p>
           `,
         },
