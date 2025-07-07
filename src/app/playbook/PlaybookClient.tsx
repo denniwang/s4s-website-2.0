@@ -1,18 +1,34 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BookOpen, ArrowRight, Calendar } from "lucide-react";
 import { ArticleData } from "./utils/articles";
+import EmailCaptureModal from "./components/EmailCaptureModal";
 
 interface PlaybookClientProps {
   articles: ArticleData[];
 }
 
 export default function PlaybookClient({ articles }: PlaybookClientProps) {
+  const [showEmailModal, setShowEmailModal] = useState(false);
+
   // Use the date string as-is
   const formatDate = (dateString: string) => dateString;
+
+  const handleEmailSubmit = (email: string) => {
+    // Here you would typically send the email to your backend
+    console.log('Email captured:', email);
+    setShowEmailModal(false);
+    // You could also trigger a download of the PDF here
+  };
+
+  const handleGetPlaybookClick = () => {
+    console.log('Opening email modal...');
+    setShowEmailModal(true);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -36,7 +52,11 @@ export default function PlaybookClient({ articles }: PlaybookClientProps) {
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
                 Start Reading
               </Button>
-              <Button variant="outline" size="lg">
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={handleGetPlaybookClick}
+              >
                 Download Full PDF
               </Button>
             </div>
@@ -88,6 +108,7 @@ export default function PlaybookClient({ articles }: PlaybookClientProps) {
                 size="lg" 
                 variant="secondary"
                 className="bg-white text-blue-600 hover:bg-gray-100"
+                onClick={handleGetPlaybookClick}
               >
                 Get Full Playbook PDF
               </Button>
@@ -95,6 +116,13 @@ export default function PlaybookClient({ articles }: PlaybookClientProps) {
           </Card>
         </div>
       </div>
+
+      {/* Email Capture Modal */}
+      <EmailCaptureModal 
+        isOpen={showEmailModal}
+        onClose={() => setShowEmailModal(false)}
+        onSubmit={handleEmailSubmit}
+      />
     </div>
   );
 }
