@@ -12,7 +12,7 @@ export default function Testimony() {
     },
     {
       quote:
-        "Alyssa did a wonderful job of working alongside Dennis, one of our mentors, this past cycle and will be taking her talents to Northeastern in the upcoming fall!",
+        "[My mentor] took the time to get to know my story, my background, and my passions. And with their guidance, I was able to write an amazing personal statement that was authentic and captured who I am. and their advice and feedback made me feel really confident as they supported me every step of the way.",
       name: "Alyssa Diwale",
       designation: "Northeastern '29",
       src: "alyssa-neu.jpg",

@@ -40,7 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
-setup-admin.js
 check-user.js
 check-users.js
+setup-admin.js
