@@ -53,7 +53,6 @@ export default function OAuthCompletePage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          role: "STUDENT",
           grade: formData.grade,
           school: formData.school,
           intendedMajor: formData.intendedMajor,

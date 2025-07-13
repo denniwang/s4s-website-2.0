@@ -322,7 +322,7 @@ export default function AdminPage() {
                       </TableCell>
                       <TableCell>
                         <div className="text-sm text-gray-600">
-                          {user.role === "STUDENT" && (
+                          {user.role === "CONSULTED_STUDENT" && (
                             <>
                               {user.grade && <div>Grade: {user.grade}</div>}
                               {user.school && <div>School: {user.school}</div>}

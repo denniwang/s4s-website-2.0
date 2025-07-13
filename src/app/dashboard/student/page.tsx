@@ -51,7 +51,7 @@ export default function StudentDashboard() {
     const userRole = (session.user as SessionUser)?.role || 'PROSPECT'
     
     // Redirect to appropriate dashboard based on role
-    if (userRole !== 'CONSULTED_STUDENT' && userRole !== 'STUDENT') {
+    if (userRole !== 'CONSULTED_STUDENT') {
       if (userRole === 'PROSPECT') {
         router.push('/dashboard/prospect')
       } else if (userRole === 'PARENT') {

@@ -4,7 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
 interface UserWhereInput {
-  role?: 'STUDENT' | 'MENTOR' | 'ADMIN'
+  role?: 'CONSULTED_STUDENT' | 'MENTOR' | 'ADMIN'
   OR?: Array<{
     name?: { contains: string; mode: 'insensitive' }
     email?: { contains: string; mode: 'insensitive' }
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     const where: UserWhereInput = {}
 
     if (role) {
-      where.role = role as 'STUDENT' | 'MENTOR' | 'ADMIN'
+      where.role = role as 'CONSULTED_STUDENT' | 'MENTOR' | 'ADMIN'
     }
 
     if (search) {

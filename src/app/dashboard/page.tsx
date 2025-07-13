@@ -127,7 +127,7 @@ export default function Dashboard() {
                     </p>
                   </>
                 )}
-                {(userRole === 'CONSULTED_STUDENT' || userRole === 'STUDENT') && (
+                {(userRole === 'CONSULTED_STUDENT') && (
                   <>
                     <p className="flex items-center gap-2">
                       <BookOpen className="h-4 w-4" />

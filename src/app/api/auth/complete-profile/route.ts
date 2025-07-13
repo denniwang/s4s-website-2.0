@@ -7,7 +7,6 @@ import { z } from 'zod'
 const completeProfileSchema = z.object({
   email: z.string().email(),
   name: z.string().min(1),
-  role: z.enum(['STUDENT', 'MENTOR']),
   grade: z.string().optional(),
   school: z.string().optional(),
   university: z.string().optional(),
@@ -37,12 +36,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Update user profile
+    // Update user profile - everyone becomes a PROSPECT
     const updatedUser = await prisma.user.update({
       where: { email: validatedData.email },
       data: {
         name: validatedData.name,
-        role: validatedData.role,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        role: 'PROSPECT' as any, // Everyone starts as a prospective student
         grade: validatedData.grade,
         school: validatedData.school,
         university: validatedData.university,
