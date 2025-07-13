@@ -5,9 +5,10 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { email: string } }
+  { params }: { params: Promise<{ email: string }> }
 ) {
   try {
+    const { email } = await params
     const session = await getServerSession(authOptions)
     
     if (!session?.user?.email) {
@@ -18,7 +19,7 @@ export async function GET(
     }
 
     // Check if the user is requesting their own mentor data
-    if (session.user.email !== params.email) {
+    if (session.user.email !== email) {
       return NextResponse.json(
         { error: 'Not authorized to access this data' },
         { status: 403 }
@@ -27,7 +28,7 @@ export async function GET(
 
     // Find the student and their assigned mentor
     const student = await prisma.user.findUnique({
-      where: { email: params.email },
+      where: { email },
       include: {
         assignedMentor: {
           select: {

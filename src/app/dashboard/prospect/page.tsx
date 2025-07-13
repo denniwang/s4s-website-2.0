@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Calendar, BookOpen, Users, ArrowRight } from "lucide-react"
+import { Calendar, ArrowRight } from "lucide-react"
 
 interface SessionUser {
   email?: string | null

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Users, ExternalLink, GraduationCap, DollarSign, Clock, Calendar, MessageSquare } from "lucide-react"
+import { Users, ExternalLink, DollarSign, Clock, Calendar } from "lucide-react"
 import { StripePayment } from "@/components/ui/stripe-payment"
 
 interface AssignedMentor {
@@ -21,15 +21,7 @@ interface AssignedMentor {
   calendlyLink: string
 }
 
-interface Session {
-  id: string
-  date: string
-  time: string
-  duration: number
-  status: 'SCHEDULED' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED'
-  mentorId: string
-  mentorName: string
-}
+
 
 interface SessionUser {
   email?: string | null
@@ -41,8 +33,6 @@ export default function StudentDashboard() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [assignedMentor, setAssignedMentor] = useState<AssignedMentor | null>(null)
-  const [sessions, setSessions] = useState<Session[]>([])
-  const [isLoading, setIsLoading] = useState(true)
 
   // Role-based protection
   useEffect(() => {
@@ -72,17 +62,15 @@ export default function StudentDashboard() {
     }
   }, [session, status, router])
 
-  // Fetch assigned mentor and sessions
+  // Fetch assigned mentor
   useEffect(() => {
     if (status === 'loading') return
     
     if (!session?.user?.email) {
-      setIsLoading(false)
       return
     }
 
     const fetchStudentData = async () => {
-      setIsLoading(true)
       try {
         // Fetch assigned mentor
         const mentorResponse = await fetch(`/api/students/${session.user?.email}/mentor`)
@@ -90,17 +78,8 @@ export default function StudentDashboard() {
           const mentorData = await mentorResponse.json()
           setAssignedMentor(mentorData.mentor)
         }
-
-        // Fetch sessions
-        const sessionsResponse = await fetch(`/api/students/${session.user?.email}/sessions`)
-        if (sessionsResponse.ok) {
-          const sessionsData = await sessionsResponse.json()
-          setSessions(sessionsData.sessions)
-        }
       } catch (error) {
         console.error("Error fetching student data:", error)
-      } finally {
-        setIsLoading(false)
       }
     }
 
@@ -155,7 +134,7 @@ export default function StudentDashboard() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-600">Total Sessions</p>
-                    <p className="text-2xl font-bold text-gray-900">{sessions.length}</p>
+                    <p className="text-2xl font-bold text-gray-900">0</p>
                   </div>
                 </div>
               </CardContent>
@@ -254,7 +233,7 @@ export default function StudentDashboard() {
                 <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">No Mentor Assigned</h3>
                 <p className="text-gray-600 mb-4">
-                  An admin will assign you a mentor soon. You'll be notified when your mentor is ready.
+                  An admin will assign you a mentor soon. You&apos;ll be notified when your mentor is ready.
                 </p>
               </CardContent>
             </Card>

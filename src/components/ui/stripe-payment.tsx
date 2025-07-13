@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { CreditCard, Shield, CheckCircle, AlertCircle } from 'lucide-react'
+import type { Stripe, StripeElements } from '@stripe/stripe-js'
 
 interface StripePaymentProps {
   onPaymentMethodAdded?: (paymentMethodId: string) => void
@@ -17,8 +18,8 @@ export function StripePayment({ onPaymentMethodAdded, onError }: StripePaymentPr
   const [isLoading, setIsLoading] = useState(false)
   const [paymentMethodId, setPaymentMethodId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [stripe, setStripe] = useState<any>(null)
-  const [elements, setElements] = useState<any>(null)
+  const [stripe, setStripe] = useState<Stripe | null>(null)
+  const [elements, setElements] = useState<StripeElements | null>(null)
   const [cardholderName, setCardholderName] = useState('')
   const cardElementRef = useRef<HTMLDivElement>(null)
 
@@ -84,9 +85,14 @@ export function StripePayment({ onPaymentMethodAdded, onError }: StripePaymentPr
       const { clientSecret } = await response.json()
 
       // Confirm the setup intent
+      const cardElement = elements.getElement('card')
+      if (!cardElement) {
+        throw new Error('Card element not found')
+      }
+      
       const { error: confirmError, setupIntent } = await stripe.confirmCardSetup(clientSecret, {
         payment_method: {
-          card: elements.getElement('card'),
+          card: cardElement,
         },
       })
 
