@@ -44,7 +44,7 @@ export default function PricingCard({
           id={title}
         >
           <span className="flex items-end w-full">
-            <svg
+            {/* <svg
               className="w-14 h-8 -me-6"
               width={45}
               height={25}
@@ -60,14 +60,14 @@ export default function PricingCard({
             </svg>
             <Badge className="mt-3 uppercase bg-blue-600">
               Best for 9th - 11th
-            </Badge>
+            </Badge> */}
           </span>
         </Label>
       )}
       <CardHeader className="text-center pb-2">
         {isPopular && (
           <Badge className="uppercase w-max self-center mb-3 bg-blue-600 absolute -top-2 -left-2">
-            Most popular
+            Most popular!!
           </Badge>
         )}
         <CardTitle className={` text-xl font-bold`}>

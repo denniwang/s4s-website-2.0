@@ -12,14 +12,14 @@ export default function Testimony() {
     },
     {
       quote:
-        "[My mentor] took the time to get to know my story, my background, and my passions. And with their guidance, I was able to write an amazing personal statement that was authentic and captured who I am. and their advice and feedback made me feel really confident as they supported me every step of the way.",
+        "\"Dennis took the time to get to know my story, my background, and my passions. With his guidance, I was able to write an amazing personal statement that was authentic and captured who I am. His advice and feedback made me feel really confident as he supported me every step of the way.\"",
       name: "Alyssa Diwale",
       designation: "Northeastern '29",
       src: "alyssa-neu.jpg",
     },
     {
       quote:
-        '"[S4S Writing Wonders] transformed my essays and really helped me reflect how I\'ve implemented my passions throughout my four years in high school. With their help, I got into every single UC and I couldn\'t be more thankful. They really understood the process and they made it so much less stressful for me."',
+        '"S4S Writing Wonders transformed my essays and really helped me reflect how I\'ve implemented my passions throughout my four years in high school. With their help, I got into every single UC and I couldn\'t be more thankful. They really understood the process and they made it so much less stressful for me."',
       name: "Love Afolabi",
       designation: "UC Berkeley '29",
       src: "love-berk.jpeg",
@@ -29,7 +29,7 @@ export default function Testimony() {
         '"The mentors are amazing... we got to bond and talk about our similar interests. I looked forward to every single meeting and my essays turned out amazing!"',
       name: "Isabella Inio",
       designation: "SDSU '29",
-      src: "isabella.jpeg",
+      src: "isabella_cropped.jpeg",
     },
   ];
   return <AnimatedTestimonials testimonials={testimonials} />;
