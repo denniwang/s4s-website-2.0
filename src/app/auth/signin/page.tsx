@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState} from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -18,7 +18,6 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
-  const { data: session, status } = useSession()
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault()

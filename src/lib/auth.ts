@@ -62,7 +62,9 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         console.log('JWT callback - user:', user)
         token.id = user.id
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         token.role = (user as any).role
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         token.updatedAt = (user as any).updatedAt
         console.log('JWT callback - updated token:', token)
       }
