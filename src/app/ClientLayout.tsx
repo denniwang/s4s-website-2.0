@@ -5,20 +5,73 @@ import NavMenu from './components/NavMenu'
 //import Modal from './components/Modal'
 import WebinarModal from './components/WebinarModal'
 
+
 interface ClientLayoutProps {
   children: React.ReactNode
 }
 
+// Add your URLs here where you want the modal to appear
+const MODAL_TRIGGER_URLS = [
+  '/', // Home page
+  '/about', // About page
+  '/programs', // Programs page
+  // Add more URLs as needed
+  // '/college-consulting-for-high-schoolers',
+  // '/contact',
+]
+
+// Pages where modal should NEVER appear
+const MODAL_EXCLUDED_URLS = [
+  '/auth/signin',
+  '/auth/signup', 
+  '/auth/error',
+  '/auth/oauth-complete',
+  '/api/auth',
+  '/api/auth/signup',
+  '/api/auth/complete-profile',
+]
+
 export default function ClientLayout({ children }: ClientLayoutProps) {
   const [showModal, setShowModal] = useState(false)
+
+
 
   const handleShowModal = useCallback(() => {
     setShowModal(true)
   }, [])
 
   useEffect(() => {
-    // Don't show modal if user already dismissed it or if it's already been shown
-    if (sessionStorage.getItem('modal') === 'false' || showModal) {
+    // Check if current URL should trigger modal
+    const currentPath = window.location.pathname
+    
+    // Check if current page is excluded from modal
+    const isExcludedPage = MODAL_EXCLUDED_URLS.some(excludedPath => 
+      currentPath.startsWith(excludedPath)
+    )
+    
+    // Check if current page should trigger modal
+    const shouldTriggerOnCurrentPage = MODAL_TRIGGER_URLS.includes(currentPath)
+    
+    // Debug logging
+    console.log('Modal Debug:', {
+      currentPath,
+      isExcludedPage,
+      shouldTriggerOnCurrentPage,
+      modalDismissed: sessionStorage.getItem('modal') === 'false',
+      showModal
+    })
+    
+    // Don't show modal if:
+    // 1. User already dismissed it
+    // 2. It's already been shown
+    // 3. Current page is not in the trigger list
+    // 4. Current page is in the excluded list
+    if (sessionStorage.getItem('modal') === 'false' || showModal || !shouldTriggerOnCurrentPage || isExcludedPage) {
+      console.log('Modal blocked:', {
+        reason: sessionStorage.getItem('modal') === 'false' ? 'dismissed' : 
+                showModal ? 'already shown' : 
+                isExcludedPage ? 'excluded page' : 'not in trigger list'
+      })
       return
     }
 
@@ -90,7 +143,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       document.removeEventListener('mouseleave', handleMouseLeave)
       clearInterval(timer)
     }
-  }, [showModal, handleShowModal])
+  }, [handleShowModal, showModal]) // Added missing dependencies
 
   return (
     <>

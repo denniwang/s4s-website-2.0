@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { signIn } from 'next-auth/react'
+import { useState, useEffect } from 'react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -18,6 +18,7 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+  const { data: session, status } = useSession()
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,18 +26,28 @@ export default function SignIn() {
     setError('')
 
     try {
+      console.log('Attempting sign in with email:', email)
       const result = await signIn('credentials', {
         email,
         password,
         redirect: false,
       })
 
+      console.log('Sign in result:', result)
+
       if (result?.error) {
-        setError('Invalid email or password')
+        // Check if it's an email verification error
+        if (result.error.includes('verify your email')) {
+          setError('Please verify your email address before signing in. Check your inbox for a verification link.')
+        } else {
+          setError('Invalid email or password')
+        }
       } else {
+        console.log('Sign in successful, redirecting to dashboard')
         router.push('/dashboard')
       }
     } catch (_error) {
+      console.error('Sign in error:', _error)
       setError('An error occurred. Please try again. ' + _error)
     } finally {
       setIsLoading(false)
@@ -52,6 +63,8 @@ export default function SignIn() {
       setIsLoading(false)
     }
   }
+
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">

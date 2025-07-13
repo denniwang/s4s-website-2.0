@@ -5,20 +5,6 @@ import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
 
-interface UserWithRole {
-  id: string
-  email: string
-  name: string
-  role: string
-}
-
-interface SessionUser {
-  id?: string
-  email?: string | null
-  name?: string | null
-  role?: string
-}
-
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -56,36 +42,58 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
+        // Check if email is verified
+        if (!user.emailVerified) {
+          throw new Error('Please verify your email address before signing in. Check your inbox for a verification link.')
+        }
+
         return {
           id: user.id,
           email: user.email,
           name: user.name,
           role: user.role,
+          updatedAt: user.updatedAt,
         }
       }
     })
   ],
-  session: {
-    strategy: "jwt"
-  },
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       if (user) {
+        console.log('JWT callback - user:', user)
         token.id = user.id
-        token.role = (user as UserWithRole).role || "STUDENT"
+        token.role = (user as any).role
+        token.updatedAt = (user as any).updatedAt
+        console.log('JWT callback - updated token:', token)
       }
       
-      // If this is a new OAuth sign-in, ensure role is set
-      if (account?.provider === "google" && !token.role) {
-        token.role = "STUDENT"
+      // Check if user's role has been updated since token was issued
+      if (token.id) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { role: true, updatedAt: true }
+        })
+        
+        if (dbUser && dbUser.updatedAt > (token.updatedAt as Date)) {
+          console.log('JWT callback - user data updated, updating token')
+          // Update token with latest data from database
+          token.role = dbUser.role
+          token.updatedAt = dbUser.updatedAt
+        }
       }
       
       return token
     },
     async session({ session, token }) {
-      if (token && session.user) {
-        (session.user as SessionUser).id = token.id as string
-        (session.user as SessionUser).role = token.role as string || "STUDENT"
+      console.log('Session callback - token:', token)
+      if (session.user && token) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (session.user as any).id = token.id
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ;(session.user as any).role = token.role
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ;(session.user as any).updatedAt = token.updatedAt
+        console.log('Session callback - updated session user:', session.user)
       }
       return session
     },
@@ -120,6 +128,17 @@ export const authOptions: NextAuthOptions = {
               }
             })
           }
+          
+          // Update the user object with the existing user's data
+          user.id = existingUser.id
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ;(user as any).role = existingUser.role
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ;(user as any).updatedAt = existingUser.updatedAt
+        } else {
+          // For new users, ensure they get the PROSPECT role
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ;(user as any).role = "PROSPECT"
         }
       }
       return true
@@ -134,6 +153,11 @@ export const authOptions: NextAuthOptions = {
       }
       return baseUrl
     }
+  },
+  // Use JWT sessions for faster performance
+  session: {
+    strategy: "jwt",
+    maxAge: 3 * 24 * 60 * 60, // 30 days
   },
   pages: {
     signIn: "/auth/signin",

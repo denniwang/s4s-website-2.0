@@ -10,6 +10,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 interface User {
   id: string
@@ -37,6 +45,8 @@ export default function AdminPage() {
   const [promotingUser, setPromotingUser] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState("ALL")
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+  const [pendingRoleChange, setPendingRoleChange] = useState<{ userId: string; newRole: string; userName: string } | null>(null)
 
   // Role-based protection
   useEffect(() => {
@@ -47,12 +57,16 @@ export default function AdminPage() {
       return
     }
 
-    const userRole = (session.user as SessionUser)?.role || 'STUDENT'
+    const userRole = (session.user as SessionUser)?.role || 'PROSPECT'
     
     // Redirect to appropriate dashboard based on role
     if (userRole !== 'ADMIN') {
-      if (userRole === 'STUDENT') {
+      if (userRole === 'PROSPECT') {
+        router.push('/dashboard/prospect')
+      } else if (userRole === 'CONSULTED_STUDENT') {
         router.push('/dashboard/student')
+      } else if (userRole === 'PARENT') {
+        router.push('/dashboard/parent')
       } else if (userRole === 'MENTOR') {
         router.push('/dashboard/mentor')
       } else {
@@ -86,58 +100,69 @@ export default function AdminPage() {
     }
   }
 
-  const promoteToMentor = async (userId: string) => {
+  const changeUserRole = async (userId: string, newRole: string, userName: string) => {
     setPromotingUser(userId)
     try {
-      const response = await fetch("/api/admin/promote-user", {
-        method: "POST",
+      const response = await fetch("/api/admin/users", {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId, newRole: "MENTOR" }),
+        body: JSON.stringify({ userId, newRole }),
       })
 
       if (response.ok) {
         // Update the user in the local state
         setUsers(users.map(user => 
-          user.id === userId ? { ...user, role: "MENTOR" } : user
+          user.id === userId ? { ...user, role: newRole } : user
         ))
+        
+        alert(`Successfully changed ${userName}'s role to ${newRole}`)
       } else {
-        alert("Failed to promote user")
+        alert("Failed to change user role")
       }
     } catch (error) {
-      console.error("Error promoting user:", error)
-      alert("Error promoting user")
+      console.error("Error changing user role:", error)
+      alert("Error changing user role")
     } finally {
       setPromotingUser(null)
     }
   }
 
-  const demoteToStudent = async (userId: string) => {
-    setPromotingUser(userId)
-    try {
-      const response = await fetch("/api/admin/promote-user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId, newRole: "STUDENT" }),
-      })
 
-      if (response.ok) {
-        // Update the user in the local state
-        setUsers(users.map(user => 
-          user.id === userId ? { ...user, role: "STUDENT" } : user
-        ))
-      } else {
-        alert("Failed to demote user")
-      }
-    } catch (error) {
-      console.error("Error demoting user:", error)
-      alert("Error demoting user")
-    } finally {
-      setPromotingUser(null)
+
+  const handleRoleChange = (userId: string, newRole: string, userName: string) => {
+    const user = users.find(u => u.id === userId)
+    if (!user) return
+
+    // Don't allow changing the main admin
+    if (user.email === "info@trys4s.com") {
+      alert("Cannot change the main admin account")
+      return
     }
+
+    // Don't allow changing to the same role
+    if (user.role === newRole) {
+      return
+    }
+
+    // Show confirmation dialog
+    setPendingRoleChange({ userId, newRole, userName })
+    setShowConfirmDialog(true)
+  }
+
+  const confirmRoleChange = async () => {
+    if (!pendingRoleChange) return
+
+    const { userId, newRole, userName } = pendingRoleChange
+    await changeUserRole(userId, newRole, userName)
+    setShowConfirmDialog(false)
+    setPendingRoleChange(null)
+  }
+
+  const cancelRoleChange = () => {
+    setShowConfirmDialog(false)
+    setPendingRoleChange(null)
   }
 
   const filteredUsers = users.filter(user => {
@@ -164,7 +189,9 @@ export default function AdminPage() {
 
   const stats = {
     total: users.length,
-    students: users.filter(u => u.role === "STUDENT").length,
+    prospects: users.filter(u => u.role === "PROSPECT").length,
+    consultedStudents: users.filter(u => u.role === "CONSULTED_STUDENT").length,
+    parents: users.filter(u => u.role === "PARENT").length,
     mentors: users.filter(u => u.role === "MENTOR").length,
     admins: users.filter(u => u.role === "ADMIN").length,
   }
@@ -178,7 +205,7 @@ export default function AdminPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-8">
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-600">Total Users</CardTitle>
@@ -189,10 +216,26 @@ export default function AdminPage() {
           </Card>
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Students</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">Prospects</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{stats.students}</div>
+              <div className="text-2xl font-bold text-blue-600">{stats.prospects}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600">Consulted Students</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-green-600">{stats.consultedStudents}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600">Parents</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-orange-600">{stats.parents}</div>
             </CardContent>
           </Card>
           <Card>
@@ -200,7 +243,7 @@ export default function AdminPage() {
               <CardTitle className="text-sm font-medium text-gray-600">Mentors</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">{stats.mentors}</div>
+              <div className="text-2xl font-bold text-purple-600">{stats.mentors}</div>
             </CardContent>
           </Card>
           <Card>
@@ -238,7 +281,9 @@ export default function AdminPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="ALL">All Roles</SelectItem>
-                    <SelectItem value="STUDENT">Students</SelectItem>
+                    <SelectItem value="PROSPECT">Prospects</SelectItem>
+                    <SelectItem value="CONSULTED_STUDENT">Consulted Students</SelectItem>
+                    <SelectItem value="PARENT">Parents</SelectItem>
                     <SelectItem value="MENTOR">Mentors</SelectItem>
                     <SelectItem value="ADMIN">Admins</SelectItem>
                   </SelectContent>
@@ -265,7 +310,13 @@ export default function AdminPage() {
                       <TableCell className="font-medium">{user.name || "N/A"}</TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
-                        <Badge variant={user.role === "ADMIN" ? "destructive" : user.role === "MENTOR" ? "default" : "secondary"}>
+                        <Badge variant={
+                          user.role === "ADMIN" ? "destructive" : 
+                          user.role === "MENTOR" ? "default" : 
+                          user.role === "CONSULTED_STUDENT" ? "secondary" :
+                          user.role === "PARENT" ? "outline" :
+                          "secondary"
+                        }>
                           {user.role}
                         </Badge>
                       </TableCell>
@@ -289,28 +340,30 @@ export default function AdminPage() {
                         {new Date(user.createdAt).toLocaleDateString()}
                       </TableCell>
                       <TableCell>
-                        {user.role === "STUDENT" && (
-                          <Button
-                            size="sm"
-                            onClick={() => promoteToMentor(user.id)}
-                            disabled={promotingUser === user.id}
+                        <div className="flex items-center gap-2">
+                          <Select
+                            value={user.role}
+                            onValueChange={(newRole) => handleRoleChange(user.id, newRole, user.name || user.email)}
+                            disabled={promotingUser === user.id || user.email === "info@trys4s.com"}
                           >
-                            {promotingUser === user.id ? "Promoting..." : "Promote to Mentor"}
-                          </Button>
-                        )}
-                        {user.role === "MENTOR" && user.email !== "info@trys4s.com" && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => demoteToStudent(user.id)}
-                            disabled={promotingUser === user.id}
-                          >
-                            {promotingUser === user.id ? "Demoting..." : "Demote to Student"}
-                          </Button>
-                        )}
-                        {user.role === "ADMIN" && (
-                          <span className="text-sm text-gray-500">No actions available</span>
-                        )}
+                            <SelectTrigger className="w-32">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="PROSPECT">Prospect</SelectItem>
+                              <SelectItem value="CONSULTED_STUDENT">Consulted Student</SelectItem>
+                              <SelectItem value="PARENT">Parent</SelectItem>
+                              <SelectItem value="MENTOR">Mentor</SelectItem>
+                              <SelectItem value="ADMIN">Admin</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          {promotingUser === user.id && (
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+                          )}
+                          {user.email === "info@trys4s.com" && (
+                            <span className="text-xs text-gray-500">Main Admin</span>
+                          )}
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -320,6 +373,28 @@ export default function AdminPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Role Change</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to change {pendingRoleChange?.userName}&apos;s role from{' '}
+              <span className="font-semibold">{users.find(u => u.id === pendingRoleChange?.userId)?.role}</span> to{' '}
+              <span className="font-semibold">{pendingRoleChange?.newRole}</span>?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={cancelRoleChange}>
+              Cancel
+            </Button>
+            <Button onClick={confirmRoleChange} disabled={promotingUser === pendingRoleChange?.userId}>
+              {promotingUser === pendingRoleChange?.userId ? "Changing..." : "Confirm Change"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 } 

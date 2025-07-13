@@ -2,12 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
+import { sendVerificationEmail } from '@/lib/email'
+import crypto from 'crypto'
 
 const signupSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   email: z.string().email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
-  role: z.enum(['STUDENT', 'MENTOR']),
+  role: z.enum(['PROSPECT', 'CONSULTED_STUDENT', 'PARENT', 'MENTOR', 'ADMIN']),
   grade: z.string().optional(),
   school: z.string().optional(),
   university: z.string().optional(),
@@ -35,7 +37,11 @@ export async function POST(request: NextRequest) {
     // Hash password
     const hashedPassword = await bcrypt.hash(validatedData.password, 12)
 
-    // Create user
+    // Generate verification token
+    const verificationToken = crypto.randomBytes(32).toString('hex')
+    const expires = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
+
+    // Create user (without email verification)
     const user = await prisma.user.create({
       data: {
         name: validatedData.name,
@@ -47,9 +53,26 @@ export async function POST(request: NextRequest) {
         university: validatedData.university,
         major: validatedData.major,
         bio: validatedData.bio,
-        emailVerified: new Date(),
+        // Don't set emailVerified - user needs to verify first
       }
     })
+
+    // Create verification token
+    await prisma.verificationToken.create({
+      data: {
+        identifier: validatedData.email,
+        token: verificationToken,
+        expires: expires,
+      }
+    })
+
+    // Send verification email
+    const emailResult = await sendVerificationEmail(validatedData.email, verificationToken)
+    
+    if (!emailResult.success) {
+      console.error('Failed to send verification email:', emailResult.error)
+      // Still create the user, but log the email error
+    }
 
     // Remove password from response
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -57,8 +80,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       { 
-        message: 'User created successfully',
-        user: userWithoutPassword
+        message: 'User created successfully. Please check your email to verify your account.',
+        user: userWithoutPassword,
+        emailSent: emailResult.success
       },
       { status: 201 }
     )

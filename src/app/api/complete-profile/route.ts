@@ -22,7 +22,8 @@ export async function POST(request: NextRequest) {
     const updatedUser = await prisma.user.update({
       where: { email: session.user.email },
       data: {
-        role,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        role: "PROSPECT" as any, // Type assertion needed due to Prisma enum type mismatch
         grade: grade || null,
         school: school || null,
         university: university || null,

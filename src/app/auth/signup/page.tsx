@@ -15,7 +15,6 @@ export default function SignUpPage() {
     name: "",
     email: "",
     password: "",
-    role: ""
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
@@ -39,20 +38,13 @@ export default function SignUpPage() {
       })
 
       if (response.ok) {
-        const result = await signIn("credentials", {
-          email: formData.email,
-          password: formData.password,
-          redirect: false,
-        })
-
-        if (result?.error) {
-          setError("Invalid credentials")
-        } else {
-          router.push("/dashboard/student")
-        }
+        // Show success message about email verification
+        setError("") // Clear any previous errors
+        alert("Account created successfully! Please check your email to verify your account before signing in.")
+        router.push("/auth/signin")
       } else {
         const data = await response.json()
-        setError(data.error || "Sign up failed")
+        setError(data.message || "Sign up failed")
       }
     } catch (_error) {
       setError("An error occurred, " + _error)
@@ -75,7 +67,7 @@ export default function SignUpPage() {
     }
   }
 
-  const isFormValid = formData.name && formData.email && formData.password && formData.role
+  const isFormValid = formData.name && formData.email && formData.password 
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

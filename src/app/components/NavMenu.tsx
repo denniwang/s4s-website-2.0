@@ -82,7 +82,7 @@ export default function NavMenu() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard">
-                        Dashboard
+                        My Dashboard
                       </Link>
                     </DropdownMenuItem>
                     {(session.user as SessionUser)?.role === 'ADMIN' && (
@@ -120,19 +120,10 @@ export default function NavMenu() {
                     </Button>
                   </Link>
                 </NavigationMenuItem>
-                <NavigationMenuItem className="relative group p-3 rounded-md font-bold text-lg ml-[-4]">
-                  <span className="cursor-pointer hover:bg-accent rounded-md p-3 text-blue-600">More</span>
-                  <div className="absolute right-0 mt-2 w-56 bg-background border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity z-30">
-                    <div className="flex flex-col">
-                      <Link href={LINKS.webinarRSVP} target="_blank" className="px-4 py-3 hover:bg-accent rounded-t-md">RSVP for Webinar</Link>
-                      <Link href={LINKS.calendly} target="_blank" className="px-4 py-3 hover:bg-accent rounded-b-md">Connect with a Mentor</Link>
-                    </div>
-                  </div>
-                </NavigationMenuItem>
               </>
             )}
             <NavigationMenuItem className="relative group/signup p-3 rounded-md font-bold text-lg ml-[-4]">
-              <span className="cursor-pointer hover:bg-accent rounded-md p-3 text-blue-600">Sign up!</span>
+              <span className="cursor-pointer hover:bg-accent rounded-md p-3 text-blue-600">More</span>
               <div className="absolute right-0 mt-2 w-56 bg-background border border-gray-200 rounded-md shadow-lg opacity-0 group-hover/signup:opacity-100 group-hover/signup:visible invisible transition-opacity z-30">
                 <div className="flex flex-col">
                   <Link href={LINKS.webinarRSVP} target="_blank" className="px-4 py-3 hover:bg-accent rounded-t-md">RSVP for Webinar</Link>
@@ -181,7 +172,7 @@ export default function NavMenu() {
                 onClick={toggleMobileMenu}
                 className="text-2xl font-bold hover:text-accent-foreground"
               >
-                Dashboard
+                My Dashboard
               </Link>
               {(session.user as SessionUser)?.role === 'ADMIN' && (
                 <Link

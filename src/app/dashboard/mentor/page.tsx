@@ -59,12 +59,16 @@ export default function MentorDashboard() {
       return
     }
 
-    const userRole = (session.user as SessionUser)?.role || 'STUDENT'
+    const userRole = (session.user as SessionUser)?.role || 'PROSPECT'
     
     // Redirect to appropriate dashboard based on role
     if (userRole !== 'MENTOR') {
-      if (userRole === 'STUDENT') {
+      if (userRole === 'PROSPECT') {
+        router.push('/dashboard/prospect')
+      } else if (userRole === 'CONSULTED_STUDENT') {
         router.push('/dashboard/student')
+      } else if (userRole === 'PARENT') {
+        router.push('/dashboard/parent')
       } else if (userRole === 'ADMIN') {
         router.push('/admin')
       } else {

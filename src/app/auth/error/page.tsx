@@ -106,7 +106,7 @@ function AuthErrorContent() {
           )}
           
           <div className="text-center text-sm text-gray-500">
-            <p>Need help? Contact us at support@trys4s.com</p>
+            <p>Need help? Contact us at info@trys4s.com</p>
           </div>
         </CardContent>
       </Card>

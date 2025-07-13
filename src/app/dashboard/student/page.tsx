@@ -48,11 +48,15 @@ export default function StudentDashboard() {
       return
     }
 
-    const userRole = (session.user as SessionUser)?.role || 'STUDENT'
+    const userRole = (session.user as SessionUser)?.role || 'PROSPECT'
     
     // Redirect to appropriate dashboard based on role
-    if (userRole !== 'STUDENT') {
-      if (userRole === 'MENTOR') {
+    if (userRole !== 'CONSULTED_STUDENT' && userRole !== 'STUDENT') {
+      if (userRole === 'PROSPECT') {
+        router.push('/dashboard/prospect')
+      } else if (userRole === 'PARENT') {
+        router.push('/dashboard/parent')
+      } else if (userRole === 'MENTOR') {
         router.push('/dashboard/mentor')
       } else if (userRole === 'ADMIN') {
         router.push('/admin')
