@@ -10,10 +10,11 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
+    formats: ['image/webp', 'image/avif'],
   },
   // SEO optimizations
   experimental: {
-    optimizePackageImports: ['@/components/ui'],
+    optimizePackageImports: ['@/components/ui', 'lucide-react'],
   },
   // Enable compression
   compress: true,
@@ -21,6 +22,10 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   // Performance optimizations
   poweredByHeader: false,
+  // Build optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 };
 
 export default nextConfig;

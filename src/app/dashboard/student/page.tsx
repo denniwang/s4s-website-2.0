@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -21,6 +21,16 @@ interface AssignedMentor {
   calendlyLink: string
 }
 
+interface PaymentMethod {
+  id: string
+  card: {
+    brand: string
+    last4: string
+    exp_month: number
+    exp_year: number
+  }
+}
+
 
 
 interface SessionUser {
@@ -33,6 +43,7 @@ export default function StudentDashboard() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [assignedMentor, setAssignedMentor] = useState<AssignedMentor | null>(null)
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null)
 
   // Role-based protection
   useEffect(() => {
@@ -62,6 +73,31 @@ export default function StudentDashboard() {
     }
   }, [session, status, router])
 
+  // Fetch student data function
+  const fetchStudentData = useCallback(async () => {
+    if (!session?.user?.email) {
+      return
+    }
+
+    try {
+      // Fetch assigned mentor
+      const mentorResponse = await fetch(`/api/students/${session.user?.email}/mentor`)
+      if (mentorResponse.ok) {
+        const mentorData = await mentorResponse.json()
+        setAssignedMentor(mentorData.mentor)
+      }
+
+      // Fetch existing payment method
+      const paymentResponse = await fetch('/api/stripe/get-payment-method')
+      if (paymentResponse.ok) {
+        const paymentData = await paymentResponse.json()
+        setPaymentMethod(paymentData.paymentMethod)
+      }
+    } catch (error) {
+      console.error("Error fetching student data:", error)
+    }
+  }, [session?.user?.email])
+
   // Fetch assigned mentor
   useEffect(() => {
     if (status === 'loading') return
@@ -70,21 +106,8 @@ export default function StudentDashboard() {
       return
     }
 
-    const fetchStudentData = async () => {
-      try {
-        // Fetch assigned mentor
-        const mentorResponse = await fetch(`/api/students/${session.user?.email}/mentor`)
-        if (mentorResponse.ok) {
-          const mentorData = await mentorResponse.json()
-          setAssignedMentor(mentorData.mentor)
-        }
-      } catch (error) {
-        console.error("Error fetching student data:", error)
-      }
-    }
-
     fetchStudentData()
-  }, [session, status])
+  }, [session, status, fetchStudentData])
 
   const openCalendly = (calendlyLink: string) => {
     window.open(calendlyLink, '_blank')
@@ -148,7 +171,9 @@ export default function StudentDashboard() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-600">Payment Method</p>
-                    <p className="text-2xl font-bold text-gray-900">Add</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {paymentMethod ? 'Added' : 'Missing'}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -159,8 +184,11 @@ export default function StudentDashboard() {
           <div className="mb-8 flex justify-center">
             <div className="w-full max-w-md">
               <StripePayment 
-                onPaymentMethodAdded={(paymentMethodId) => {
+                existingPaymentMethod={paymentMethod}
+                onPaymentMethodAdded={async (paymentMethodId) => {
                   console.log('Payment method added:', paymentMethodId)
+                  // Refresh payment method data
+                  await fetchStudentData()
                 }}
                 onError={(error) => {
                   console.error('Payment error:', error)

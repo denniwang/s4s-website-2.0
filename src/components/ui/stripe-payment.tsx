@@ -12,15 +12,25 @@ import type { Stripe, StripeElements } from '@stripe/stripe-js'
 interface StripePaymentProps {
   onPaymentMethodAdded?: (paymentMethodId: string) => void
   onError?: (error: string) => void
+  existingPaymentMethod?: {
+    id: string
+    card: {
+      brand: string
+      last4: string
+      exp_month: number
+      exp_year: number
+    }
+  } | null
 }
 
-export function StripePayment({ onPaymentMethodAdded, onError }: StripePaymentProps) {
+export function StripePayment({ onPaymentMethodAdded, onError, existingPaymentMethod }: StripePaymentProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [paymentMethodId, setPaymentMethodId] = useState<string | null>(null)
+  const [paymentMethodId, setPaymentMethodId] = useState<string | null>(existingPaymentMethod?.id || null)
   const [error, setError] = useState<string | null>(null)
   const [stripe, setStripe] = useState<Stripe | null>(null)
   const [elements, setElements] = useState<StripeElements | null>(null)
   const [cardholderName, setCardholderName] = useState('')
+  const [showChangeForm, setShowChangeForm] = useState(false)
   const cardElementRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -31,6 +41,11 @@ export function StripePayment({ onPaymentMethodAdded, onError }: StripePaymentPr
     }
     loadStripe()
   }, [])
+
+  // Update payment method ID when existing payment method changes
+  useEffect(() => {
+    setPaymentMethodId(existingPaymentMethod?.id || null)
+  }, [existingPaymentMethod])
 
   useEffect(() => {
     if (stripe && cardElementRef.current) {
@@ -79,7 +94,9 @@ export function StripePayment({ onPaymentMethodAdded, onError }: StripePaymentPr
       })
 
       if (!response.ok) {
-        throw new Error('Failed to create setup intent')
+        const errorData = await response.json()
+        console.error('Setup intent error:', errorData)
+        throw new Error(errorData.details || errorData.error || 'Failed to create setup intent')
       }
 
       const { clientSecret } = await response.json()
@@ -100,9 +117,8 @@ export function StripePayment({ onPaymentMethodAdded, onError }: StripePaymentPr
         throw new Error(confirmError.message)
       }
 
-      if (setupIntent?.payment_method) {
+                    if (setupIntent?.payment_method) {
         const paymentMethodId = setupIntent.payment_method as string
-        setPaymentMethodId(paymentMethodId)
         
         // Save payment method to database
         try {
@@ -116,12 +132,16 @@ export function StripePayment({ onPaymentMethodAdded, onError }: StripePaymentPr
 
           if (!saveResponse.ok) {
             console.error('Failed to save payment method to database')
+          } else {
+            // Only update state after successful save
+            setPaymentMethodId(paymentMethodId)
+            setShowChangeForm(false) // Hide the change form
+            onPaymentMethodAdded?.(paymentMethodId)
           }
         } catch (err) {
           console.error('Error saving payment method:', err)
+          throw new Error('Failed to save payment method')
         }
-
-        onPaymentMethodAdded?.(paymentMethodId)
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred'
@@ -144,18 +164,58 @@ export function StripePayment({ onPaymentMethodAdded, onError }: StripePaymentPr
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {paymentMethodId ? (
+        {paymentMethodId && !showChangeForm ? (
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-green-600">
               <CheckCircle className="h-5 w-5" />
-              <span className="font-medium">Payment method added successfully!</span>
+              <span className="font-medium">
+                {existingPaymentMethod ? 'Payment Method' : 'Payment method added successfully!'}
+              </span>
             </div>
-            <Badge variant="secondary" className="text-xs">
-              Payment Method ID: {paymentMethodId.slice(-4)}
-            </Badge>
+            
+            {existingPaymentMethod ? (
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <CreditCard className="h-5 w-5 text-gray-600" />
+                  <div>
+                    <p className="font-medium text-gray-900">
+                      {existingPaymentMethod.card.brand.charAt(0).toUpperCase() + existingPaymentMethod.card.brand.slice(1)} •••• {existingPaymentMethod.card.last4}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Expires {existingPaymentMethod.card.exp_month}/{existingPaymentMethod.card.exp_year}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Badge variant="secondary" className="text-xs">
+                Payment Method ID: {paymentMethodId.slice(-4)}
+              </Badge>
+            )}
+            
+            <Button 
+              variant="outline" 
+              onClick={() => setShowChangeForm(true)}
+              className="w-full"
+            >
+              Change Payment Method
+            </Button>
           </div>
         ) : (
           <div className="space-y-4">
+            {showChangeForm && (
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-medium">Change Payment Method</h3>
+                <Button 
+                  variant="ghost" 
+                  onClick={() => setShowChangeForm(false)}
+                  className="text-sm"
+                >
+                  Cancel
+                </Button>
+              </div>
+            )}
+            
             <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg">
               <Shield className="h-5 w-5 text-blue-600 mt-0.5" />
               <div className="text-sm text-blue-800">
@@ -206,7 +266,7 @@ export function StripePayment({ onPaymentMethodAdded, onError }: StripePaymentPr
                 disabled={isLoading}
                 className="w-full"
               >
-                {isLoading ? 'Adding Payment Method...' : 'Add Payment Method'}
+                {isLoading ? 'Adding Payment Method...' : (showChangeForm ? 'Update Payment Method' : 'Add Payment Method')}
               </Button>
             </div>
           </div>
