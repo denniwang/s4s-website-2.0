@@ -30,6 +30,12 @@ interface User {
   major?: string
   bio?: string
   createdAt: string
+  assignedMentorId?: string
+  assignedMentor?: {
+    id: string
+    name: string
+    email: string
+  }
 }
 
 interface SessionUser {
@@ -41,12 +47,16 @@ export default function AdminPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [users, setUsers] = useState<User[]>([])
+  const [mentors, setMentors] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [promotingUser, setPromotingUser] = useState<string | null>(null)
+  const [assigningMentor, setAssigningMentor] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState("ALL")
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [pendingRoleChange, setPendingRoleChange] = useState<{ userId: string; newRole: string; userName: string } | null>(null)
+  const [showMentorDialog, setShowMentorDialog] = useState(false)
+  const [pendingMentorAssignment, setPendingMentorAssignment] = useState<{ studentId: string; studentName: string; mentorId: string; mentorName: string } | null>(null)
 
   // Role-based protection
   useEffect(() => {
@@ -92,6 +102,10 @@ export default function AdminPage() {
       if (response.ok) {
         const data = await response.json()
         setUsers(data.users)
+        
+        // Filter mentors from users
+        const mentorUsers = data.users.filter((user: User) => user.role === "MENTOR")
+        setMentors(mentorUsers)
       }
     } catch (error) {
       console.error("Error fetching users:", error)
@@ -163,6 +177,58 @@ export default function AdminPage() {
   const cancelRoleChange = () => {
     setShowConfirmDialog(false)
     setPendingRoleChange(null)
+  }
+
+  const assignMentor = async (studentId: string, mentorId: string, studentName: string, mentorName: string) => {
+    setAssigningMentor(studentId)
+    try {
+      const response = await fetch("/api/admin/assign-mentor", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ studentId, mentorId }),
+      })
+
+      if (response.ok) {
+        // Update the user in the local state
+        setUsers(users.map(user => 
+          user.id === studentId ? { 
+            ...user, 
+            assignedMentorId: mentorId, 
+            assignedMentor: { id: mentorId, name: mentorName, email: '' }
+          } : user
+        ))
+        
+        alert(`Successfully assigned ${mentorName} as mentor for ${studentName}`)
+      } else {
+        alert("Failed to assign mentor")
+      }
+    } catch (error) {
+      console.error("Error assigning mentor:", error)
+      alert("Error assigning mentor")
+    } finally {
+      setAssigningMentor(null)
+    }
+  }
+
+  const handleMentorAssignment = (studentId: string, mentorId: string, studentName: string, mentorName: string) => {
+    setPendingMentorAssignment({ studentId, studentName, mentorId, mentorName })
+    setShowMentorDialog(true)
+  }
+
+  const confirmMentorAssignment = async () => {
+    if (!pendingMentorAssignment) return
+
+    const { studentId, mentorId, studentName, mentorName } = pendingMentorAssignment
+    await assignMentor(studentId, mentorId, studentName, mentorName)
+    setShowMentorDialog(false)
+    setPendingMentorAssignment(null)
+  }
+
+  const cancelMentorAssignment = () => {
+    setShowMentorDialog(false)
+    setPendingMentorAssignment(null)
   }
 
   const filteredUsers = users.filter(user => {
@@ -300,6 +366,7 @@ export default function AdminPage() {
                     <TableHead>Email</TableHead>
                     <TableHead>Role</TableHead>
                     <TableHead>Details</TableHead>
+                    <TableHead>Mentor</TableHead>
                     <TableHead>Joined</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
@@ -335,6 +402,58 @@ export default function AdminPage() {
                             </>
                           )}
                         </div>
+                      </TableCell>
+                      <TableCell>
+                        {user.role === "CONSULTED_STUDENT" ? (
+                          user.assignedMentor ? (
+                            <div className="flex items-center gap-2">
+                              <Badge variant="outline">{user.assignedMentor.name || user.assignedMentor.email}</Badge>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  const mentor = mentors.find(m => m.id === user.assignedMentorId)
+                                  if (mentor) {
+                                    handleMentorAssignment(user.id, mentor.id, user.name || user.email, mentor.name || mentor.email)
+                                  }
+                                }}
+                                disabled={assigningMentor === user.id}
+                              >
+                                Change
+                              </Button>
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm text-gray-500">No mentor assigned</span>
+                              <Select
+                                value=""
+                                onValueChange={(mentorId) => {
+                                  const mentor = mentors.find(m => m.id === mentorId)
+                                  if (mentor) {
+                                    handleMentorAssignment(user.id, mentorId, user.name || user.email, mentor.name || mentor.email)
+                                  }
+                                }}
+                                disabled={assigningMentor === user.id}
+                              >
+                                <SelectTrigger className="w-32">
+                                  <SelectValue placeholder="Assign mentor" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {mentors.map((mentor) => (
+                                    <SelectItem key={mentor.id} value={mentor.id}>
+                                      {mentor.name || mentor.email}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                          )
+                        ) : (
+                          <span className="text-sm text-gray-400">N/A</span>
+                        )}
+                        {assigningMentor === user.id && (
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 ml-2"></div>
+                        )}
                       </TableCell>
                       <TableCell>
                         {new Date(user.createdAt).toLocaleDateString()}
@@ -391,6 +510,27 @@ export default function AdminPage() {
             </Button>
             <Button onClick={confirmRoleChange} disabled={promotingUser === pendingRoleChange?.userId}>
               {promotingUser === pendingRoleChange?.userId ? "Changing..." : "Confirm Change"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Mentor Assignment Dialog */}
+      <Dialog open={showMentorDialog} onOpenChange={setShowMentorDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Mentor Assignment</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to assign {pendingMentorAssignment?.mentorName} as the mentor for{' '}
+              <span className="font-semibold">{pendingMentorAssignment?.studentName}</span>?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={cancelMentorAssignment}>
+              Cancel
+            </Button>
+            <Button onClick={confirmMentorAssignment} disabled={assigningMentor === pendingMentorAssignment?.studentId}>
+              {assigningMentor === pendingMentorAssignment?.studentId ? "Assigning..." : "Confirm Assignment"}
             </Button>
           </DialogFooter>
         </DialogContent>

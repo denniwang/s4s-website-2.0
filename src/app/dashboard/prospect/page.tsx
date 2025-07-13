@@ -98,50 +98,6 @@ export default function ProspectDashboard() {
               </Button>
             </CardContent>
           </Card>
-
-          {/* Learn More Card */}
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-100 rounded-full">
-                  <BookOpen className="h-6 w-6 text-green-600" />
-                </div>
-                <CardTitle className="text-xl">Learn About Our Services</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-gray-700 mb-4">
-                Discover how our experienced mentors can guide you through the college application process.
-              </CardDescription>
-              <Button variant="outline" className="w-full">
-                <BookOpen className="h-4 w-4 mr-2" />
-                Explore Services
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Meet Mentors Card */}
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-purple-100 rounded-full">
-                  <Users className="h-6 w-6 text-purple-600" />
-                </div>
-                <CardTitle className="text-xl">Meet Our Mentors</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-gray-700 mb-4">
-                Browse profiles of our successful mentors from top universities.
-              </CardDescription>
-              <Button variant="outline" className="w-full">
-                <Users className="h-4 w-4 mr-2" />
-                View Mentors
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Next Steps Section */}

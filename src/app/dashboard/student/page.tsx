@@ -6,11 +6,10 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Users, ExternalLink, Search,  GraduationCap, DollarSign, Clock } from "lucide-react"
+import { Users, ExternalLink, GraduationCap, DollarSign, Clock, Calendar, MessageSquare } from "lucide-react"
+import { StripePayment } from "@/components/ui/stripe-payment"
 
-interface Mentor {
+interface AssignedMentor {
   id: string
   name: string
   email: string
@@ -19,8 +18,17 @@ interface Mentor {
   university: string
   major: string
   expertise: string[]
-  hourlyRate: number
   calendlyLink: string
+}
+
+interface Session {
+  id: string
+  date: string
+  time: string
+  duration: number
+  status: 'SCHEDULED' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED'
+  mentorId: string
+  mentorName: string
 }
 
 interface SessionUser {
@@ -32,12 +40,9 @@ interface SessionUser {
 export default function StudentDashboard() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [mentors, setMentors] = useState<Mentor[]>([])
-  const [filteredMentors, setFilteredMentors] = useState<Mentor[]>([])
-  const [isLoadingMentors, setIsLoadingMentors] = useState(true)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [expertiseFilter, setExpertiseFilter] = useState("ALL")
-  const [priceFilter, setPriceFilter] = useState("ALL")
+  const [assignedMentor, setAssignedMentor] = useState<AssignedMentor | null>(null)
+  const [sessions, setSessions] = useState<Session[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   // Role-based protection
   useEffect(() => {
@@ -67,95 +72,50 @@ export default function StudentDashboard() {
     }
   }, [session, status, router])
 
-  // Fetch mentors only when session is available
+  // Fetch assigned mentor and sessions
   useEffect(() => {
     if (status === 'loading') return
     
     if (!session?.user?.email) {
-      setIsLoadingMentors(false)
+      setIsLoading(false)
       return
     }
 
-    const fetchMentors = async () => {
-      setIsLoadingMentors(true)
+    const fetchStudentData = async () => {
+      setIsLoading(true)
       try {
-        const response = await fetch("/api/users?role=MENTOR")
-        if (response.ok) {
-          const data = await response.json()
-          setMentors(Array.isArray(data) ? data : [])
-        } else {
-          setMentors([])
+        // Fetch assigned mentor
+        const mentorResponse = await fetch(`/api/students/${session.user?.email}/mentor`)
+        if (mentorResponse.ok) {
+          const mentorData = await mentorResponse.json()
+          setAssignedMentor(mentorData.mentor)
+        }
+
+        // Fetch sessions
+        const sessionsResponse = await fetch(`/api/students/${session.user?.email}/sessions`)
+        if (sessionsResponse.ok) {
+          const sessionsData = await sessionsResponse.json()
+          setSessions(sessionsData.sessions)
         }
       } catch (error) {
-        console.error("Error fetching mentors:", error)
-        setMentors([])
+        console.error("Error fetching student data:", error)
       } finally {
-        setIsLoadingMentors(false)
+        setIsLoading(false)
       }
     }
 
-    fetchMentors()
+    fetchStudentData()
   }, [session, status])
-
-  // Filter mentors based on search and filters
-  useEffect(() => {
-    let filtered = mentors
-
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(mentor =>
-        mentor.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        mentor.major?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        mentor.university?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        mentor.expertise?.some(exp => exp.toLowerCase().includes(searchTerm.toLowerCase()))
-      )
-    }
-
-    // Filter by expertise
-    if (expertiseFilter !== "ALL") {
-      filtered = filtered.filter(mentor =>
-        mentor.expertise?.some(exp => exp.toLowerCase() === expertiseFilter.toLowerCase())
-      )
-    }
-
-    // Filter by price
-    if (priceFilter !== "ALL") {
-      filtered = filtered.filter(mentor => {
-        const rate = mentor.hourlyRate || 0
-        switch (priceFilter) {
-          case "UNDER_50":
-            return rate < 50
-          case "50_100":
-            return rate >= 50 && rate <= 100
-          case "OVER_100":
-            return rate > 100
-          default:
-            return true
-        }
-      })
-    }
-
-    setFilteredMentors(filtered)
-  }, [mentors, searchTerm, expertiseFilter, priceFilter])
-
-  // Get unique expertise areas for filter
-  const getAllExpertise = () => {
-    const expertiseSet = new Set<string>()
-    mentors.forEach(mentor => {
-      mentor.expertise?.forEach(exp => expertiseSet.add(exp))
-    })
-    return Array.from(expertiseSet).sort()
-  }
 
   const openCalendly = (calendlyLink: string) => {
     window.open(calendlyLink, '_blank')
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 lg:w-[50vw]">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Student Dashboard</h1>
-        <p className="text-gray-600 mt-2">Find mentors and book sessions through Calendly</p>
+        <p className="text-gray-600 mt-2">View your assigned mentor and manage your sessions</p>
       </div>
 
       {/* Show loading state while session is loading */}
@@ -178,8 +138,10 @@ export default function StudentDashboard() {
                     <Users className="h-6 w-6 text-blue-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Available Mentors</p>
-                    <p className="text-2xl font-bold text-gray-900">{mentors.length}</p>
+                    <p className="text-sm font-medium text-gray-600">Assigned Mentor</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {assignedMentor ? 'Yes' : 'No'}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -189,11 +151,11 @@ export default function StudentDashboard() {
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4">
                   <div className="p-2 bg-green-100 rounded-lg">
-                    <GraduationCap className="h-6 w-6 text-green-600" />
+                    <Calendar className="h-6 w-6 text-green-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Expertise Areas</p>
-                    <p className="text-2xl font-bold text-gray-900">{getAllExpertise().length}</p>
+                    <p className="text-sm font-medium text-gray-600">Total Sessions</p>
+                    <p className="text-2xl font-bold text-gray-900">{sessions.length}</p>
                   </div>
                 </div>
               </CardContent>
@@ -206,154 +168,96 @@ export default function StudentDashboard() {
                     <DollarSign className="h-6 w-6 text-orange-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Avg. Rate</p>
-                    <p className="text-2xl font-bold text-gray-900">
-                      ${mentors.length > 0 ? Math.round(mentors.reduce((sum, m) => sum + (m.hourlyRate || 0), 0) / mentors.length) : 0}/hr
-                    </p>
+                    <p className="text-sm font-medium text-gray-600">Payment Method</p>
+                    <p className="text-2xl font-bold text-gray-900">Add</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Search and Filters */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Find a Mentor</CardTitle>
-              <CardDescription>
-                Search and filter mentors by expertise, price, and more
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="md:col-span-2">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                    <Input
-                      placeholder="Search mentors by name, major, university, or expertise..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
-                    />
+          {/* Payment Method Section */}
+          <div className="mb-8 flex justify-center">
+            <div className="w-full max-w-md">
+              <StripePayment 
+                onPaymentMethodAdded={(paymentMethodId) => {
+                  console.log('Payment method added:', paymentMethodId)
+                }}
+                onError={(error) => {
+                  console.error('Payment error:', error)
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Assigned Mentor Section */}
+          {assignedMentor ? (
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="h-5 w-5" />
+                  Your Assigned Mentor
+                </CardTitle>
+                <CardDescription>
+                  Your mentor will help guide you through your college application process
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">{assignedMentor.name}</h3>
+                    <p className="text-gray-600 mb-2">{assignedMentor.major} • {assignedMentor.university}</p>
+                    {assignedMentor.bio && (
+                      <p className="text-sm text-gray-600 mb-4">{assignedMentor.bio}</p>
+                    )}
+                    
+                    {assignedMentor.expertise && assignedMentor.expertise.length > 0 && (
+                      <div className="mb-4">
+                        <p className="text-sm font-medium text-gray-700 mb-2">Expertise:</p>
+                        <div className="flex flex-wrap gap-1">
+                          {assignedMentor.expertise.map((exp, index) => (
+                            <Badge key={index} variant="outline" className="text-xs">
+                              {exp}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="space-y-4">
+                    {assignedMentor.calendlyLink ? (
+                      <Button 
+                        onClick={() => openCalendly(assignedMentor.calendlyLink)}
+                        className="w-full"
+                      >
+                        <ExternalLink className="h-4 w-4 mr-2" />
+                        Book Session
+                      </Button>
+                    ) : (
+                      <Button 
+                        variant="outline" 
+                        className="w-full" 
+                        disabled
+                      >
+                        <Clock className="h-4 w-4 mr-2" />
+                        Not Available
+                      </Button>
+                    )}
                   </div>
                 </div>
-                <div>
-                  <Select value={expertiseFilter} onValueChange={setExpertiseFilter}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Expertise" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="ALL">All Expertise</SelectItem>
-                      {getAllExpertise().map(expertise => (
-                        <SelectItem key={expertise} value={expertise}>
-                          {expertise}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Select value={priceFilter} onValueChange={setPriceFilter}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Price Range" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="ALL">All Prices</SelectItem>
-                      <SelectItem value="UNDER_50">Under $50/hr</SelectItem>
-                      <SelectItem value="50_100">$50-$100/hr</SelectItem>
-                      <SelectItem value="OVER_100">Over $100/hr</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Mentors Grid */}
-          {isLoadingMentors ? (
-            <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
-              <p className="text-sm text-gray-600 mt-2">Loading mentors...</p>
-            </div>
-          ) : filteredMentors.length === 0 ? (
-            <Card>
-              <CardContent className="p-8 text-center">
-                <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">No mentors found</h3>
-                <p className="text-gray-600">
-                  {searchTerm || expertiseFilter !== "ALL" || priceFilter !== "ALL" 
-                    ? "Try adjusting your search criteria or filters."
-                    : "No mentors are currently available. Please check back later."
-                  }
-                </p>
               </CardContent>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredMentors.map((mentor) => (
-                <Card key={mentor.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <CardTitle className="text-lg">{mentor.name}</CardTitle>
-                        <CardDescription>
-                          {mentor.major} • {mentor.university}
-                        </CardDescription>
-                      </div>
-                      <Badge variant="secondary" className="ml-2">
-                        ${mentor.hourlyRate || 0}/hr
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {mentor.bio && (
-                        <p className="text-sm text-gray-600 line-clamp-3">
-                          {mentor.bio}
-                        </p>
-                      )}
-                      
-                      {mentor.expertise && mentor.expertise.length > 0 && (
-                        <div>
-                          <p className="text-sm font-medium text-gray-700 mb-2">Expertise:</p>
-                          <div className="flex flex-wrap gap-1">
-                            {mentor.expertise.slice(0, 3).map((exp, index) => (
-                              <Badge key={index} variant="outline" className="text-xs">
-                                {exp}
-                              </Badge>
-                            ))}
-                            {mentor.expertise.length > 3 && (
-                              <Badge variant="outline" className="text-xs">
-                                +{mentor.expertise.length - 3} more
-                              </Badge>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
-                      {mentor.calendlyLink ? (
-                        <Button 
-                          onClick={() => openCalendly(mentor.calendlyLink)}
-                          className="w-full"
-                        >
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          Book Session
-                        </Button>
-                      ) : (
-                        <Button 
-                          variant="outline" 
-                          className="w-full" 
-                          disabled
-                        >
-                          <Clock className="h-4 w-4 mr-2" />
-                          Not Available
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <Card className="mb-8">
+              <CardContent className="p-8 text-center">
+                <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">No Mentor Assigned</h3>
+                <p className="text-gray-600 mb-4">
+                  An admin will assign you a mentor soon. You'll be notified when your mentor is ready.
+                </p>
+              </CardContent>
+            </Card>
           )}
         </>
       )}

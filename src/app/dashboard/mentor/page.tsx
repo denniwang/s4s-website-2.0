@@ -20,7 +20,6 @@ interface MentorProfile {
   major: string
   bio: string
   expertise: string[]
-  hourlyRate: number
   timezone: string
   calendlyLink: string
 }
@@ -45,8 +44,7 @@ export default function MentorDashboard() {
     major: "",
     bio: "",
     expertise: "",
-    hourlyRate: "",
-    timezone: "America/New_York",
+    timezone: "America/Los_Angeles",
     calendlyLink: ""
   })
 
@@ -101,8 +99,7 @@ export default function MentorDashboard() {
           major: data.profile.major || "",
           bio: data.profile.bio || "",
           expertise: Array.isArray(data.profile.expertise) ? data.profile.expertise.join(", ") : "",
-          hourlyRate: data.profile.hourlyRate?.toString() || "",
-          timezone: data.profile.timezone || "America/New_York",
+          timezone: data.profile.timezone || "America/Los_Angeles",
           calendlyLink: data.profile.calendlyLink || ""
         })
       }
@@ -130,7 +127,6 @@ export default function MentorDashboard() {
           major: profileForm.major,
           bio: profileForm.bio,
           expertise: expertiseArray,
-          hourlyRate: parseFloat(profileForm.hourlyRate) || null,
           timezone: profileForm.timezone,
           calendlyLink: profileForm.calendlyLink
         }),
@@ -226,15 +222,7 @@ export default function MentorDashboard() {
                         onChange={(e) => setProfileForm(prev => ({ ...prev, expertise: e.target.value }))}
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="hourlyRate">Hourly Rate ($)</Label>
-                      <Input
-                        id="hourlyRate"
-                        type="number"
-                        value={profileForm.hourlyRate}
-                        onChange={(e) => setProfileForm(prev => ({ ...prev, hourlyRate: e.target.value }))}
-                      />
-                    </div>
+
                     <div>
                       <Label htmlFor="timezone">Timezone</Label>
                       <Select
@@ -308,10 +296,7 @@ export default function MentorDashboard() {
                         )) || <span className="text-gray-400">Not set</span>}
                       </div>
                     </div>
-                    <div>
-                      <span className="text-sm text-gray-500">Hourly Rate</span>
-                      <p className="font-medium">${profile?.hourlyRate || 0}/hour</p>
-                    </div>
+
                     <div>
                       <span className="text-sm text-gray-500">Timezone</span>
                       <p className="font-medium">{profile?.timezone || "Not set"}</p>

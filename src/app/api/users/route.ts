@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
         major: true,
         bio: true,
         expertise: true,
-        hourlyRate: true,
+
         grade: true,
         school: true,
         graduationYear: true,

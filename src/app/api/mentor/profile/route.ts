@@ -48,7 +48,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { university, major, bio, expertise, hourlyRate, timezone, calendlyLink } = body
+    const { university, major, bio, expertise, timezone, calendlyLink } = body
 
     // Update the mentor's profile
     const updatedUser = await prisma.user.update({
@@ -58,8 +58,7 @@ export async function PUT(request: NextRequest) {
         major: major || null,
         bio: bio || null,
         expertise: expertise || [],
-        hourlyRate: hourlyRate || null,
-        timezone: timezone || "America/New_York",
+        timezone: timezone || "America/Los_Angeles",
         calendlyLink: calendlyLink || null,
       },
     })

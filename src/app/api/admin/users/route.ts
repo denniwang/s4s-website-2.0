@@ -33,6 +33,14 @@ export async function GET() {
         major: true,
         bio: true,
         createdAt: true,
+        assignedMentorId: true,
+        assignedMentor: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          }
+        },
       },
       orderBy: {
         createdAt: 'desc'
