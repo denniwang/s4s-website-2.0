@@ -114,7 +114,7 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 lg:w-[50vw]">
+    <div className="container mx-auto px-4 py-8 lg:w-[60vw]">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Student Dashboard</h1>
         <p className="text-gray-600 mt-2">View your assigned mentor and manage your sessions</p>

@@ -48,9 +48,10 @@ export function StripePayment({ onPaymentMethodAdded, onError, existingPaymentMe
   }, [existingPaymentMethod])
 
   useEffect(() => {
-    if (stripe && cardElementRef.current) {
-      const elementsInstance = stripe.elements()
-      const cardElement = elementsInstance.create('card', {
+    let cardElement: any = null;
+    if (stripe && cardElementRef.current && (showChangeForm || !existingPaymentMethod)) {
+      const elementsInstance = stripe.elements();
+      cardElement = elementsInstance.create('card', {
         style: {
           base: {
             fontSize: '16px',
@@ -64,11 +65,20 @@ export function StripePayment({ onPaymentMethodAdded, onError, existingPaymentMe
           },
         },
         hidePostalCode: false, // Show postal code field
-      })
-      cardElement.mount(cardElementRef.current)
-      setElements(elementsInstance)
+      });
+      cardElement.mount(cardElementRef.current);
+      setElements(elementsInstance);
     }
-  }, [stripe])
+    // Cleanup: unmount card element when hiding form or unmounting component
+    return () => {
+      if (cardElement) {
+        cardElement.unmount();
+      }
+      if (cardElementRef.current) {
+        cardElementRef.current.innerHTML = '';
+      }
+    };
+  }, [stripe, showChangeForm, existingPaymentMethod]);
 
   const handleAddPaymentMethod = async () => {
     if (!stripe || !elements) {
