@@ -48,6 +48,7 @@ export function StripePayment({ onPaymentMethodAdded, onError, existingPaymentMe
   }, [existingPaymentMethod])
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let cardElement: any = null;
     if (stripe && cardElementRef.current && (showChangeForm || !existingPaymentMethod)) {
       const elementsInstance = stripe.elements();
