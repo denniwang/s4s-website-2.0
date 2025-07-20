@@ -36,7 +36,7 @@ export default function WebinarModal({ showModal, setShowModal }: WebinarModalPr
             <div className="bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 p-4 rounded-lg text-left mx-auto max-w-xs space-y-2 text-md">
               <div className="flex items-center gap-2">
                 <span>🗓️</span>
-                <span>July 13, 2025</span>
+                <span>July 27th, Aug 3rd 2025</span>
               </div>
               <div className="flex items-center gap-2">
                 <span>🕒</span>
@@ -52,7 +52,7 @@ export default function WebinarModal({ showModal, setShowModal }: WebinarModalPr
               </div>
             </div>
             <p className="text-sm text-gray-600 mt-4">
-              Spots are limited, go ahead and RSVP now and set your student on the path to success.
+              Go ahead and RSVP now and set your student on the path to success.
             </p>
           </div>
         </CredenzaDescription>
