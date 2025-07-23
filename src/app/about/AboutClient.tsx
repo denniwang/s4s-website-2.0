@@ -35,14 +35,21 @@ export default function AboutClient() {
       name: "Keyon Jazayeri",
       school: "UC Irvine '27",
       desc: "Keyon is a CS major, and loves to practice jiu-jitsu in his free time. You’ll probably meet him in an interview if you apply to join the team 😱 Good luck!",
-      delay: 200,
+      delay: 300,
     },
     {
       img: "Steven.jpg",
       name: "Steven Zhang",
       school: "Berkeley '27",
       desc: "Steven is a Microbial Biology major on the Pre-Med track at UC Berkeley. He loves working in the lab, playing sports and music, and working out in his free time.",
-      delay: 200,
+      delay: 400,
+    },
+    {
+      img: "Katherine.jpg",
+      name: "Katherine McDaniel",
+      school: "MIT '29",
+      desc: "Katherine is an aerospace engineering major at MIT. She loves 1D, Mamma Mia, and cafe hopping.",
+      delay: 400,
     },
   ];
 
