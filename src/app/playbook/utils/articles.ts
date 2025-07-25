@@ -31,7 +31,7 @@ export function getArticleData(id: string): ArticleData | null {
     const title = titleMatch ? titleMatch[1] : id;
 
     // Extract date and read time from the first line
-    const dateMatch = matterResult.content.match(/\*Published on (.+?) • (.+?) read\*/);
+    const dateMatch = matterResult.content.match(/Last updated on (.+?) • (.+?) read/);
     const date = dateMatch ? dateMatch[1] : 'July 2025';
     const readTime = dateMatch ? dateMatch[2] : '10 min';
     
@@ -60,7 +60,7 @@ export function getAllArticles(): ArticleData[] {
   const articles = articleIds
     .map((id) => getArticleData(id))
     .filter((article): article is ArticleData => article !== null)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    .sort((a, b) => a.title.localeCompare(b.title));
 
   return articles;
 } 
