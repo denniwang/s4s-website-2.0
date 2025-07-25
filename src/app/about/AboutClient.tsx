@@ -51,6 +51,20 @@ export default function AboutClient() {
       desc: "Katherine is an aerospace engineering major at MIT. She loves 1D, Mamma Mia, and cafe hopping.",
       delay: 400,
     },
+    {
+      img: "Zhihanna.jpg",
+      name: "Zhihanna Liu",
+      school: "Stanford '29",
+      desc: "Zhihanna is a Philosophy and Math major at Stanford on a Pre-Law track. She loves reading, going on walks, music, and experimenting in the kitchen!",
+      delay: 400,
+    },
+    {
+      img: "Nikki.jpg",
+      name: "Nikki Tran",
+      school: "UCLA '27",
+      desc: "Nikki is a Human Biology and Society major at UCLA! She loves to surf, play tennis and has an alarmingly unhealthy obsession with matcha :P",
+      delay: 400,
+    },
   ];
 
   useEffect(() => {
@@ -85,7 +99,7 @@ export default function AboutClient() {
               key={index} 
               className="bg-white rounded-lg shadow-lg p-6 text-center"
               data-aos="fade-up"
-              data-aos-delay={member.delay}
+              data-aos-delay={index*100}
             >
               <div className="mb-4">
                 <Image
