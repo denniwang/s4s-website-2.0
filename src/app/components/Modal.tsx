@@ -27,9 +27,9 @@ export default function Modal({ showModal, setShowModal }: ModalProps) {
   const [activeTab, setActiveTab] = useState<'student' | 'parent'>('student');
 
   const studentBenefits = [
-    "Build a standout application",
-    "Write memorable essays", 
-    "Find your perfect school match"
+    "Find something you actually enjoy doing",
+    "Build a standout college application",
+    "Write memorable essays",
   ];
 
   const parentBenefits = [
@@ -100,10 +100,10 @@ export default function Modal({ showModal, setShowModal }: ModalProps) {
                   Free
                 </div>
                 <h3 className="text-base font-semibold text-amber-800 mb-1">
-                  15-Minute Strategy Call
+                15 minute call
                 </h3>
                 <p className="text-sm text-amber-700">
-                  Get clarity on your next steps
+                Talk to us one-on-one where we discuss your profile, answer your questions, and match you with a mentor
                 </p>
               </div>
             </div>
@@ -151,7 +151,7 @@ export default function Modal({ showModal, setShowModal }: ModalProps) {
               className='duration-400 transform border transition-all hover:scale-105 bg-blue-500 hover:bg-blue-600 hover:shadow-lg w-full text-white'
             >
               <p className='text-sm md:text-base font-medium'>
-                {activeTab === 'student' ? 'Get My Free Session' : 'Get My Free Consultation'}
+                {activeTab === 'student' ? 'Book Now' : 'Get My Free Consultation'}
               </p>
             </Button>
           </a>
@@ -162,7 +162,7 @@ export default function Modal({ showModal, setShowModal }: ModalProps) {
               className='text-gray-500 hover:text-red-500 border-gray-300 w-full sm:w-auto'
               onClick={noModal}
             >
-              <p className='text-sm'>No thanks</p>
+              <p className='text-sm'>Miss out</p>
             </Button>
           </CredenzaClose>
           

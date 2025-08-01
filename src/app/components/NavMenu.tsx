@@ -43,8 +43,7 @@ export default function NavMenu() {
               <span className="cursor-pointer hover:bg-accent rounded-md p-3 text-blue-600">Sign up!</span>
               <div className="absolute right-0 mt-2 w-56 bg-background border border-gray-200 rounded-md shadow-lg opacity-0 group-hover/signup:opacity-100 group-hover/signup:visible invisible transition-opacity z-30">
                 <div className="flex flex-col">
-                  <Link href={LINKS.webinarRSVP} target="_blank" className="px-4 py-3 hover:bg-accent rounded-t-md">RSVP for Webinar</Link>
-                  <Link href={LINKS.calendly} target="_blank" className="px-4 py-3 hover:bg-accent rounded-b-md">Mentor Connect!</Link>
+                  <Link href={LINKS.calendly} target="_blank" className="px-4 py-3 hover:bg-accent rounded-b-md">Connect With a Mentor!</Link>
                 </div>
               </div>
             </NavigationMenuItem>
