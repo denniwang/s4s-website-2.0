@@ -10,39 +10,52 @@ import { LINKS } from "@/consts";
 export default function AboutClient() {
   const team = [
     {
-      img: "Andrew.jpg",
-      name: "Andrew Chen",
-      school: "UW Seattle '27",
-      desc: "Andrew is a CS TA and applied math major! Ever laughed or cringed at any of our TikTok’s? He’s the guy to blame.",
-      delay: 0,
-    },
-    {
       img: "Darsh.jpg",
       name: "Darsh Verma",
       school: "UCLA '27",
       desc: "Darsh is a math and CS major, and loves to grill. He will happily send you his Tandoori Chicken recipe (only if you buy S4S shares tho lol).",
-      delay: 200,
+    },
+    {
+      img: "Zhihanna.jpg",
+      name: "Zhihanna Liu",
+      school: "Stanford '29",
+      desc: "Zhihanna is a Philosophy and Math major at Stanford on a Pre-Law track. She loves reading, going on walks, music, and experimenting in the kitchen!",
+    },
+    {
+      img: "Andrew.jpg",
+      name: "Andrew Chen",
+      school: "UW Seattle '27",
+      desc: "Andrew is a CS TA and applied math major! Ever laughed or cringed at any of our TikTok’s? He’s the guy to blame.",
     },
     {
       img: "Dennis.jpg",
       name: "Dennis Wang",
       school: "Northeastern University '27",
       desc: "Howdy! I made everything you’re seeing so far. I’m a Business + CS major at Northeastern. if you have website feedback, DMs are open 😉",
-      delay: 300,
+    },
+    {
+      img: "Nikki.jpg",
+      name: "Nikki Tran",
+      school: "UCLA '27",
+      desc: "Nikki is a Human Biology and Society major at UCLA! She loves to surf, play tennis and has an alarmingly unhealthy obsession with matcha :P",
     },
     {
       img: "Keyon.jpg",
       name: "Keyon Jazayeri",
       school: "UC Irvine '27",
       desc: "Keyon is a CS major, and loves to practice jiu-jitsu in his free time. You’ll probably meet him in an interview if you apply to join the team 😱 Good luck!",
-      delay: 200,
     },
     {
       img: "Steven.jpg",
       name: "Steven Zhang",
       school: "Berkeley '27",
       desc: "Steven is a Microbial Biology major on the Pre-Med track at UC Berkeley. He loves working in the lab, playing sports and music, and working out in his free time.",
-      delay: 200,
+    },
+    {
+      img: "Katherine.jpg",
+      name: "Katherine McDaniel",
+      school: "MIT '29",
+      desc: "Katherine is an aerospace engineering major at MIT. She loves 1D, Mamma Mia, and cafe hopping.",
     },
   ];
 
@@ -78,7 +91,7 @@ export default function AboutClient() {
               key={index} 
               className="bg-white rounded-lg shadow-lg p-6 text-center"
               data-aos="fade-up"
-              data-aos-delay={member.delay}
+              data-aos-delay={index*100}
             >
               <div className="mb-4">
                 <Image

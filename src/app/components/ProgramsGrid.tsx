@@ -7,7 +7,7 @@ const pricingPlans = [
 		description: "Get expert feedback and polish your college essay at your own pace.",
 		features: [
 			"Detailed essay reviews by experienced mentors",
-			"48-hour turnaround available for an additional $15",
+			"48-hour turnaround available",
 			"Actionable suggestions to improve your writing",
 		],
 		buttonVariant: "outline" as const,
@@ -26,10 +26,10 @@ const pricingPlans = [
 	},
 	{
 		title: "Big Little Program",
-		description: "Comprehensive support for every aspect of your college application.",
+		description: "Comprehensive support for every aspect of your college application. \n\n Best for 9th - 11th graders.",
 		features: [
 			"Dedicated mentor for the entire application process",
-			"Support with essays, activity lists, and interviews",
+			"24/7 on-demand support with essays, activity lists, and interviews",
 			"Customized strategies to highlight your strengths",
 		],
 		isPopular: true,
