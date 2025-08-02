@@ -11,6 +11,7 @@ export interface ArticleData {
   date: string;
   readTime: string;
   content: string;
+  premium?: boolean;
 }
 
 export function getAllArticleIds(): string[] {
@@ -41,6 +42,9 @@ export function getArticleData(id: string): ArticleData | null {
     // Generate description from excerpt
     const description = paragraphs[2].substring(0, 130) + '...' || `Read our comprehensive guide on ${title.toLowerCase()}.`;
 
+    // Check if article is premium (from frontmatter)
+    const premium = matterResult.data.premium || false;
+
     return {
       id,
       title,
@@ -48,6 +52,7 @@ export function getArticleData(id: string): ArticleData | null {
       date,
       readTime,
       content: matterResult.content,
+      premium,
     };
   } catch (error) {
     console.error(`Error reading article ${id}:`, error);
@@ -63,4 +68,11 @@ export function getAllArticles(): ArticleData[] {
     .sort((a, b) => a.title.localeCompare(b.title));
 
   return articles;
+}
+
+export function getRelatedArticles(currentArticleId: string, limit: number = 2): ArticleData[] {
+  const allArticles = getAllArticles();
+  return allArticles
+    .filter(article => article.id !== currentArticleId)
+    .slice(0, limit);
 } 

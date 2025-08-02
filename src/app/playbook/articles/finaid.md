@@ -1,4 +1,8 @@
-# 6 - Making College Affordable 💰
+---
+premium: true
+---
+
+# 4 - Making College Affordable 💰
 
 Published on January 10, 2024 • 6 min read
 

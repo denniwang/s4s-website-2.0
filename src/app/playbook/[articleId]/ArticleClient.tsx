@@ -11,10 +11,12 @@ import EmailCaptureModal from "../components/EmailCaptureModal";
 
 interface Props {
   article: ArticleData;
+  relatedArticles: ArticleData[];
 }
 
-export default function ArticleClient({ article }: Props) {
+export default function ArticleClient({ article, relatedArticles }: Props) {
   const [showEmailModal, setShowEmailModal] = useState(false);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -79,6 +81,10 @@ export default function ArticleClient({ article }: Props) {
     setShowEmailModal(true);
   };
 
+  const handlePremiumArticleClick = () => {
+    setShowPremiumModal(true);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
@@ -105,10 +111,50 @@ export default function ArticleClient({ article }: Props) {
           </header>
 
           {/* Article Body */}
-          <div 
-            className="prose prose-lg max-w-none"
-            dangerouslySetInnerHTML={{ __html: renderMarkdown(article.content) }}
-          />
+          <div className="prose prose-lg max-w-none">
+            {article.premium ? (
+              <>
+                {/* Sticky Premium Overlay */}
+                <div className="sticky top-[30vh] z-10 mb-8 ">
+                  <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg shadow-lg p-6">
+                    <div className="text-center">
+                      <div className="mb-4">
+                        <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-bold mb-2">
+                        Premium Content
+                      </h3>
+                      <p className="text-blue-100 mb-6 max-w-md mx-auto">
+                        This article is part of our premium content. Enter your email to unlock the full article and get access to our complete playbook.
+                      </p>
+                      <Button 
+                        onClick={handlePremiumArticleClick}
+                        size="lg"
+                        className="bg-white text-blue-600 hover:bg-gray-100"
+                      >
+                        <Mail className="h-4 w-4 mr-2" />
+                        Unlock Article
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Blurred Content */}
+                <div 
+                  className="blur-sm pointer-events-none opacity-50"
+                  dangerouslySetInnerHTML={{ __html: renderMarkdown(article.content.substring(0, 500) + '...') }}
+                />
+              </>
+            ) : (
+              <div 
+                dangerouslySetInnerHTML={{ __html: renderMarkdown(article.content) }}
+              />
+            )}
+          </div>
         </article>
 
         {/* Email Capture Section */}
@@ -146,36 +192,33 @@ export default function ArticleClient({ article }: Props) {
         <div className="mt-12">
           <h3 className="text-2xl font-bold text-gray-900 mb-6">Continue Reading</h3>
           <div className="grid gap-6 md:grid-cols-2">
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                  The Ultimate College Application Timeline
-                </h4>
-                <p className="text-gray-600 mb-4">
-                  A month-by-month guide to staying organized and ahead of deadlines throughout your college application journey.
-                </p>
-                <Link href="/playbook/application-timeline">
-                  <Button variant="ghost" className="p-0 h-auto text-blue-600 hover:text-blue-700">
-                    Read More →
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                  Navigating Financial Aid: Scholarships, Grants, and More
-                </h4>
-                <p className="text-gray-600 mb-4">
-                  Everything you need to know about securing financial aid and making college affordable.
-                </p>
-                <Link href="/playbook/financial-aid-guide">
-                  <Button variant="ghost" className="p-0 h-auto text-blue-600 hover:text-blue-700">
-                    Read More →
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+            {relatedArticles.map((relatedArticle) => (
+              <Card key={relatedArticle.id} className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="text-lg font-semibold text-gray-900">
+                      {relatedArticle.title}
+                    </h4>
+                    {relatedArticle.premium && (
+                      <div className="flex items-center text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
+                        <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        Premium
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-gray-600 mb-4">
+                    {relatedArticle.description}
+                  </p>
+                  <Link href={`/playbook/${relatedArticle.id}`}>
+                    <Button variant="ghost" className="p-0 h-auto text-blue-600 hover:text-blue-700">
+                      Read More →
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </div>
@@ -185,6 +228,18 @@ export default function ArticleClient({ article }: Props) {
         isOpen={showEmailModal}
         onClose={() => setShowEmailModal(false)}
         onSubmit={handleEmailSubmit}
+      />
+
+      {/* Premium Article Modal */}
+      <EmailCaptureModal 
+        isOpen={showPremiumModal}
+        onClose={() => setShowPremiumModal(false)}
+        onSubmit={(email) => {
+          handleEmailSubmit(email);
+          setShowPremiumModal(false);
+        }}
+        title="Unlock Premium Article"
+        description="Enter your email to unlock this premium article and get access to our complete playbook with exclusive content."
       />
     </div>
   );

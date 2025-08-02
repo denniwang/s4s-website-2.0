@@ -1,4 +1,4 @@
-# Final Words of Wisdom: You're More Than an Application
+# You're More Than an Application ❤️
 
 Last updated on July 25, 2025 • 4 min read
 

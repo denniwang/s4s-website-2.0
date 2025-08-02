@@ -1,5 +1,5 @@
 
-# 1 - The Mindset Shift
+# 1 - The Mindset Shift 🧠
 
 Last updated on July 25, 2025 • 10 min read
 

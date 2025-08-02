@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ArticleClient from "./ArticleClient";
-import { getArticleData, getAllArticleIds } from "../utils/articles";
+import { getArticleData, getAllArticleIds, getRelatedArticles } from "../utils/articles";
 
 interface Props {
   params: Promise<{
@@ -45,5 +45,7 @@ export default async function ArticlePage({ params }: Props) {
     notFound();
   }
 
-  return <ArticleClient article={article} />;
+  const relatedArticles = getRelatedArticles(articleId);
+
+  return <ArticleClient article={article} relatedArticles={relatedArticles} />;
 } 

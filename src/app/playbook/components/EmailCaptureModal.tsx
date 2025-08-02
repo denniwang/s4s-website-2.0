@@ -12,9 +12,11 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   onSubmit?: (email: string) => void;
+  title?: string;
+  description?: string;
 }
 
-export default function EmailCaptureModal({ isOpen, onClose, onSubmit }: Props) {
+export default function EmailCaptureModal({ isOpen, onClose, onSubmit, title, description }: Props) {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -82,7 +84,7 @@ export default function EmailCaptureModal({ isOpen, onClose, onSubmit }: Props) 
             ) : (
               <div className="flex items-center justify-center">
                 <Download className="h-6 w-6 text-blue-600 mr-2" />
-                Get Your Free Playbook
+                {title || "Get Your Free Playbook"}
               </div>
             )}
           </DialogTitle>
@@ -118,7 +120,7 @@ export default function EmailCaptureModal({ isOpen, onClose, onSubmit }: Props) 
                   <div>
                     <h4 className="font-semibold text-gray-900">Complete S4S Playbook</h4>
                     <p className="text-sm text-gray-600 mt-1">
-                      50+ pages of exclusive content, templates, and strategies
+                      {description || "50+ pages of exclusive content, templates, and strategies"}
                     </p>
                   </div>
                 </div>
