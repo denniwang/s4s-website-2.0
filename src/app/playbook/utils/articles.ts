@@ -53,13 +53,23 @@ function generateTableOfContents(content: string): TableOfContentsItem[] {
   return toc;
 }
 
-function extractMentorTips(content: string, frontmatter: any): { tips: MentorTip[], cleanContent: string } {
+interface FrontmatterData {
+  mentorTips?: Array<{
+    section?: string;
+    content?: string;
+    title?: string;
+  }>;
+  premium?: boolean;
+  [key: string]: unknown;
+}
+
+function extractMentorTips(content: string, frontmatter: FrontmatterData): { tips: MentorTip[], cleanContent: string } {
   const mentorTips: MentorTip[] = [];
   let cleanContent = content;
   
   // Extract from frontmatter if available (legacy support)
   if (frontmatter.mentorTips && Array.isArray(frontmatter.mentorTips)) {
-    frontmatter.mentorTips.forEach((tip: any, index: number) => {
+    frontmatter.mentorTips.forEach((tip, index: number) => {
       mentorTips.push({
         id: `tip-${index}`,
         section: tip.section || '',
