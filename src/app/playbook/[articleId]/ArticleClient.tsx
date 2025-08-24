@@ -48,13 +48,14 @@ export default function ArticleClient({ article, relatedArticles }: Props) {
       return `<h4 id="${id}" class="text-lg font-bold text-gray-900 mt-4 mb-2">${title}</h4>`;
     });
     
-    // Bold and italic
+    // Bold and italic and underline
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold">$1</strong>');
     html = html.replace(/\*(.+?)\*/g, '<em class="italic">$1</em>');
+    html = html.replace(/__(.+?)__/g, '<u>$1</u>');
     
     // Lists - convert markdown lists to HTML
     // First, convert markdown list items to li elements
-    html = html.replace(/^- (.+)$/gm, '<li class="ml-4 mb-1">$1</li>');
+    html = html.replace(/^- (.+)$/gm, '<li class="ml-4 mb-1 text-gray-700">$1</li>');
     // Then wrap li elements in ul tags (simplified approach)
     html = html.replace(/<li[^>]*>.*?<\/li>/g, (match) => {
       return `<ul class="list-disc ml-6 mb-4">${match}</ul>`;
@@ -64,7 +65,7 @@ export default function ArticleClient({ article, relatedArticles }: Props) {
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-700 underline">$1</a>');
     
     // Paragraphs
-    html = html.replace(/\n\n/g, '</p><p class="mb-4 text-gray-700 leading-relaxed">');
+    html = html.replace(/\n\n/g, '</p><p class="mb-4 text-gray-700 leading-snug">');
     
     // Wrap remaining text in paragraphs
     html = html.replace(/^([^<].+)$/gm, (match) => {
