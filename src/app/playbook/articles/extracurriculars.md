@@ -5,7 +5,7 @@ premium: true
 
 # 3 - What Really Counts 🪴
 
-Published on January 10, 2024 • 6 min read
+Last updated on January 10, 2024 • 6 min read
 
 Before you craft a single application, strengthen the foundational components that colleges value most.
 

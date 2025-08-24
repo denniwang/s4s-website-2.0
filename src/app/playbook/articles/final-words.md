@@ -1,4 +1,4 @@
-# You're More Than an Application ❤️
+# You > Application ❤️
 
 Last updated on July 25, 2025 • 4 min read
 

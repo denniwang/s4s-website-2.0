@@ -4,7 +4,7 @@ premium: true
 
 # 5 - Waiting Game ⏱️️
 
-Published on January 15, 2024 • 8 min read
+Last updated on January 15, 2024 • 8 min read
 
 The period between submitting applications and receiving decisions can be the most challenging.
 But remember, you've successfully completed the hardest part.

@@ -4,7 +4,7 @@ premium: true
 
 # 4 - Making College Affordable 💰
 
-Published on January 10, 2024 • 6 min read
+Last updated on January 10, 2024 • 6 min read
 
 Don't let the daunting sticker price deter you. Financial aid is your powerful ally in making higher education accessible.
 
