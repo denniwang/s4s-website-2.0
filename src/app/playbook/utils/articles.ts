@@ -66,7 +66,7 @@ interface FrontmatterData {
 function extractMentorTips(content: string, frontmatter: FrontmatterData): { tips: MentorTip[], cleanContent: string } {
   const mentorTips: MentorTip[] = [];
   let cleanContent = content;
-  
+
   // Extract from frontmatter if available (legacy support)
   if (frontmatter.mentorTips && Array.isArray(frontmatter.mentorTips)) {
     frontmatter.mentorTips.forEach((tip, index: number) => {
@@ -87,22 +87,20 @@ function extractMentorTips(content: string, frontmatter: FrontmatterData): { tip
   while ((match = mentorTipRegex.exec(content)) !== null) {
     const title = match[1].trim();
     const tipContent = match[2].trim();
-    
+
     mentorTips.push({
       id: `tip-${tipIndex}`,
       section: '', // Will be determined by position in content
       content: tipContent,
       title: title
     });
-    
+
     // Replace tip with placeholder that includes the tip content for mobile rendering
     const tipHtml = `
-      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg my-4">
-        <div class="flex items-start mb-3">
-          <div class="w-4 h-4 text-yellow-500 mr-2 mt-1 flex-shrink-0">💡</div>
-          <div class="flex-1">
-            ${title ? `<h4 class="font-medium text-yellow-800 text-sm mb-2">${title}</h4>` : ''}
-          </div>
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 px-4 py-2 rounded-r-lg my-4">
+        <div class="flex flex-center justify-baseline align-middle">
+          <div class="w-4 text-yellow-500 mr-2 flex-shrink-0">💡</div>
+            ${title ? `<h4 class="font-medium text-yellow-800 text-sm mt-1">${title}</h4>` : ''}
         </div>
         <p class="text-sm text-yellow-700 leading-relaxed">${tipContent}</p>
       </div>
@@ -135,7 +133,7 @@ export function getArticleData(id: string): ArticleData | null {
     const dateMatch = matterResult.content.match(/Last updated on (.+?) • (.+?) read/);
     const date = dateMatch ? dateMatch[1] : 'July 2025';
     const readTime = dateMatch ? dateMatch[2] : '10 min';
-    
+
     // Generate excerpt from first paragraph
     const paragraphs = matterResult.content.split('\n\n');
 

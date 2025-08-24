@@ -172,7 +172,7 @@ export default function ArticleClient({ article, relatedArticles }: Props) {
                 {article.premium ? (
                   <>
                     {/* Sticky Premium Overlay */}
-                    <div className="sticky top-[30vh] z-10 mb-8 ">
+                    <div className="top-[30vh] z-10 mb-8 ">
                       <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg shadow-lg p-6">
                         <div className="text-center">
                           <div className="mb-4">
