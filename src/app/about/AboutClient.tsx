@@ -24,8 +24,8 @@ export default function AboutClient() {
     {
       img: "Andrew.jpg",
       name: "Andrew Chen",
-      school: "UW Seattle '27",
-      desc: "Andrew is a CS TA and applied math major! Ever laughed or cringed at any of our TikTok’s? He’s the guy to blame.",
+      school: "UW '27",
+      desc: "Andrew is an applied math major -- quick! 2 truths 1 lie: he goes to UW, he will be in a state of uncontainable euphoria and rhapsody if you sign up for BLP, he is 6'7\" and benches 225.",
     },
     {
       img: "Dennis.jpg",
@@ -55,7 +55,7 @@ export default function AboutClient() {
       img: "Katherine.jpg",
       name: "Katherine McDaniel",
       school: "MIT '29",
-      desc: "Katherine is an aerospace engineering major at MIT. She loves 1D, Mamma Mia, and cafe hopping.",
+      desc: "Katherine is an aerospace engineering major at MIT. If you ever need someone to obsess over One Direction or James Marriott with, she’s your girl.",
     },
   ];
 
@@ -85,10 +85,10 @@ export default function AboutClient() {
           Meet Our Team
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 place-items-center justify-center">
-        
+
           {team.map((member, index) => (
-            <article 
-              key={index} 
+            <article
+              key={index}
               className="bg-white rounded-lg shadow-lg p-6 text-center"
               data-aos="fade-up"
               data-aos-delay={index*100}
@@ -109,7 +109,7 @@ export default function AboutClient() {
           ))}
         </div>
         <div className="w-full text-center mb-[-10] mt-10">
-        <Link 
+        <Link
             href={LINKS.programs}
             className="inline-block bg-gradient-to-r from-blue-400 to-blue-500 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-300 ease-in-out hover:-translate-y-1"
           >
