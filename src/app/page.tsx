@@ -11,7 +11,7 @@ import { Stats8 } from "@/components/ui/stats8";
 import { LINKS } from "@/consts";
 import { useState } from "react";
 import EmailCaptureModal from "./playbook/components/EmailCaptureModal";
-import { Button } from "@/components/ui/button";
+//import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [showEmailModal, setShowEmailModal] = useState(false);
