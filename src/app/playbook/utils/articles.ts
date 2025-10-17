@@ -113,8 +113,16 @@ function extractMentorTips(content: string, frontmatter: FrontmatterData): { tip
 }
 
 export function getAllArticleIds(): string[] {
-  const fileNames = fs.readdirSync(articlesDirectory);
-  return fileNames.map((fileName) => fileName.replace(/\.md$/, ''));
+  try {
+    if (!fs.existsSync(articlesDirectory)) {
+      return [];
+    }
+    const fileNames = fs.readdirSync(articlesDirectory).filter((f) => f.endsWith('.md'));
+    return fileNames.map((fileName) => fileName.replace(/\.md$/, ''));
+  } catch (error) {
+    console.error('Error listing article ids:', error);
+    return [];
+  }
 }
 
 export function getArticleData(id: string): ArticleData | null {
@@ -134,11 +142,17 @@ export function getArticleData(id: string): ArticleData | null {
     const date = dateMatch ? dateMatch[1] : 'July 2025';
     const readTime = dateMatch ? dateMatch[2] : '10 min';
 
-    // Generate excerpt from first paragraph
-    const paragraphs = matterResult.content.split('\n\n');
+    // Generate description safely from the first non-heading paragraph
+    const paragraphs = matterResult.content
+      .split('\n\n')
+      .map((p) => p.trim())
+      .filter((p) => p.length > 0);
 
-    // Generate description from excerpt
-    const description = paragraphs[2].substring(0, 130) + '...' || `Read our comprehensive guide on ${title.toLowerCase()}.`;
+    const firstParagraph = paragraphs.find((p) => !p.startsWith('#')) || '';
+    const cleanFirstParagraph = firstParagraph.replace(/\*|\#/g, '').replace(/\n/g, ' ').trim();
+    const description = cleanFirstParagraph
+      ? (cleanFirstParagraph.length > 160 ? cleanFirstParagraph.slice(0, 157) + '...' : cleanFirstParagraph)
+      : `Read our comprehensive guide on ${title.toLowerCase()}.`;
 
     // Check if article is premium (from frontmatter)
     const premium = matterResult.data.premium || false;

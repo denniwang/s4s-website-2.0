@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BookOpen, ArrowRight, Calendar } from "lucide-react";
 import { ArticleData } from "./utils/articles";
@@ -20,15 +26,64 @@ export default function PlaybookClient({ articles }: PlaybookClientProps) {
 
   const handleEmailSubmit = (email: string) => {
     // Here you would typically send the email to your backend
-    console.log('Email captured:', email);
+    console.log("Email captured:", email);
     setShowEmailModal(false);
     // You could also trigger a download of the PDF here
   };
 
   const handleGetPlaybookClick = () => {
-    console.log('Opening email modal...');
+    console.log("Opening email modal...");
     setShowEmailModal(true);
   };
+
+  // Empty state when no articles available
+  if (!articles || articles.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+        <div className="bg-white border-b">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+            <div className="p-3 bg-blue-100 rounded-full inline-flex mb-6">
+              <BookOpen className="h-8 w-8 text-blue-600" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              The S4S Playbook
+            </h1>
+            <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+              We are curating our articles. In the meantime, get the complete
+              50+ page PDF.
+            </p>
+            <Button
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700"
+              onClick={handleGetPlaybookClick}
+            >
+              Get Full Playbook PDF
+            </Button>
+          </div>
+        </div>
+
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="bg-white rounded-lg shadow-sm p-8 text-center">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              No articles yet
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Please check back soon. We publish new content regularly.
+            </p>
+            <Button variant="outline" onClick={handleGetPlaybookClick}>
+              Notify me when ready
+            </Button>
+          </div>
+        </div>
+
+        <EmailCaptureModal
+          isOpen={showEmailModal}
+          onClose={() => setShowEmailModal(false)}
+          onSubmit={handleEmailSubmit}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -45,15 +100,16 @@ export default function PlaybookClient({ articles }: PlaybookClientProps) {
               The S4S Playbook
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-              Your comprehensive guide to college admissions success. Written by students who got into top universities, 
-              for students who want to do the same.
+              Your comprehensive guide to college admissions success. Written by
+              students who got into top universities, for students who want to
+              do the same.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
                 Start Reading
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="lg"
                 onClick={handleGetPlaybookClick}
               >
@@ -74,7 +130,7 @@ export default function PlaybookClient({ articles }: PlaybookClientProps) {
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm text-gray-500 flex items-center">
                       <Calendar className="h-4 w-4 mr-1" />
-                      {article.date ? formatDate(article.date) : 'July 2025'}
+                      {article.date ? formatDate(article.date) : "July 2025"}
                     </span>
                   </div>
                   <CardTitle className="text-xl font-bold text-gray-900 mb-2">
@@ -84,10 +140,13 @@ export default function PlaybookClient({ articles }: PlaybookClientProps) {
                     {article.description}
                   </CardDescription>
                 </CardHeader>
-                  <Button variant="ghost" className="p-0 h-auto w-auto text-blue-600 ">
-                    Read More
-                    <ArrowRight className="h-4 w-4 ml-1" />
-                  </Button>
+                <Button
+                  variant="ghost"
+                  className="p-0 h-auto w-auto text-blue-600 "
+                >
+                  Read More
+                  <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
               </Card>
             </Link>
           ))}
@@ -101,11 +160,11 @@ export default function PlaybookClient({ articles }: PlaybookClientProps) {
                 Want the Complete Playbook?
               </h3>
               <p className="text-blue-100 mb-6">
-                Get our full 50+ page PDF guide with exclusive content, templates, and checklists 
-                that aren&apos;t available online.
+                Get our full 50+ page PDF guide with exclusive content,
+                templates, and checklists that aren&apos;t available online.
               </p>
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 variant="secondary"
                 className="bg-white text-blue-600 hover:bg-gray-100"
                 onClick={handleGetPlaybookClick}
@@ -118,7 +177,7 @@ export default function PlaybookClient({ articles }: PlaybookClientProps) {
       </div>
 
       {/* Email Capture Modal */}
-      <EmailCaptureModal 
+      <EmailCaptureModal
         isOpen={showEmailModal}
         onClose={() => setShowEmailModal(false)}
         onSubmit={handleEmailSubmit}
